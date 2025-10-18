@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useApp } from "@/contexts/AppContext";
@@ -11,7 +10,7 @@ export default function Landing() {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section with Image Background */}
-      <div className="relative">
+      <div className="relative bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900">
         {/* Background Image Container */}
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute right-0 top-0 w-full md:w-1/2 h-full">
@@ -33,12 +32,13 @@ export default function Landing() {
               <span className="text-xl font-bold text-foreground">KonnectX</span>
             </div>
             
-            <nav className="hidden md:flex items-center gap-8">
-              <a href="#home" className="text-foreground/80 hover:text-foreground transition">Home</a>
-              <a href="#features" className="text-foreground/80 hover:text-foreground transition">Features</a>
-              <a href="#rewards" className="text-foreground/80 hover:text-foreground transition">Rewards</a>
-              <a href="#contact" className="text-foreground/80 hover:text-foreground transition">Support</a>
-            </nav>
+            <nav className="hidden md:flex items-center gap-10">
+  <a href="#home" className="text-foreground/80 hover:text-blue-600 transition font-bold">Home</a>
+  <a href="#features" className="text-foreground/80 hover:text-blue-600 transition font-bold">Features</a>
+  <a href="#rewards" className="text-foreground/80 hover:text-blue-600 transition font-bold">Rewards</a>
+  <a href="#contact" className="text-foreground/80 hover:text-blue-600 transition font-bold">Support</a>
+</nav>
+
 
             <div className="flex items-center gap-4">
               <button
@@ -64,25 +64,53 @@ export default function Landing() {
               {/* Left Content */}
               <div className="relative z-10">
                 {/* Decorative Background Lines */}
-                <div className="absolute -left-8 md:-left-12 bottom-8 md:bottom-12 w-48 md:w-64 h-48 md:h-64 opacity-10 pointer-events-none">
-                  <svg viewBox="0 0 200 200" className="w-full h-full text-primary">
-                    <path d="M 10 50 Q 40 30, 70 50 T 130 50" stroke="currentColor" fill="none" strokeWidth="2"/>
-                    <path d="M 10 70 Q 40 50, 70 70 T 130 70" stroke="currentColor" fill="none" strokeWidth="2"/>
-                    <path d="M 10 90 Q 40 70, 70 90 T 130 90" stroke="currentColor" fill="none" strokeWidth="2"/>
-                    <path d="M 10 110 Q 40 90, 70 110 T 130 110" stroke="currentColor" fill="none" strokeWidth="2"/>
-                    <path d="M 10 130 Q 40 110, 70 130 T 130 130" stroke="currentColor" fill="none" strokeWidth="2"/>
-                    <path d="M 10 150 Q 40 130, 70 150 T 130 150" stroke="currentColor" fill="none" strokeWidth="2"/>
+                <div className="absolute -left-8 md:-left-12 bottom-12 md:bottom-20 w-56 md:w-72 h-56 md:h-72 opacity-20 pointer-events-none">
+                  <svg viewBox="0 0 200 200" className="w-full h-full text-primary" style={{ transform: 'scaleY(-1)' }}>
+                    <path d="M 20 30 Q 60 50, 100 30 T 180 30" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.6"/>
+                    <path d="M 20 50 Q 60 70, 100 50 T 180 50" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.7"/>
+                    <path d="M 20 70 Q 60 90, 100 70 T 180 70" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.8"/>
+                    <path d="M 20 90 Q 60 110, 100 90 T 180 90" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.9"/>
+                    <path d="M 20 110 Q 60 130, 100 110 T 180 110" stroke="currentColor" fill="none" strokeWidth="1.5"/>
+                    <path d="M 20 130 Q 60 150, 100 130 T 180 130" stroke="currentColor" fill="none" strokeWidth="1.5"/>
+                    <path d="M 20 150 Q 60 170, 100 150 T 180 150" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.9"/>
+                    <path d="M 20 170 Q 60 190, 100 170 T 180 170" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.7"/>
+                     <path d="M 20 30 Q 60 50, 100 30 T 180 30" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.6"/>
+                    <path d="M 20 50 Q 60 70, 100 50 T 180 50" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.7"/>
+                    <path d="M 20 70 Q 60 90, 100 70 T 180 70" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.8"/>
+                    <path d="M 20 90 Q 60 110, 100 90 T 180 90" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.9"/>
+                    <path d="M 20 110 Q 60 130, 100 110 T 180 110" stroke="currentColor" fill="none" strokeWidth="1.5"/>
+                    <path d="M 20 130 Q 60 150, 100 130 T 180 130" stroke="currentColor" fill="none" strokeWidth="1.5"/>
+                    <path d="M 20 150 Q 60 170, 100 150 T 180 150" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.9"/>
+                    <path d="M 20 170 Q 60 190, 100 170 T 180 170" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.7"/>
+                    <path d="M 20 30 Q 60 50, 100 30 T 180 30" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.6"/>
+                    <path d="M 20 50 Q 60 70, 100 50 T 180 50" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.7"/>
+                    <path d="M 20 70 Q 60 90, 100 70 T 180 70" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.8"/>
+                    <path d="M 20 90 Q 60 110, 100 90 T 180 90" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.9"/>
+                    <path d="M 20 110 Q 60 130, 100 110 T 180 110" stroke="currentColor" fill="none" strokeWidth="1.5"/>
+                    <path d="M 20 130 Q 60 150, 100 130 T 180 130" stroke="currentColor" fill="none" strokeWidth="1.5"/>
+                    <path d="M 20 150 Q 60 170, 100 150 T 180 150" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.9"/>
+                    <path d="M 20 170 Q 60 190, 100 170 T 180 170" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.7"/>
+                    <path d="M 20 30 Q 60 50, 100 30 T 180 30" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.6"/>
+                    <path d="M 20 50 Q 60 70, 100 50 T 180 50" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.7"/>
+                    <path d="M 20 70 Q 60 90, 100 70 T 180 70" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.8"/>
+                    <path d="M 20 90 Q 60 110, 100 90 T 180 90" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.9"/>
+                    <path d="M 20 110 Q 60 130, 100 110 T 180 110" stroke="currentColor" fill="none" strokeWidth="1.5"/>
+                    <path d="M 20 130 Q 60 150, 100 130 T 180 130" stroke="currentColor" fill="none" strokeWidth="1.5"/>
+                    <path d="M 20 150 Q 60 170, 100 150 T 180 150" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.9"/>
+                    <path d="M 20 170 Q 60 190, 100 170 T 180 170" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.7"/>
                   </svg>
                 </div>
 
-                <div className="relative bg-background/95 md:bg-transparent p-6 md:p-0 rounded-2xl md:rounded-none">
-                  <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-foreground mb-6 leading-tight">
-                    Welcome to KonnectX: Your Hotspot Management Solution
-                  </h1>
-                  
-                  <p className="text-base md:text-lg text-muted-foreground mb-8 leading-relaxed">
-                    Manage your hotspots effortlessly and earn rewards with IKXT tokens. Join our community and unlock the full potential of your network.
-                  </p>
+                <div className="relative">
+                  <div className="border-0 border-primary pl-6 md:pl-8 py-2">
+                    <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-foreground mb-6 leading-tight">
+                      Welcome to KonnectX: Your Hotspot Management Solution
+                    </h1>
+                    
+                    <p className="text-base md:text-lg text-muted-foreground mb-8 leading-relaxed">
+                      Manage your hotspots effortlessly and earn rewards with IKXT tokens. Join our community and unlock the full potential of your network.
+                    </p>
+                  </div>
 
                   <div className="flex flex-col sm:flex-row gap-4">
                     <Button
@@ -112,49 +140,65 @@ export default function Landing() {
       </div>
 
 
-
-
-
-      {/* Features Section */}
-      <section id="features" className="py-20 bg-muted/50">
+            {/* Features Section */}
+      <section id="features" className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-foreground mb-4">
-            Manage Your Hotspots Effortlessly
-          </h2>
-          <p className="text-center text-foreground/70 mb-12 max-w-2xl mx-auto">
-            Complete management of your hotspots with real-time monitoring and detailed analytics
-          </p>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                icon: TrendingUp,
-                title: "Real-time Analytics",
-                description: "Monitor your hotspot performance with comprehensive real-time data"
-              },
-              {
-                icon: Users,
-                title: "User Management",
-                description: "Easily manage connected users and monitor network activity"
-              },
-              {
-                icon: Gift,
-                title: "Rewards System",
-                description: "Earn rewards and incentives for your active hotspots"
-              }
-            ].map((feature, idx) => (
-              <div
-                key={idx}
-                className="p-6 rounded-xl border border-border/50 bg-card hover:shadow-lg hover:border-primary/50 transition"
-              >
-                <feature.icon className="w-12 h-12 text-primary mb-4" />
-                <h3 className="text-xl font-semibold text-foreground mb-2">{feature.title}</h3>
-                <p className="text-foreground/70">{feature.description}</p>
+          <div className="max-w-6xl mx-auto">
+            {/* Section Header */}
+            <div className="grid md:grid-cols-2 gap-8 md:gap-12 mb-12 md:mb-16">
+              <div>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight">
+                  Manage Your Hotspots Effortlessly and Maximize Your Earnings with KonnectX
+                </h2>
               </div>
-            ))}
+              <div className="flex items-center">
+                <p className="text-base md:text-lg text-muted-foreground">
+                  KonnectX simplifies hotspot management, allowing you to track your devices with ease. Monitor your performance and optimize your network to earn more rewards. Experience a seamless interface designed for efficiency and clarity.
+                </p>
+              </div>
+            </div>
+            
+            {/* Features Grid */}
+            <div className="grid md:grid-cols-3 gap-8 md:gap-10">
+              {[
+                {
+                  icon: TrendingUp,
+                  title: "Track Your $KXT Rewards and Watch Your Earnings Grow",
+                  description: "Stay informed about your earnings in real-time with our intuitive dashboard."
+                },
+                {
+                  icon: Users,
+                  title: "Unlock Exclusive Benefits with Our Referral Program",
+                  description: "Invite friends and earn rewards for every successful referral you make."
+                },
+                {
+                  icon: Gift,
+                  title: "Experience a Community of Like-Minded Users and Grow Together",
+                  description: "Connect with others, share tips, and enhance your hotspot experience."
+                }
+              ].map((feature, idx) => (
+                <div
+                  key={idx}
+                  className="flex flex-col"
+                >
+                  <div className="w-14 h-14 rounded-full bg-primary flex items-center justify-center mb-6">
+                    <feature.icon className="w-7 h-7 text-white" strokeWidth={2.5} />
+                  </div>
+                  <h3 className="text-xl md:text-2xl font-bold text-foreground mb-3 leading-snug">
+                    {feature.title}
+                  </h3>
+                  <p className="text-base text-muted-foreground leading-relaxed">
+                    {feature.description}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
+    
+  
+
 
       {/* Rewards Section */}
       <section id="rewards" className="py-20">
