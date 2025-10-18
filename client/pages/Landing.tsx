@@ -32,11 +32,11 @@ export default function Landing() {
               <span className="text-xl font-bold text-foreground">KonnectX</span>
             </div>
             
-            <nav className="hidden md:flex items-center gap-10">
-  <a href="#home" className="text-foreground/80 hover:text-blue-600 transition font-bold">Home</a>
-  <a href="#features" className="text-foreground/80 hover:text-blue-600 transition font-bold">Features</a>
-  <a href="#rewards" className="text-foreground/80 hover:text-blue-600 transition font-bold">Rewards</a>
-  <a href="#contact" className="text-foreground/80 hover:text-blue-600 transition font-bold">Support</a>
+            <nav className="hidden md:flex items-center gap-4 font-bold">
+  <a href="#home" className="text-foreground/80 hover:text-blue-600 transition">Home</a>
+  <a href="#features" className="text-foreground/80 hover:text-blue-600 transition">Features</a>
+  <a href="#rewards" className="text-foreground/80 hover:text-blue-600 transition">Rewards</a>
+  <a href="#contact" className="text-foreground/80 hover:text-blue-600 transition">Support</a>
 </nav>
 
 
@@ -63,44 +63,6 @@ export default function Landing() {
             <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[calc(100vh-80px)] py-12 md:py-20">
               {/* Left Content */}
               <div className="relative z-10">
-                {/* Decorative Background Lines */}
-                <div className="absolute -left-8 md:-left-12 bottom-12 md:bottom-20 w-56 md:w-72 h-56 md:h-72 opacity-20 pointer-events-none">
-                  <svg viewBox="0 0 200 200" className="w-full h-full text-primary" style={{ transform: 'scaleY(-1)' }}>
-                    <path d="M 20 30 Q 60 50, 100 30 T 180 30" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.6"/>
-                    <path d="M 20 50 Q 60 70, 100 50 T 180 50" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.7"/>
-                    <path d="M 20 70 Q 60 90, 100 70 T 180 70" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.8"/>
-                    <path d="M 20 90 Q 60 110, 100 90 T 180 90" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.9"/>
-                    <path d="M 20 110 Q 60 130, 100 110 T 180 110" stroke="currentColor" fill="none" strokeWidth="1.5"/>
-                    <path d="M 20 130 Q 60 150, 100 130 T 180 130" stroke="currentColor" fill="none" strokeWidth="1.5"/>
-                    <path d="M 20 150 Q 60 170, 100 150 T 180 150" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.9"/>
-                    <path d="M 20 170 Q 60 190, 100 170 T 180 170" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.7"/>
-                     <path d="M 20 30 Q 60 50, 100 30 T 180 30" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.6"/>
-                    <path d="M 20 50 Q 60 70, 100 50 T 180 50" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.7"/>
-                    <path d="M 20 70 Q 60 90, 100 70 T 180 70" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.8"/>
-                    <path d="M 20 90 Q 60 110, 100 90 T 180 90" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.9"/>
-                    <path d="M 20 110 Q 60 130, 100 110 T 180 110" stroke="currentColor" fill="none" strokeWidth="1.5"/>
-                    <path d="M 20 130 Q 60 150, 100 130 T 180 130" stroke="currentColor" fill="none" strokeWidth="1.5"/>
-                    <path d="M 20 150 Q 60 170, 100 150 T 180 150" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.9"/>
-                    <path d="M 20 170 Q 60 190, 100 170 T 180 170" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.7"/>
-                    <path d="M 20 30 Q 60 50, 100 30 T 180 30" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.6"/>
-                    <path d="M 20 50 Q 60 70, 100 50 T 180 50" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.7"/>
-                    <path d="M 20 70 Q 60 90, 100 70 T 180 70" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.8"/>
-                    <path d="M 20 90 Q 60 110, 100 90 T 180 90" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.9"/>
-                    <path d="M 20 110 Q 60 130, 100 110 T 180 110" stroke="currentColor" fill="none" strokeWidth="1.5"/>
-                    <path d="M 20 130 Q 60 150, 100 130 T 180 130" stroke="currentColor" fill="none" strokeWidth="1.5"/>
-                    <path d="M 20 150 Q 60 170, 100 150 T 180 150" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.9"/>
-                    <path d="M 20 170 Q 60 190, 100 170 T 180 170" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.7"/>
-                    <path d="M 20 30 Q 60 50, 100 30 T 180 30" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.6"/>
-                    <path d="M 20 50 Q 60 70, 100 50 T 180 50" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.7"/>
-                    <path d="M 20 70 Q 60 90, 100 70 T 180 70" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.8"/>
-                    <path d="M 20 90 Q 60 110, 100 90 T 180 90" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.9"/>
-                    <path d="M 20 110 Q 60 130, 100 110 T 180 110" stroke="currentColor" fill="none" strokeWidth="1.5"/>
-                    <path d="M 20 130 Q 60 150, 100 130 T 180 130" stroke="currentColor" fill="none" strokeWidth="1.5"/>
-                    <path d="M 20 150 Q 60 170, 100 150 T 180 150" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.9"/>
-                    <path d="M 20 170 Q 60 190, 100 170 T 180 170" stroke="currentColor" fill="none" strokeWidth="1.5" opacity="0.7"/>
-                  </svg>
-                </div>
-
                 <div className="relative">
                   <div className="border-0 border-primary pl-6 md:pl-8 py-2">
                     <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-foreground mb-6 leading-tight">
@@ -112,7 +74,7 @@ export default function Landing() {
                     </p>
                   </div>
 
-                  <div className="flex flex-col sm:flex-row gap-4">
+                  <div className="flex flex-col sm:flex-row gap-4 mb-12">
                     <Button
                       onClick={() => navigate("/register")}
                       size="lg"
@@ -129,6 +91,15 @@ export default function Landing() {
                       <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
                     </Button>
                   </div>
+
+                  {/* Decorative PNG Background - Below Text and Buttons */}
+                  <div className="relative w-full max-w-md mx-auto md:mx-0">
+                    <img
+                      src="/Bg.png"
+                      alt="Background"
+                      className="w-full h-auto opacity-100  contrast20"
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -138,7 +109,6 @@ export default function Landing() {
           </div>
         </section>
       </div>
-
 
             {/* Features Section */}
       <section id="features" className="py-16 md:py-24 bg-background">
