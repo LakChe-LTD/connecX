@@ -20,9 +20,10 @@ export default function Landing() {
           </div>
           
           <nav className="hidden md:flex items-center gap-8">
+            <a href="#Home" className="text-foreground/80 hover:text-foreground transition">Home</a>
             <a href="#features" className="text-foreground/80 hover:text-foreground transition">Features</a>
             <a href="#rewards" className="text-foreground/80 hover:text-foreground transition">Rewards</a>
-            <a href="#contact" className="text-foreground/80 hover:text-foreground transition">Contact</a>
+            <a href="#contact" className="text-foreground/80 hover:text-foreground transition">Support</a>
           </nav>
 
           <div className="flex items-center gap-4">
