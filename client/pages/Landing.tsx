@@ -1,7 +1,8 @@
+
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useApp } from "@/contexts/AppContext";
-import { Moon, Sun, ArrowRight, Check, Users, Gift, TrendingUp } from "lucide-react";
+import { Moon, Sun, ArrowRight, Check, Users, Gift, TrendingUp, Wifi } from "lucide-react";
 
 export default function Landing() {
   const navigate = useNavigate();
@@ -9,76 +10,110 @@ export default function Landing() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-sm">KX</span>
-            </div>
-            <span className="text-xl font-bold text-foreground">KonnectX</span>
-          </div>
-          
-          <nav className="hidden md:flex items-center gap-8">
-            <a href="#Home" className="text-foreground/80 hover:text-foreground transition">Home</a>
-            <a href="#features" className="text-foreground/80 hover:text-foreground transition">Features</a>
-            <a href="#rewards" className="text-foreground/80 hover:text-foreground transition">Rewards</a>
-            <a href="#contact" className="text-foreground/80 hover:text-foreground transition">Support</a>
-          </nav>
-
-          <div className="flex items-center gap-4">
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-lg hover:bg-muted transition"
-            >
-              {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
-            </button>
-            <Button
-              onClick={() => navigate("/signin")}
-              variant="outline"
-              className="hidden sm:inline-flex"
-            >
-              Sign In
-            </Button>
-            <Button
-              onClick={() => navigate("/register")}
-              className="bg-primary hover:bg-primary/90"
-            >
-              Get Started
-            </Button>
+      {/* Hero Section with Image Background */}
+      <div className="relative">
+        {/* Background Image Container */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute right-0 top-0 w-full md:w-1/2 h-full">
+            <img
+             src="/herosec_image.jpg"
+              alt="Person using smartphone for hotspot management"
+              className="w-full h-full object-cover"
+            />
           </div>
         </div>
-      </header>
 
-      {/* Hero Section */}
-      <section className="relative overflow-hidden py-20 md:py-32">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
-              Welcome to KonnectX: Your Hotspot Management Solution
-            </h1>
-            <p className="text-lg md:text-xl text-foreground/70 mb-8 max-w-2xl mx-auto">
-              Seamlessly manage, monitor, and monetize your hotspots with our comprehensive platform
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        {/* Header */}
+        <header className="relative z-50 border-b border-border/20 bg-background">
+          <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                <Wifi className="text-primary-foreground" size={20} />
+              </div>
+              <span className="text-xl font-bold text-foreground">KonnectX</span>
+            </div>
+            
+            <nav className="hidden md:flex items-center gap-8">
+              <a href="#home" className="text-foreground/80 hover:text-foreground transition">Home</a>
+              <a href="#features" className="text-foreground/80 hover:text-foreground transition">Features</a>
+              <a href="#rewards" className="text-foreground/80 hover:text-foreground transition">Rewards</a>
+              <a href="#contact" className="text-foreground/80 hover:text-foreground transition">Support</a>
+            </nav>
+
+            <div className="flex items-center gap-4">
+              <button
+                onClick={toggleTheme}
+                className="p-2 rounded-lg hover:bg-muted/50 transition"
+              >
+                {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
+              </button>
               <Button
                 onClick={() => navigate("/register")}
-                size="lg"
-                className="bg-primary hover:bg-primary/90 text-lg h-12"
+                className="bg-primary hover:bg-primary/90"
               >
-                Start Free Trial <ArrowRight className="ml-2" size={20} />
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className="text-lg h-12"
-              >
-                Learn More
+                Join Now
               </Button>
             </div>
           </div>
-        </div>
-      </section>
+        </header>
+
+        {/* Hero Content */}
+        <section className="relative">
+          <div className="container mx-auto px-4">
+            <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-center min-h-[calc(100vh-80px)] py-12 md:py-20">
+              {/* Left Content */}
+              <div className="relative z-10">
+                {/* Decorative Background Lines */}
+                <div className="absolute -left-8 md:-left-12 bottom-8 md:bottom-12 w-48 md:w-64 h-48 md:h-64 opacity-10 pointer-events-none">
+                  <svg viewBox="0 0 200 200" className="w-full h-full text-primary">
+                    <path d="M 10 50 Q 40 30, 70 50 T 130 50" stroke="currentColor" fill="none" strokeWidth="2"/>
+                    <path d="M 10 70 Q 40 50, 70 70 T 130 70" stroke="currentColor" fill="none" strokeWidth="2"/>
+                    <path d="M 10 90 Q 40 70, 70 90 T 130 90" stroke="currentColor" fill="none" strokeWidth="2"/>
+                    <path d="M 10 110 Q 40 90, 70 110 T 130 110" stroke="currentColor" fill="none" strokeWidth="2"/>
+                    <path d="M 10 130 Q 40 110, 70 130 T 130 130" stroke="currentColor" fill="none" strokeWidth="2"/>
+                    <path d="M 10 150 Q 40 130, 70 150 T 130 150" stroke="currentColor" fill="none" strokeWidth="2"/>
+                  </svg>
+                </div>
+
+                <div className="relative bg-background/95 md:bg-transparent p-6 md:p-0 rounded-2xl md:rounded-none">
+                  <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-foreground mb-6 leading-tight">
+                    Welcome to KonnectX: Your Hotspot Management Solution
+                  </h1>
+                  
+                  <p className="text-base md:text-lg text-muted-foreground mb-8 leading-relaxed">
+                    Manage your hotspots effortlessly and earn rewards with IKXT tokens. Join our community and unlock the full potential of your network.
+                  </p>
+
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <Button
+                      onClick={() => navigate("/register")}
+                      size="lg"
+                      className="bg-primary hover:bg-primary/90 text-base md:text-lg h-12 md:h-14 px-8"
+                    >
+                      Register
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="lg"
+                      className="text-base md:text-lg h-12 md:h-14 px-8 group"
+                    >
+                      Learn More
+                      <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Side - Placeholder for Image (actual image is in background) */}
+              <div className="hidden md:block"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+
+
+
 
       {/* Features Section */}
       <section id="features" className="py-20 bg-muted/50">
