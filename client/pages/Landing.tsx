@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useApp } from "@/contexts/AppContext";
@@ -11,9 +12,18 @@ export default function Landing() {
     <div className="min-h-screen bg-background">
       {/* Hero Section with Image Background */}
       <div className="relative bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900">
+        {/* Decorative PNG Background - Behind Everything */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <img
+            src="/Bg.png"
+            alt=""
+            className="absolute left-0 bottom-0 w-full md:w-1/0  object-cover opacity-100 brightness-110 contrast-125"
+          />
+        </div>
+
         {/* Background Image Container */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute right-0 top-0 w-full md:w-1/2 h-full">
+          <div className="absolute right-0 top-0 w-full md:w-1/2 h-full z-10">
             <img
              src="/herosec_image.jpg"
               alt="Person using smartphone for hotspot management"
@@ -32,13 +42,12 @@ export default function Landing() {
               <span className="text-xl font-bold text-foreground">KonnectX</span>
             </div>
             
-            <nav className="hidden md:flex items-center gap-4 font-bold">
+           <nav className="hidden md:flex items-center gap-4 font-bold">
   <a href="#home" className="text-foreground/80 hover:text-blue-600 transition">Home</a>
   <a href="#features" className="text-foreground/80 hover:text-blue-600 transition">Features</a>
   <a href="#rewards" className="text-foreground/80 hover:text-blue-600 transition">Rewards</a>
   <a href="#contact" className="text-foreground/80 hover:text-blue-600 transition">Support</a>
 </nav>
-
 
             <div className="flex items-center gap-4">
               <button
@@ -74,7 +83,7 @@ export default function Landing() {
                     </p>
                   </div>
 
-                  <div className="flex flex-col sm:flex-row gap-4 mb-12">
+                  <div className="flex flex-col sm:flex-row gap-4">
                     <Button
                       onClick={() => navigate("/register")}
                       size="lg"
@@ -90,15 +99,6 @@ export default function Landing() {
                       Learn More
                       <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
                     </Button>
-                  </div>
-
-                  {/* Decorative PNG Background - Below Text and Buttons */}
-                  <div className="relative w-full max-w-md mx-auto md:mx-0">
-                    <img
-                      src="/Bg.png"
-                      alt="Background"
-                      className="w-full h-auto opacity-100  contrast20"
-                    />
                   </div>
                 </div>
               </div>
@@ -170,33 +170,74 @@ export default function Landing() {
   
 
 
-      {/* Rewards Section */}
-      <section id="rewards" className="py-20">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-center text-foreground mb-4">
-            Easily Earn Rewards with KonnectX
-          </h2>
-          <p className="text-center text-foreground/70 mb-12 max-w-2xl mx-auto">
-            Get rewarded for your hotspot usage and engagement
-          </p>
-          
-          <div className="grid md:grid-cols cols-3 gap-8">
-            {[
-              { step: "Step 1", title: "Register Your Hotspot", description: "Set up your hotspot in minutes" },
-              { step: "Step 2", title: "Share Your Bandwidth", description: "Enable users to connect and earn rewards" },
-              { step: "Step 3", title: "Get Rewarded", description: "Receive instant rewards for your contribution" }
-            ].map((item, idx) => (
-              <div key={idx} className="text-center">
-                <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-2xl font-bold mx-auto mb-4">
-                  {idx + 1}
-                </div>
-                <h3 className="text-xl font-semibold text-foreground mb-2">{item.title}</h3>
-                <p className="text-foreground/70">{item.description}</p>
-              </div>
-            ))}
+    {/* Rewards Section */}
+<section id="rewards" className="py-20 bg-gray-50">
+  <div className="container mx-auto px-4">
+    {/* Section Header */}
+    <div className="mb-4">
+      <p className="text-blue-600 font-semibold text-sm mb-2">Connect</p>
+      <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+        Easily Earn Rewards with KonnectX
+      </h2>
+      <p className="text-gray-600 max-w-2xl">
+        Getting started with KonnectX is a breeze. Follow these simple steps to register, connect your hotspot, and begin earning rewards.
+      </p>
+    </div>
+    
+    {/* Steps Grid */}
+    <div className="grid md:grid-cols-3 gap-8 mt-12">
+      {[
+        { 
+          step: "Step 1", 
+          title: "Register Your Account", 
+          description: "Create your account in just a few clicks.",
+          icon: "👤"
+        },
+        { 
+          step: "Step 2", 
+          title: "Connect Your Hotspot", 
+          description: "Link your hotspot to start tracking activity.",
+          icon: "📶"
+        },
+        { 
+          step: "Step 3", 
+          title: "Start Earning Rewards", 
+          description: "Watch your rewards grow as you engage.",
+          icon: "💼"
+        }
+      ].map((item, idx) => (
+        <div key={idx} className="text-left">
+          {/* Icon */}
+          <div className="w-12 h-12 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center text-2xl mb-4">
+            {item.icon}
           </div>
+          
+          {/* Title */}
+          <h3 className="text-lg font-bold text-gray-900 mb-2">
+            {item.step}: {item.title}
+          </h3>
+          
+          {/* Description */}
+          <p className="text-gray-600 text-sm mb-4">
+            {item.description}
+          </p>
         </div>
-      </section>
+      ))}
+    </div>
+    
+    {/* CTA Buttons */}
+    <div className="flex gap-4 mt-8">
+      <button className="px-6 py-2 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700 transition-colors">
+        Start
+      </button>
+      <button className="px-6 py-2 text-blue-600 font-medium hover:text-blue-700 transition-colors flex items-center gap-1">
+        Learn <span className="text-sm">→</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+
 
       {/* Features List Section */}
       <section className="py-20 bg-muted/50">
