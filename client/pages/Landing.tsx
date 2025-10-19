@@ -170,106 +170,187 @@ export default function Landing() {
   
 
 
-    {/* Rewards Section */}
-<section id="rewards" className="py-20 bg-gray-50">
-  <div className="container mx-auto px-4">
-    {/* Section Header */}
-    <div className="mb-4">
-      <p className="text-blue-600 font-semibold text-sm mb-2">Connect</p>
-      <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-        Easily Earn Rewards with KonnectX
-      </h2>
-      <p className="text-gray-600 max-w-2xl">
-        Getting started with KonnectX is a breeze. Follow these simple steps to register, connect your hotspot, and begin earning rewards.
-      </p>
-    </div>
-    
-    {/* Steps Grid */}
-    <div className="grid md:grid-cols-3 gap-8 mt-12">
-      {[
-        { 
-          step: "Step 1", 
-          title: "Register Your Account", 
-          description: "Create your account in just a few clicks.",
-          icon: "👤"
-        },
-        { 
-          step: "Step 2", 
-          title: "Connect Your Hotspot", 
-          description: "Link your hotspot to start tracking activity.",
-          icon: "📶"
-        },
-        { 
-          step: "Step 3", 
-          title: "Start Earning Rewards", 
-          description: "Watch your rewards grow as you engage.",
-          icon: "💼"
-        }
-      ].map((item, idx) => (
-        <div key={idx} className="text-left">
-          {/* Icon */}
-          <div className="w-12 h-12 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center text-2xl mb-4">
-            {item.icon}
+  {/* Rewards Section */}
+      <section id="rewards" className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4">
+          {/* Section Header */}
+          <div className="mb-4">
+            <p className="text-blue-600 font-semibold text-sm mb-2">Connect</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+              Easily Earn Rewards with KonnectX
+            </h2>
+            <p className="text-gray-600 max-w-2xl">
+              Getting started with KonnectX is a breeze. Follow these simple steps to register, connect your hotspot, and begin earning rewards.
+            </p>
           </div>
           
-          {/* Title */}
-          <h3 className="text-lg font-bold text-gray-900 mb-2">
-            {item.step}: {item.title}
-          </h3>
+          {/* Steps Grid */}
+          <div className="grid md:grid-cols-3 gap-8 mt-12">
+            {[
+              { 
+                step: "Step 1", 
+                title: "Register Your Account", 
+                description: "Create your account in just a few clicks.",
+                icon: "👤"
+              },
+              { 
+                step: "Step 2", 
+                title: "Connect Your Hotspot", 
+                description: "Link your hotspot to start tracking activity.",
+                icon: "📶"
+              },
+              { 
+                step: "Step 3", 
+                title: "Start Earning Rewards", 
+                description: "Watch your rewards grow as you engage.",
+                icon: "💼"
+              }
+            ].map((item, idx) => (
+              <div key={idx} className="text-left">
+                {/* Icon */}
+                <div className="w-12 h-12 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center text-2xl mb-4">
+                  {item.icon}
+                </div>
+                
+                {/* Title */}
+                <h3 className="text-lg font-bold text-gray-900 mb-2">
+                  {item.step}: {item.title}
+                </h3>
+                
+                {/* Description */}
+                <p className="text-gray-600 text-sm mb-4">
+                  {item.description}
+                </p>
+              </div>
+            ))}
+          </div>
           
-          {/* Description */}
-          <p className="text-gray-600 text-sm mb-4">
-            {item.description}
-          </p>
+          {/* CTA Buttons */}
+          <div className="flex gap-4 mt-8">
+            <button className="px-6 py-2 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700 transition-colors">
+              Start
+            </button>
+            <button className="px-6 py-2 text-blue-600 font-medium hover:text-blue-700 transition-colors flex items-center gap-1">
+              Learn <span className="text-sm">→</span>
+            </button>
+          </div>
         </div>
-      ))}
-    </div>
-    
-    {/* CTA Buttons */}
-    <div className="flex gap-4 mt-8">
-      <button className="px-6 py-2 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700 transition-colors">
-        Start
-      </button>
-      <button className="px-6 py-2 text-blue-600 font-medium hover:text-blue-700 transition-colors flex items-center gap-1">
-        Learn <span className="text-sm">→</span>
-      </button>
-    </div>
-  </div>
-</section>
+      </section>
 
-
-
-      {/* Features List Section */}
-      <section className="py-20 bg-muted/50">
+      {/* Empowering Section */}
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Left: Image */}
             <div>
-              <h2 className="text-3xl font-bold text-foreground mb-6">Why Choose KonnectX?</h2>
-              <ul className="space-y-4">
-                {[
-                  "Easy to use dashboard and controls",
-                  "Real-time performance monitoring",
-                  "Secure and reliable infrastructure",
-                  "24/7 customer support",
-                  "Transparent reward system",
-                  "Multi-device synchronization"
-                ].map((item, idx) => (
-                  <li key={idx} className="flex items-center gap-3">
-                    <Check className="w-5 h-5 text-primary flex-shrink-0" />
-                    <span className="text-foreground/80">{item}</span>
-                  </li>
-                ))}
-              </ul>
+              <img 
+                src="/Placeholder.png" 
+                alt="Solar Panel Installation" 
+                className="rounded-2xl shadow-lg w-full h-auto object-cover"
+              />
             </div>
-            <div className="bg-gradient-to-br from-primary/10 to-secondary/10 rounded-xl p-8 h-96 flex items-center justify-center">
-              <div className="text-center">
-                <div className="text-6xl font-bold text-primary mb-2">500K+</div>
-                <p className="text-foreground/70">Active Users Worldwide</p>
+            
+            {/* Right: Content */}
+            <div>
+              <p className="text-blue-600 font-semibold text-sm mb-2">Seamlessly Connect. Effortlessly Earn.</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Empowering You to Connect and Earn
+              </h2>
+              <p className="text-gray-600 mb-6 leading-relaxed">
+                At KonnectX, our mission is to simplify hotspot management while maximizing rewards for our users. We envision a connected community where everyone benefits from shared connectivity.
+              </p>
+              
+              {/* CTA Buttons */}
+              <div className="flex gap-4">
+                <button className="px-6 py-2.5 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700 transition-colors">
+                  Join
+                </button>
+                <button className="px-6 py-2.5 text-blue-600 font-medium hover:text-blue-700 transition-colors flex items-center gap-1">
+                  Learn <span className="text-sm">→</span>
+                </button>
               </div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* User Feedback Section */}
+      <section className="py-20 bg-gradient-to-br from-blue-600 via-blue-500 to-blue-700 relative overflow-hidden">
+        {/* Decorative Background Circles */}
+        <div className="absolute top-20 right-10 w-96 h-96 bg-blue-400/20 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-10 right-32 w-80 h-80 bg-blue-300/20 rounded-full blur-3xl"></div>
+        
+        <div className="container mx-auto px-4 relative z-10">
+          {/* Section Header */}
+          <div className="mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">
+              User Feedback
+            </h2>
+            <p className="text-blue-100">
+              Hear what our users have to say!
+            </p>
+          </div>
+          
+          {/* Testimonials Grid */}
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                name: "Alice Johnson",
+                role: "Community Member",
+                feedback: "KonnectX transformed how I manage my hotspots!",
+                avatar: "AJ",
+                rating: 5
+              },
+              {
+                name: "Mark Thompson",
+                role: "Data Enthusiast",
+                feedback: "Earning $KXT tokens has never been easier!",
+                avatar: "MT",
+                rating: 5
+              },
+              {
+                name: "Sarah Lee",
+                role: "Product Designer",
+                feedback: "The referral program is a game changer!",
+                avatar: "SL",
+                rating: 5
+              }
+            ].map((testimonial, idx) => (
+              <div key={idx} className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+                {/* Star Rating */}
+                <div className="flex gap-1 mb-4">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <span key={i} className="text-yellow-400 text-lg">★</span>
+                  ))}
+                </div>
+                
+                {/* Feedback Text */}
+                <p className="text-white text-lg mb-6 font-medium">
+                  "{testimonial.feedback}"
+                </p>
+                
+                {/* User Info */}
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-full bg-blue-300 flex items-center justify-center text-blue-900 font-bold">
+                    {testimonial.avatar}
+                  </div>
+                  <div>
+                    <p className="text-white font-semibold">{testimonial.name}</p>
+                    <p className="text-blue-100 text-sm">{testimonial.role}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+
+
+
+
+
+
 
       {/* Contact Section */}
       <section id="contact" className="py-20">
