@@ -237,12 +237,16 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* Empowering Section */}
-      <section className="py-20 bg-white">
+
+
+
+
+  {/* Empowering Section */}
+      <section className="py-20 bg-white relative pb-32">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             {/* Left: Image */}
-            <div>
+            <div className="relative z-10">
               <img 
                 src="/Placeholder.png" 
                 alt="Solar Panel Installation" 
@@ -251,7 +255,7 @@ export default function Landing() {
             </div>
             
             {/* Right: Content */}
-            <div>
+            <div className="relative z-10">
               <p className="text-blue-600 font-semibold text-sm mb-2">Seamlessly Connect. Effortlessly Earn.</p>
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                 Empowering You to Connect and Earn
@@ -272,156 +276,231 @@ export default function Landing() {
             </div>
           </div>
         </div>
-      </section>
-
-      {/* User Feedback Section */}
-      <section className="py-20 bg-gradient-to-br from-blue-600 via-blue-500 to-blue-700 relative overflow-hidden">
-        {/* Decorative Background Circles */}
-        <div className="absolute top-20 right-10 w-96 h-96 bg-blue-400/20 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-10 right-32 w-80 h-80 bg-blue-300/20 rounded-full blur-3xl"></div>
         
-        <div className="container mx-auto px-4 relative z-10">
-          {/* Section Header */}
-          <div className="mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">
-              User Feedback
-            </h2>
-            <p className="text-blue-100">
-              Hear what our users have to say!
-            </p>
-          </div>
-          
-          {/* Testimonials Grid */}
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                name: "Alice Johnson",
-                role: "Community Member",
-                feedback: "KonnectX transformed how I manage my hotspots!",
-                avatar: "AJ",
-                rating: 5
-              },
-              {
-                name: "Mark Thompson",
-                role: "Data Enthusiast",
-                feedback: "Earning $KXT tokens has never been easier!",
-                avatar: "MT",
-                rating: 5
-              },
-              {
-                name: "Sarah Lee",
-                role: "Product Designer",
-                feedback: "The referral program is a game changer!",
-                avatar: "SL",
-                rating: 5
-              }
-            ].map((testimonial, idx) => (
-              <div key={idx} className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
-                {/* Star Rating */}
-                <div className="flex gap-1 mb-4">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <span key={i} className="text-yellow-400 text-lg">★</span>
-                  ))}
-                </div>
-                
-                {/* Feedback Text */}
-                <p className="text-white text-lg mb-6 font-medium">
-                  "{testimonial.feedback}"
-                </p>
-                
-                {/* User Info */}
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-blue-300 flex items-center justify-center text-blue-900 font-bold">
-                    {testimonial.avatar}
-                  </div>
-                  <div>
-                    <p className="text-white font-semibold">{testimonial.name}</p>
-                    <p className="text-blue-100 text-sm">{testimonial.role}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
+        {/* Diagonal Transition to Blue */}
+        <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
+          <svg className="relative block w-full h-80" viewBox="0 0 1200 220" preserveAspectRatio="none">
+            <path d="M0,0 L1200,100 L1200,220 L0,220 Z" className="fill-current text-blue-600"></path>
+          </svg>
         </div>
       </section>
 
+      {/* User Feedback Section with Large Globe */}
+      <section className="relative overflow-hidden -mt-1">
+        <div className="bg-blue-600 py-20 relative">
+          {/* Large Globe Background */}
+          <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/4 w-[700px] h-[700px] opacity-15">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+              {/* Globe Circle */}
+              <circle cx="100" cy="100" r="90" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="0.8"/>
+              
+              {/* Latitude Lines */}
+              <ellipse cx="100" cy="100" rx="90" ry="15" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="0.6"/>
+              <ellipse cx="100" cy="100" rx="90" ry="35" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="0.6"/>
+              <ellipse cx="100" cy="100" rx="90" ry="55" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="0.6"/>
+              <ellipse cx="100" cy="100" rx="90" ry="75" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="0.6"/>
+              
+              {/* Longitude Lines */}
+              <ellipse cx="100" cy="100" rx="15" ry="90" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="0.6"/>
+              <ellipse cx="100" cy="100" rx="35" ry="90" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="0.6"/>
+              <ellipse cx="100" cy="100" rx="55" ry="90" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="0.6"/>
+              <ellipse cx="100" cy="100" rx="75" ry="90" fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="0.6"/>
+              
+              {/* Center Vertical Line */}
+              <line x1="100" y1="10" x2="100" y2="190" stroke="rgba(255,255,255,0.4)" strokeWidth="0.6"/>
+              
+              {/* Center Horizontal Line */}
+              <line x1="10" y1="100" x2="190" y2="100" stroke="rgba(255,255,255,0.4)" strokeWidth="0.6"/>
+              
+              {/* Outer Circle */}
+              <circle cx="100" cy="100" r="90" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="1.2"/>
+            </svg>
+          </div>
 
-
-
-
-
-
-
-      {/* Contact Section */}
-      <section id="contact" className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="max-w-2xl mx-auto text-center">
-            <h2 className="text-3xl font-bold text-foreground mb-4">Get in Touch</h2>
-            <p className="text-foreground/70 mb-8">Have questions? We'd love to hear from you</p>
+          {/* Decorative Background Circles */}
+          <div className="absolute top-20 right-10 w-96 h-96 bg-blue-400/20 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-10 right-32 w-80 h-80 bg-blue-300/20 rounded-full blur-3xl"></div>
+          
+          <div className="container mx-auto px-4 relative z-10">
+            {/* Section Header */}
+            <div className="mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">
+                User Feedback
+              </h2>
+              <p className="text-blue-100">
+                Hear what our users have to say!
+              </p>
+            </div>
             
-            <div className="grid md:grid-cols-3 gap-8 mb-12">
+            {/* Testimonials Grid */}
+            <div className="grid md:grid-cols-3 gap-8">
               {[
-                { label: "Email", value: "support@konnectx.com" },
-                { label: "Phone", value: "+1 (800) KONNECT" },
-                { label: "Address", value: "123 Tech Street, San Francisco, CA" }
-              ].map((item, idx) => (
-                <div key={idx}>
-                  <p className="text-sm text-foreground/60 mb-2">{item.label}</p>
-                  <p className="text-foreground font-medium">{item.value}</p>
+                {
+                  name: "Alice Johnson",
+                  role: "Community Member",
+                  feedback: "KonnectX transformed how I manage my hotspots!",
+                  avatar: "AJ",
+                  rating: 5
+                },
+                {
+                  name: "Mark Thompson",
+                  role: "Data Enthusiast",
+                  feedback: "Earning $KXT tokens has never been easier!",
+                  avatar: "MT",
+                  rating: 5
+                },
+                {
+                  name: "Sarah Lee",
+                  role: "Product Designer",
+                  feedback: "The referral program is a game changer!",
+                  avatar: "SL",
+                  rating: 5
+                }
+              ].map((testimonial, idx) => (
+                <div key={idx} className="p-6">
+                  {/* Star Rating */}
+                  <div className="flex gap-1 mb-4">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <span key={i} className="text-yellow-400 text-lg">★</span>
+                    ))}
+                  </div>
+                  
+                  {/* Feedback Text */}
+                  <p className="text-white text-lg mb-6 font-medium">
+                    "{testimonial.feedback}"
+                  </p>
+                  
+                  {/* User Info */}
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-full bg-blue-300 flex items-center justify-center text-blue-900 font-bold">
+                      {testimonial.avatar}
+                    </div>
+                    <div>
+                      <p className="text-white font-semibold">{testimonial.name}</p>
+                      <p className="text-blue-100 text-sm">{testimonial.role}</p>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+  
+    
 
-            <Button
-              size="lg"
-              className="bg-primary hover:bg-primary/90 text-lg h-12"
-            >
-              Contact Support
-            </Button>
+
+
+
+
+
+
+{/* Contact Section */}
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            {/* Header */}
+            <div className="text-center mb-12">
+              <p className="text-blue-600 text-sm font-semibold mb-2">Support</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Get in Touch</h2>
+            </div>
+            
+            {/* Contact Cards */}
+            <div className="grid md:grid-cols-3 gap-8 mb-16">
+              {[
+                { 
+                  icon: "✉️",
+                  label: "Email",
+                  description: "For any assistance, reach out to our support team. We're here to help!",
+                  value: "support@konnectx.com",
+                  iconBg: "bg-blue-100",
+                  iconColor: "text-blue-600"
+                },
+                { 
+                  icon: "📞",
+                  label: "Phone",
+                  description: "Need help? Our support team is just a tap-away—reach out anytime!",
+                  value: "+1 (888) 123-4567",
+                  iconBg: "bg-blue-100",
+                  iconColor: "text-blue-600"
+                },
+                { 
+                  icon: "📍",
+                  label: "Office",
+                  description: "Visit our office for support or inquiries—we're here to assist you.",
+                  value: "456 Tech Ave, San Francisco, CA 94102",
+                  iconBg: "bg-blue-100",
+                  iconColor: "text-blue-600"
+                }
+              ].map((item, idx) => (
+                <div key={idx} className="text-center">
+                  {/* Icon */}
+                  <div className={`w-16 h-16 ${item.iconBg} rounded-full flex items-center justify-center mx-auto mb-4`}>
+                    <span className={`text-2xl ${item.iconColor}`}>{item.icon}</span>
+                  </div>
+                  
+                  {/* Label */}
+                  <h3 className="text-lg font-bold text-gray-900 mb-2">{item.label}</h3>
+                  
+                  {/* Description */}
+                  <p className="text-sm text-gray-600 mb-3 leading-relaxed">{item.description}</p>
+                  
+                  {/* Value */}
+                  <p className="text-blue-600 font-medium text-sm">{item.value}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border/40 bg-muted/30 py-8">
+      <footer className="bg-white border-t border-gray-200 py-12">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-4 gap-8 mb-8">
-            <div>
-              <h4 className="font-semibold text-foreground mb-4">Product</h4>
-              <ul className="space-y-2 text-sm text-foreground/70">
-                <li><a href="#" className="hover:text-foreground transition">Features</a></li>
-                <li><a href="#" className="hover:text-foreground transition">Pricing</a></li>
-                <li><a href="#" className="hover:text-foreground transition">Security</a></li>
-              </ul>
+          {/* Top Section */}
+          <div className="flex flex-col md:flex-row justify-between items-center mb-8 pb-8 border-b border-gray-200">
+            {/* Logo */}
+            <div className="flex items-center gap-2 mb-6 md:mb-0">
+              <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                <span className="text-white text-lg font-bold">K</span>
+              </div>
+              <span className="text-xl font-bold text-gray-900">KonnectX</span>
             </div>
-            <div>
-              <h4 className="font-semibold text-foreground mb-4">Company</h4>
-              <ul className="space-y-2 text-sm text-foreground/70">
-                <li><a href="#" className="hover:text-foreground transition">About</a></li>
-                <li><a href="#" className="hover:text-foreground transition">Blog</a></li>
-                <li><a href="#" className="hover:text-foreground transition">Careers</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold text-foreground mb-4">Legal</h4>
-              <ul className="space-y-2 text-sm text-foreground/70">
-                <li><a href="#" className="hover:text-foreground transition">Privacy</a></li>
-                <li><a href="#" className="hover:text-foreground transition">Terms</a></li>
-                <li><a href="#" className="hover:text-foreground transition">Cookies</a></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold text-foreground mb-4">Follow Us</h4>
-              <ul className="space-y-2 text-sm text-foreground/70">
-                <li><a href="#" className="hover:text-foreground transition">Twitter</a></li>
-                <li><a href="#" className="hover:text-foreground transition">LinkedIn</a></li>
-                <li><a href="#" className="hover:text-foreground transition">GitHub</a></li>
-              </ul>
+            
+            {/* Navigation Links */}
+            <nav className="flex gap-8 mb-6 md:mb-0">
+              <a href="#" className="text-gray-700 hover:text-blue-600 transition text-sm font-medium">Home</a>
+              <a href="#" className="text-gray-700 hover:text-blue-600 transition text-sm font-medium">Features</a>
+              <a href="#" className="text-gray-700 hover:text-blue-600 transition text-sm font-medium">Rewards</a>
+              <a href="#" className="text-gray-700 hover:text-blue-600 transition text-sm font-medium">About Us</a>
+              <a href="#" className="text-gray-700 hover:text-blue-600 transition text-sm font-medium">Contact</a>
+            </nav>
+            
+            {/* Social Icons */}
+            <div className="flex gap-4">
+              <a href="#" className="w-9 h-9 bg-gray-100 rounded-full flex items-center justify-center hover:bg-blue-600 hover:text-white transition">
+                <span className="text-sm">f</span>
+              </a>
+              <a href="#" className="w-9 h-9 bg-gray-100 rounded-full flex items-center justify-center hover:bg-blue-600 hover:text-white transition">
+                <span className="text-sm">in</span>
+              </a>
+              <a href="#" className="w-9 h-9 bg-gray-100 rounded-full flex items-center justify-center hover:bg-blue-600 hover:text-white transition">
+                <span className="text-sm">X</span>
+              </a>
+              <a href="#" className="w-9 h-9 bg-gray-100 rounded-full flex items-center justify-center hover:bg-blue-600 hover:text-white transition">
+                <span className="text-sm">yt</span>
+              </a>
             </div>
           </div>
           
-          <div className="border-t border-border/40 pt-8 text-center text-sm text-foreground/60">
-            <p>&copy; 2024 KonnectX. All rights reserved.</p>
+          {/* Bottom Section */}
+          <div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-600">
+            <p>© 2025 KonnectX. All rights reserved.</p>
+            <div className="flex gap-6 mt-4 md:mt-0">
+              <a href="#" className="hover:text-blue-600 transition">Privacy Policy</a>
+              <a href="#" className="hover:text-blue-600 transition">Terms of Service</a>
+              <a href="#" className="hover:text-blue-600 transition">Cookies Settings</a>
+            </div>
           </div>
         </div>
       </footer>
