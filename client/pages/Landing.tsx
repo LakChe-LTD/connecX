@@ -476,25 +476,41 @@ export default function Landing() {
               <a href="#" className="text-gray-700 hover:text-blue-600 transition text-sm font-medium">Contact</a>
             </nav>
             
-            {/* Social Icons */}
-            <div className="flex gap-4">
-              <a href="#" className="w-9 h-9 bg-gray-100 rounded-full flex items-center justify-center hover:bg-blue-600 hover:text-white transition">
-                <span className="text-sm">f</span>
-              </a>
-              <a href="#" className="w-9 h-9 bg-gray-100 rounded-full flex items-center justify-center hover:bg-blue-600 hover:text-white transition">
-                <span className="text-sm">in</span>
-              </a>
-              <a href="#" className="w-9 h-9 bg-gray-100 rounded-full flex items-center justify-center hover:bg-blue-600 hover:text-white transition">
-                <span className="text-sm">X</span>
-              </a>
-              <a href="#" className="w-9 h-9 bg-gray-100 rounded-full flex items-center justify-center hover:bg-blue-600 hover:text-white transition">
-                <span className="text-sm">yt</span>
-              </a>
-            </div>
-          </div>
-          
-          {/* Bottom Section */}
-          <div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-600">
+          {/* Social Icons */}
+<div className="flex gap-4">
+  <a href="#" className="w-9 h-9 bg-gray-100 rounded-full flex items-center justify-center hover:bg-blue-600 transition">
+    <img src="/icons/facebook.svg" alt="Facebook" className="w-4 h-4 invert-0 hover:invert transition" />
+  </a>
+
+  <a href="#" className="w-9 h-9 bg-gray-100 rounded-full flex items-center justify-center hover:bg-blue-600 transition">
+    <img src="/icons/linkedin.svg" alt="LinkedIn" className="w-4 h-4 invert-0 hover:invert transition" />
+  </a>
+
+  <a href="#" className="w-9 h-9 bg-gray-100 rounded-full flex items-center justify-center hover:bg-blue-600 transition">
+    <img src="/icons/twitter.svg" alt="Twitter" className="w-4 h-4 invert-0 hover:invert transition" />
+  </a>
+
+  <a href="#" className="w-9 h-9 bg-gray-100 rounded-full flex items-center justify-center hover:bg-blue-600 transition">
+    <img src="/icons/youtube.svg" alt="YouTube" className="w-4 h-4 invert-0 hover:invert transition" />
+  </a>
+</div>
+
+{/* ✅ Add this closing div */}
+</div>
+
+{/* Bottom Section */}
+<div className="flex flex-col md:flex-row justify-between items-center text-sm text-black-600">
+  <p>© 2025 KonnectX. All rights reserved.</p>
+  <div className="flex gap-6 mt-4 md:mt-0">
+    <a href="#" className="hover:text-blue-600 transition">Privacy Policy</a>
+    <a href="#" className="hover:text-blue-600 transition">Terms of Service</a>
+    <a href="#" className="hover:text-blue-600 transition">Cookies Settings</a>
+  </div>
+</div>
+
+
+           {/* Bottom Section */}
+          <div className="flex flex-col md:flex-row justify-between items-center text-sm text-black-600">
             <p>© 2025 KonnectX. All rights reserved.</p>
             <div className="flex gap-6 mt-4 md:mt-0">
               <a href="#" className="hover:text-blue-600 transition">Privacy Policy</a>
