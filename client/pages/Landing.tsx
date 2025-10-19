@@ -171,71 +171,73 @@ export default function Landing() {
 
 
   {/* Rewards Section */}
-      <section id="rewards" className="py-20 bg-gray-50">
-        <div className="container mx-auto px-4">
-          {/* Section Header */}
-          <div className="mb-4">
-            <p className="text-blue-600 font-semibold text-sm mb-2">Connect</p>
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-              Easily Earn Rewards with KonnectX
-            </h2>
-            <p className="text-gray-600 max-w-2xl">
-              Getting started with KonnectX is a breeze. Follow these simple steps to register, connect your hotspot, and begin earning rewards.
-            </p>
+<section id="rewards" className="py-20 bg-gray-50">
+  <div className="container mx-auto px-4">
+    {/* Section Header */}
+    <div className="mb-4">
+      <p className="text-blue-600 font-semibold text-sm mb-2">Connect</p>
+      <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+        Easily Earn Rewards with KonnectX
+      </h2>
+      <p className="text-gray-600 max-w-2xl">
+        Getting started with KonnectX is a breeze. Follow these simple steps to register, connect your hotspot, and begin earning rewards.
+      </p>
+    </div>
+    
+    {/* Steps Grid */}
+    <div className="grid md:grid-cols-3 gap-8 mt-12">
+      {[
+        { 
+          step: "Step 1", 
+          title: "Register Your Account", 
+          description: "Create your account in just a few clicks.",
+          icon: "/icons/reward1.png" 
+        },
+        { 
+          step: "Step 2", 
+          title: "Connect Your Hotspot", 
+          description: "Link your hotspot to start tracking activity.",
+          icon: "/icons/reward2.png" 
+        },
+        { 
+          step: "Step 3", 
+          title: "Start Earning Rewards", 
+          description: "Watch your rewards grow as you engage.",
+          icon: "/icons/reward3.png" 
+        }
+      ].map((item, idx) => (
+        <div key={idx} className="text-left">
+          {/* Icon */}
+          <div className="w-16 h-16 rounded-xl bg-blue-100 flex items-center justify-center mb-4">
+            <img 
+              src={item.icon} 
+              alt={item.title} 
+              className="w-10 h-10 object-contain"
+            />
           </div>
           
-          {/* Steps Grid */}
-          <div className="grid md:grid-cols-3 gap-8 mt-12">
-            {[
-              { 
-                step: "Step 1", 
-                title: "Register Your Account", 
-                description: "Create your account in just a few clicks.",
-                icon: "👤"
-              },
-              { 
-                step: "Step 2", 
-                title: "Connect Your Hotspot", 
-                description: "Link your hotspot to start tracking activity.",
-                icon: "📶"
-              },
-              { 
-                step: "Step 3", 
-                title: "Start Earning Rewards", 
-                description: "Watch your rewards grow as you engage.",
-                icon: "💼"
-              }
-            ].map((item, idx) => (
-              <div key={idx} className="text-left">
-                {/* Icon */}
-                <div className="w-12 h-12 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center text-2xl mb-4">
-                  {item.icon}
-                </div>
-                
-                {/* Title */}
-                <h3 className="text-lg font-bold text-gray-900 mb-2">
-                  {item.step}: {item.title}
-                </h3>
-                
-                {/* Description */}
-                <p className="text-gray-600 text-sm mb-4">
-                  {item.description}
-                </p>
-              </div>
-            ))}
-          </div>
+          {/* Title */}
+          <h3 className="text-2xl font-bold text-black mb-2">
+            {item.step}: {item.title}
+          </h3>
           
-          {/* CTA Buttons */}
-          <div className="flex gap-4 mt-8">
-            <button className="px-6 py-2 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700 transition-colors">
-              Start
-            </button>
-            <button className="px-6 py-2 text-blue-600 font-medium hover:text-blue-700 transition-colors flex items-center gap-1">
-              Learn <span className="text-sm">→</span>
-            </button>
-          </div>
+         {/* Description */} <p className="text-gray-600 text-sm mb-4"> {item.description} </p>
         </div>
-      </section>
+      ))}
+    </div>
+    
+    {/* CTA Buttons */}
+    <div className="flex gap-4 mt-8">
+      <button className="px-6 py-2.5 bg-white text-blue-600 rounded-md font-medium border border-blue-600 hover:bg-blue-50 transition-colors">
+        Start
+      </button>
+      <button className="px-6 py-2 text-blue-600 font-medium hover:text-blue-700 transition-colors flex items-center gap-1">
+        Learn <span className="text-sm">→</span>
+      </button>
+    </div>
+  </div>
+</section>
+
 
 
 
@@ -266,9 +268,9 @@ export default function Landing() {
               
               {/* CTA Buttons */}
               <div className="flex gap-4">
-                <button className="px-6 py-2.5 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700 transition-colors">
-                  Join
-                </button>
+                <button className="px-6 py-2.5 bg-white text-blue-600 rounded-md font-medium border border-blue-600 hover:bg-blue-50 transition-colors">
+                        Join
+                   </button>
                 <button className="px-6 py-2.5 text-blue-600 font-medium hover:text-blue-700 transition-colors flex items-center gap-1">
                   Learn <span className="text-sm">→</span>
                 </button>
@@ -361,7 +363,7 @@ export default function Landing() {
                   {/* Star Rating */}
                   <div className="flex gap-1 mb-4">
                     {[...Array(testimonial.rating)].map((_, i) => (
-                      <span key={i} className="text-yellow-400 text-lg">★</span>
+                      <span key={i} className="text-white text-2xl">★</span>
                     ))}
                   </div>
                   
@@ -371,7 +373,7 @@ export default function Landing() {
                   </p>
                   
                   {/* User Info */}
-                  <div className="flex items-center gap-3">
+                 <div className="flex flex-col items-left text-left">
                     <div className="w-12 h-12 rounded-full bg-blue-300 flex items-center justify-center text-blue-900 font-bold">
                       {testimonial.avatar}
                     </div>
@@ -398,7 +400,7 @@ export default function Landing() {
 {/* Contact Section */}
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-11xl mx-auto">
             {/* Header */}
             <div className="text-center mb-12">
               <p className="text-blue-600 text-sm font-semibold mb-2">Support</p>
@@ -406,10 +408,10 @@ export default function Landing() {
             </div>
             
             {/* Contact Cards */}
-            <div className="grid md:grid-cols-3 gap-8 mb-16">
+            <div className="grid md:grid-cols-3 gap-8 md:gap-30 mb-16">
               {[
                 { 
-                  icon: "✉️",
+                  icon: "/icons/Frame1.png",
                   label: "Email",
                   description: "For any assistance, reach out to our support team. We're here to help!",
                   value: "support@konnectx.com",
@@ -417,7 +419,7 @@ export default function Landing() {
                   iconColor: "text-blue-600"
                 },
                 { 
-                  icon: "📞",
+                  icon: "/icons/Frame.png",
                   label: "Phone",
                   description: "Need help? Our support team is just a tap-away—reach out anytime!",
                   value: "+1 (888) 123-4567",
@@ -425,7 +427,7 @@ export default function Landing() {
                   iconColor: "text-blue-600"
                 },
                 { 
-                  icon: "📍",
+                  icon: "/icons/Frame30.png",
                   label: "Office",
                   description: "Visit our office for support or inquiries—we're here to assist you.",
                   value: "456 Tech Ave, San Francisco, CA 94102",
@@ -433,14 +435,18 @@ export default function Landing() {
                   iconColor: "text-blue-600"
                 }
               ].map((item, idx) => (
-                <div key={idx} className="text-center">
+                 <div key={idx} className="text-center">
                   {/* Icon */}
-                  <div className={`w-16 h-16 ${item.iconBg} rounded-full flex items-center justify-center mx-auto mb-4`}>
-                    <span className={`text-2xl ${item.iconColor}`}>{item.icon}</span>
+                  <div className={`w-16 h-16  items-center justify-center mx-auto mb-4`}>
+                    <img 
+                      src={item.icon} 
+                      alt={`${item.label} icon`}
+                      className="w-12 h-12"
+                    />
                   </div>
                   
                   {/* Label */}
-                  <h3 className="text-lg font-bold text-gray-900 mb-2">{item.label}</h3>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">{item.label}</h3>
                   
                   {/* Description */}
                   <p className="text-sm text-gray-600 mb-3 leading-relaxed">{item.description}</p>
@@ -454,18 +460,24 @@ export default function Landing() {
         </div>
       </section>
 
+
+
+
+
       {/* Footer */}
-      <footer className="bg-white border-t border-gray-200 py-12">
+      <footer className="bg-gray-50 border-t border-gray-50 py-12">
         <div className="container mx-auto px-4">
           {/* Top Section */}
           <div className="flex flex-col md:flex-row justify-between items-center mb-8 pb-8 border-b border-gray-200">
             {/* Logo */}
-            <div className="flex items-center gap-2 mb-6 md:mb-0">
-              <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-                <span className="text-white text-lg font-bold">K</span>
-              </div>
-              <span className="text-xl font-bold text-gray-900">KonnectX</span>
-            </div>
+<div className="flex items-center gap-2 mb-6 md:mb-0">
+  <img
+    src="/footericon/Frame4.png"
+    alt="KonnectX Logo"
+    className="w-25 h-25 object-contain"
+  />
+</div>
+
             
             {/* Navigation Links */}
             <nav className="flex gap-8 mb-6 md:mb-0">
@@ -478,34 +490,24 @@ export default function Landing() {
             
           {/* Social Icons */}
 <div className="flex gap-4">
-  <a href="#" className="w-9 h-9 bg-gray-100 rounded-full flex items-center justify-center hover:bg-blue-600 transition">
-    <img src="/icons/facebook.svg" alt="Facebook" className="w-4 h-4 invert-0 hover:invert transition" />
+  <a href="#" className="w-9 h-9 flex items-center justify-center hover:bg-blue-600 transition">
+    <img src="/footericon/Facebook.png" alt="Facebook" className="w-6 h-6 invert-0 hover:invert transition" />
   </a>
 
-  <a href="#" className="w-9 h-9 bg-gray-100 rounded-full flex items-center justify-center hover:bg-blue-600 transition">
-    <img src="/icons/linkedin.svg" alt="LinkedIn" className="w-4 h-4 invert-0 hover:invert transition" />
+  <a href="#" className="w-9 h-9  flex items-center justify-center hover:bg-blue-600 transition">
+    <img src="/footericon/LinkedIn.png" alt="LinkedIn" className="w-6 h-6 invert-0 hover:invert transition" />
   </a>
 
-  <a href="#" className="w-9 h-9 bg-gray-100 rounded-full flex items-center justify-center hover:bg-blue-600 transition">
-    <img src="/icons/twitter.svg" alt="Twitter" className="w-4 h-4 invert-0 hover:invert transition" />
+  <a href="#" className="w-9 h-9  flex items-center justify-center hover:bg-blue-600 transition">
+    <img src="footericon/X.png" alt="Twitter" className="w-6 h-6 invert-0 hover:invert transition" />
   </a>
 
-  <a href="#" className="w-9 h-9 bg-gray-100 rounded-full flex items-center justify-center hover:bg-blue-600 transition">
-    <img src="/icons/youtube.svg" alt="YouTube" className="w-4 h-4 invert-0 hover:invert transition" />
+  <a href="#" className="w-9 h-9 flex items-center justify-center hover:bg-blue-600 transition">
+    <img src="/footericon/Youtube.png" alt="YouTube" className="w-6 h-6 invert-0 hover:invert transition" />
   </a>
 </div>
 
 {/* ✅ Add this closing div */}
-</div>
-
-{/* Bottom Section */}
-<div className="flex flex-col md:flex-row justify-between items-center text-sm text-black-600">
-  <p>© 2025 KonnectX. All rights reserved.</p>
-  <div className="flex gap-6 mt-4 md:mt-0">
-    <a href="#" className="hover:text-blue-600 transition">Privacy Policy</a>
-    <a href="#" className="hover:text-blue-600 transition">Terms of Service</a>
-    <a href="#" className="hover:text-blue-600 transition">Cookies Settings</a>
-  </div>
 </div>
 
 
