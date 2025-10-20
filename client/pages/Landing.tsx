@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useApp } from "@/contexts/AppContext";
@@ -9,9 +8,9 @@ export default function Landing() {
   const { theme, toggleTheme } = useApp();
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-white">
       {/* Hero Section with Image Background */}
-      <div className="relative bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900">
+      <div className="relative bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-black dark:via-black dark:to-black">
         {/* Decorative PNG Background - Behind Everything */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <img
@@ -33,7 +32,7 @@ export default function Landing() {
         </div>
 
        {/* Header */}
-<header className="relative z-50 border-b border-border/20 bg-background">
+<header className="relative z-50 border-b border-border/20 bg-white dark:bg-black">
   <div className="container mx-auto px-4 py-4 flex items-center justify-between">
     
     {/* Logo Section */}
@@ -47,17 +46,17 @@ export default function Landing() {
 
     {/* Navigation */}
     <nav className="hidden md:flex items-center gap-4 font-bold">
-      <a href="#home" className="text-foreground/80 hover:text-blue-600 transition">Home</a>
-      <a href="#features" className="text-foreground/80 hover:text-blue-600 transition">Features</a>
-      <a href="#rewards" className="text-foreground/80 hover:text-blue-600 transition">Rewards</a>
-      <a href="#contact" className="text-foreground/80 hover:text-blue-600 transition">Support</a>
+      <a href="#home" className="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition">Home</a>
+      <a href="#features" className="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition">Features</a>
+      <a href="#rewards" className="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition">Rewards</a>
+      <a href="#contact" className="text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 transition">Support</a>
     </nav>
 
     {/* Right Section (Theme + Button) */}
     <div className="flex items-center gap-4">
       <button
         onClick={toggleTheme}
-        className="p-2 rounded-lg hover:bg-muted/50 transition"
+        className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900 transition text-gray-700 dark:text-gray-300"
       >
         {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
       </button>
@@ -80,11 +79,11 @@ export default function Landing() {
               <div className="relative z-10">
                 <div className="relative">
                   <div className="border-0 border-primary pl-6 md:pl-8 py-2">
-                    <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-foreground mb-6 leading-tight">
+                    <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
                       Welcome to KonnectX: Your Hotspot Management Solution
                     </h1>
                     
-                    <p className="text-base md:text-lg text-muted-foreground mb-8 leading-relaxed">
+                    <p className="text-base md:text-lg text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
                       Manage your hotspots effortlessly and earn rewards with IKXT tokens. Join our community and unlock the full potential of your network.
                     </p>
                   </div>
@@ -100,7 +99,7 @@ export default function Landing() {
                     <Button
                       variant="outline"
                       size="lg"
-                      className="text-base md:text-lg h-12 md:h-14 px-8 group"
+                      className="text-base md:text-lg h-12 md:h-14 px-8 group dark:border-gray-700 dark:text-white dark:hover:bg-gray-900"
                     >
                       Learn More
                       <ArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" size={20} />
@@ -116,20 +115,23 @@ export default function Landing() {
         </section>
       </div>
 
+      {/* Spacing Section */}
+      <div className="h-20 md:h-32 bg-white dark:bg-black"></div>
+
            {/* Features Section */}
-<section id="features" className="py-16 md:py-24 bg-background w-full">
+<section id="features" className="py-16 md:py-24 bg-white dark:bg-black w-full">
   {/* Remove container to make it full width */}
   <div className="px-4 md:px-12 lg:px-20">
-    <div className="max-w-[1600px] mx-auto">
+    <div className="max-w-[1400px] mx-auto">
       {/* Section Header */}
       <div className="grid md:grid-cols-2 gap-8 md:gap-12 mb-12 md:mb-16">
         <div>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white leading-tight">
             Manage Your Hotspots Effortlessly and Maximize Your Earnings with KonnectX
           </h2>
         </div>
         <div className="flex items-center">
-          <p className="text-base md:text-lg text-muted-foreground">
+          <p className="text-base md:text-lg text-gray-600 dark:text-gray-300">
             KonnectX simplifies hotspot management, allowing you to track your devices with ease. Monitor your performance and optimize your network to earn more rewards. Experience a seamless interface designed for efficiency and clarity.
           </p>
         </div>
@@ -158,10 +160,10 @@ export default function Landing() {
             <div className="w-14 h-14 rounded-full bg-primary flex items-center justify-center mb-6">
               <feature.icon className="w-7 h-7 text-white" strokeWidth={2.5} />
             </div>
-            <h3 className="text-xl md:text-2xl font-bold text-foreground mb-3 leading-snug">
+            <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-3 leading-snug">
               {feature.title}
             </h3>
-            <p className="text-base text-muted-foreground leading-relaxed">
+            <p className="text-base text-gray-600 dark:text-gray-400 leading-relaxed">
               {feature.description}
             </p>
           </div>
@@ -176,15 +178,15 @@ export default function Landing() {
 
 
   {/* Rewards Section */}
-<section id="rewards" className="py-20 bg-gray-50">
+<section id="rewards" className="py-20 bg-gray-50 dark:bg-black">
   <div className="container mx-auto px-4">
     {/* Section Header */}
     <div className="mb-4">
-      <p className="text-blue-600 font-semibold text-sm mb-2">Connect</p>
-      <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+      <p className="text-blue-600 dark:text-blue-400 font-semibold text-sm mb-2">Connect</p>
+      <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3">
         Easily Earn Rewards with KonnectX
       </h2>
-      <p className="text-gray-600 max-w-2xl">
+      <p className="text-gray-600 dark:text-gray-300 max-w-2xl">
         Getting started with KonnectX is a breeze. Follow these simple steps to register, connect your hotspot, and begin earning rewards.
       </p>
     </div>
@@ -222,21 +224,21 @@ export default function Landing() {
           </div>
           
           {/* Title */}
-          <h3 className="text-4xl font-bold text-black mb-2">
+          <h3 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
             {item.step}: {item.title}
           </h3>
           
-         {/* Description */} <p className="text-gray-600 text-sm mb-4"> {item.description} </p>
+         {/* Description */} <p className="text-gray-600 dark:text-gray-400 text-sm mb-4"> {item.description} </p>
         </div>
       ))}
     </div>
     
     {/* CTA Buttons */}
     <div className="flex gap-4 mt-8">
-      <button className="px-6 py-2.5 bg-white text-blue-600 rounded-md font-medium border border-blue-600 hover:bg-blue-50 transition-colors">
+      <button className="px-6 py-2.5 bg-white dark:bg-gray-900 text-blue-600 dark:text-blue-400 rounded-md font-medium border border-blue-600 dark:border-blue-500 hover:bg-blue-50 dark:hover:bg-black transition-colors">
         Start
       </button>
-      <button className="px-6 py-2 text-blue-600 font-medium hover:text-blue-700 transition-colors flex items-center gap-1">
+      <button className="px-6 py-2 text-blue-600 dark:text-blue-400 font-medium hover:text-blue-700 dark:hover:text-blue-300 transition-colors flex items-center gap-1">
         Learn <span className="text-sm">→</span>
       </button>
     </div>
@@ -246,10 +248,8 @@ export default function Landing() {
 
 
 
-
-
   {/* Empowering Section */}
-      <section className="py-20 bg-white relative pb-32">
+      <section className="py-20 bg-white dark:bg-black relative pb-32">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             {/* Left: Image */}
@@ -263,20 +263,20 @@ export default function Landing() {
             
             {/* Right: Content */}
             <div className="relative z-10">
-              <p className="text-blue-600 font-semibold text-sm mb-2">Seamlessly Connect. Effortlessly Earn.</p>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              <p className="text-blue-600 dark:text-blue-400 font-semibold text-sm mb-2">Seamlessly Connect. Effortlessly Earn.</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
                 Empowering You to Connect and Earn
               </h2>
-              <p className="text-gray-600 mb-6 leading-relaxed">
+              <p className="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
                 At KonnectX, our mission is to simplify hotspot management while maximizing rewards for our users. We envision a connected community where everyone benefits from shared connectivity.
               </p>
               
               {/* CTA Buttons */}
               <div className="flex gap-4">
-                <button className="px-6 py-2.5 bg-white text-blue-600 rounded-md font-medium border border-blue-600 hover:bg-blue-50 transition-colors">
+                <button className="px-6 py-2.5 bg-white dark:bg-gray-900 text-blue-600 dark:text-blue-400 rounded-md font-medium border border-blue-600 dark:border-blue-500 hover:bg-blue-50 dark:hover:bg-black transition-colors">
                         Join
                    </button>
-                <button className="px-6 py-2.5 text-blue-600 font-medium hover:text-blue-700 transition-colors flex items-center gap-1">
+                <button className="px-6 py-2.5 text-blue-600 dark:text-blue-400 font-medium hover:text-blue-700 dark:hover:text-blue-300 transition-colors flex items-center gap-1">
                   Learn <span className="text-sm">→</span>
                 </button>
               </div>
@@ -294,7 +294,7 @@ export default function Landing() {
 
       {/* User Feedback Section with Large Globe */}
       <section className="relative overflow-hidden -mt-1">
-        <div className="bg-blue-600 py-20 relative">
+        <div className="bg-blue-600 dark:bg-blue-700 py-20 relative">
           {/* Large Globe Background */}
           <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/4 w-[700px] h-[700px] opacity-15">
             <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
@@ -399,17 +399,14 @@ export default function Landing() {
 
 
 
-
-
-
 {/* Contact Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-gray-50 dark:bg-black">
         <div className="container mx-auto px-4">
           <div className="max-w-11xl mx-auto">
             {/* Header */}
             <div className="text-center mb-12">
-              <p className="text-blue-600 text-sm font-semibold mb-2">Support</p>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900">Get in Touch</h2>
+              <p className="text-blue-600 dark:text-blue-400 text-sm font-semibold mb-2">Support</p>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">Get in Touch</h2>
             </div>
             
             {/* Contact Cards */}
@@ -451,13 +448,13 @@ export default function Landing() {
                   </div>
                   
                   {/* Label */}
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">{item.label}</h3>
+                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{item.label}</h3>
                   
                   {/* Description */}
-                  <p className="text-sm text-gray-600 mb-3 leading-relaxed">{item.description}</p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-3 leading-relaxed">{item.description}</p>
                   
                   {/* Value */}
-                  <p className="text-blue-600 font-medium text-sm">{item.value}</p>
+                  <p className="text-blue-600 dark:text-blue-400 font-medium text-sm">{item.value}</p>
                 </div>
               ))}
             </div>
@@ -468,12 +465,11 @@ export default function Landing() {
 
 
 
-
       {/* Footer */}
-      <footer className="bg-gray-50 border-t border-gray-50 py-12">
+      <footer className="bg-gray-50 dark:bg-black border-t border-gray-200 dark:border-gray-800 py-12">
         <div className="container mx-auto px-4">
           {/* Top Section */}
-          <div className="flex flex-col md:flex-row justify-between items-center mb-8 pb-8 border-b border-gray-200">
+          <div className="flex flex-col md:flex-row justify-between items-center mb-8 pb-8 border-b border-gray-200 dark:border-gray-800">
             {/* Logo */}
 <div className="flex items-center gap-2 mb-6 md:mb-0">
   <img
@@ -486,29 +482,29 @@ export default function Landing() {
             
             {/* Navigation Links */}
             <nav className="flex gap-8 mb-6 md:mb-0">
-              <a href="#" className="text-gray-700 hover:text-blue-600 transition text-sm font-medium">Home</a>
-              <a href="#" className="text-gray-700 hover:text-blue-600 transition text-sm font-medium">Features</a>
-              <a href="#" className="text-gray-700 hover:text-blue-600 transition text-sm font-medium">Rewards</a>
-              <a href="#" className="text-gray-700 hover:text-blue-600 transition text-sm font-medium">About Us</a>
-              <a href="#" className="text-gray-700 hover:text-blue-600 transition text-sm font-medium">Contact</a>
+              <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition text-sm font-medium">Home</a>
+              <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition text-sm font-medium">Features</a>
+              <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition text-sm font-medium">Rewards</a>
+              <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition text-sm font-medium">About Us</a>
+              <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition text-sm font-medium">Contact</a>
             </nav>
             
           {/* Social Icons */}
 <div className="flex gap-4">
-  <a href="#" className="w-9 h-9 flex items-center justify-center hover:bg-blue-600 transition">
-    <img src="/footericon/Facebook.png" alt="Facebook" className="w-6 h-6 invert-0 hover:invert transition" />
+  <a href="#" className="w-9 h-9 flex items-center justify-center hover:bg-blue-600 dark:hover:bg-blue-600 transition rounded-lg">
+    <img src="/footericon/Facebook.png" alt="Facebook" className="w-6 h-6 invert-0 dark:invert hover:invert dark:hover:invert-0 transition" />
   </a>
 
-  <a href="#" className="w-9 h-9  flex items-center justify-center hover:bg-blue-600 transition">
-    <img src="/footericon/LinkedIn.png" alt="LinkedIn" className="w-6 h-6 invert-0 hover:invert transition" />
+  <a href="#" className="w-9 h-9  flex items-center justify-center hover:bg-blue-600 dark:hover:bg-blue-600 transition rounded-lg">
+    <img src="/footericon/LinkedIn.png" alt="LinkedIn" className="w-6 h-6 invert-0 dark:invert hover:invert dark:hover:invert-0 transition" />
   </a>
 
-  <a href="#" className="w-9 h-9  flex items-center justify-center hover:bg-blue-600 transition">
-    <img src="footericon/X.png" alt="Twitter" className="w-6 h-6 invert-0 hover:invert transition" />
+  <a href="#" className="w-9 h-9  flex items-center justify-center hover:bg-blue-600 dark:hover:bg-blue-600 transition rounded-lg">
+    <img src="/footericon/X.png" alt="Twitter" className="w-6 h-6 invert-0 dark:invert hover:invert dark:hover:invert-0 transition" />
   </a>
 
-  <a href="#" className="w-9 h-9 flex items-center justify-center hover:bg-blue-600 transition">
-    <img src="/footericon/Youtube.png" alt="YouTube" className="w-6 h-6 invert-0 hover:invert transition" />
+  <a href="#" className="w-9 h-9 flex items-center justify-center hover:bg-blue-600 dark:hover:bg-blue-600 transition rounded-lg">
+    <img src="/footericon/Youtube.png" alt="YouTube" className="w-6 h-6 invert-0 dark:invert hover:invert dark:hover:invert-0 transition" />
   </a>
 </div>
 
@@ -517,12 +513,12 @@ export default function Landing() {
 
 
            {/* Bottom Section */}
-          <div className="flex flex-col md:flex-row justify-between items-center text-sm text-black-600">
+          <div className="flex flex-col md:flex-row justify-between items-center text-sm text-gray-600 dark:text-gray-400">
             <p>© 2025 KonnectX. All rights reserved.</p>
             <div className="flex gap-6 mt-4 md:mt-0">
-              <a href="#" className="hover:text-blue-600 transition">Privacy Policy</a>
-              <a href="#" className="hover:text-blue-600 transition">Terms of Service</a>
-              <a href="#" className="hover:text-blue-600 transition">Cookies Settings</a>
+              <a href="#" className="hover:text-blue-600 dark:hover:text-blue-400 transition">Privacy Policy</a>
+              <a href="#" className="hover:text-blue-600 dark:hover:text-blue-400 transition">Terms of Service</a>
+              <a href="#" className="hover:text-blue-600 dark:hover:text-blue-400 transition">Cookies Settings</a>
             </div>
           </div>
         </div>
