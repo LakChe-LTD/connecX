@@ -32,39 +32,45 @@ export default function Landing() {
           </div>
         </div>
 
-        {/* Header */}
-        <header className="relative z-50 border-b border-border/20 bg-background">
-          <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-                <Wifi className="text-primary-foreground" size={20} />
-              </div>
-              <span className="text-xl font-bold text-foreground">KonnectX</span>
-            </div>
-            
-           <nav className="hidden md:flex items-center gap-4 font-bold">
-  <a href="#home" className="text-foreground/80 hover:text-blue-600 transition">Home</a>
-  <a href="#features" className="text-foreground/80 hover:text-blue-600 transition">Features</a>
-  <a href="#rewards" className="text-foreground/80 hover:text-blue-600 transition">Rewards</a>
-  <a href="#contact" className="text-foreground/80 hover:text-blue-600 transition">Support</a>
-</nav>
+       {/* Header */}
+<header className="relative z-50 border-b border-border/20 bg-background">
+  <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+    
+    {/* Logo Section */}
+    <div className="flex items-center gap-2">
+      <img
+        src="/footericon/Frame4.png" 
+        alt="KonnectX Logo"
+        className="w-25 h-25 object-contain" 
+      />
+    </div>
 
-            <div className="flex items-center gap-4">
-              <button
-                onClick={toggleTheme}
-                className="p-2 rounded-lg hover:bg-muted/50 transition"
-              >
-                {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
-              </button>
-              <Button
-                onClick={() => navigate("/register")}
-                className="bg-primary hover:bg-primary/90"
-              >
-                Join Now
-              </Button>
-            </div>
-          </div>
-        </header>
+    {/* Navigation */}
+    <nav className="hidden md:flex items-center gap-4 font-bold">
+      <a href="#home" className="text-foreground/80 hover:text-blue-600 transition">Home</a>
+      <a href="#features" className="text-foreground/80 hover:text-blue-600 transition">Features</a>
+      <a href="#rewards" className="text-foreground/80 hover:text-blue-600 transition">Rewards</a>
+      <a href="#contact" className="text-foreground/80 hover:text-blue-600 transition">Support</a>
+    </nav>
+
+    {/* Right Section (Theme + Button) */}
+    <div className="flex items-center gap-4">
+      <button
+        onClick={toggleTheme}
+        className="p-2 rounded-lg hover:bg-muted/50 transition"
+      >
+        {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
+      </button>
+      <Button
+        onClick={() => navigate("/register")}
+        className="bg-primary hover:bg-primary/90"
+      >
+        Join Now
+      </Button>
+    </div>
+  </div>
+</header>
+
 
         {/* Hero Content */}
         <section className="relative">
@@ -110,62 +116,61 @@ export default function Landing() {
         </section>
       </div>
 
-            {/* Features Section */}
-      <section id="features" className="py-16 md:py-24 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            {/* Section Header */}
-            <div className="grid md:grid-cols-2 gap-8 md:gap-12 mb-12 md:mb-16">
-              <div>
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight">
-                  Manage Your Hotspots Effortlessly and Maximize Your Earnings with KonnectX
-                </h2>
-              </div>
-              <div className="flex items-center">
-                <p className="text-base md:text-lg text-muted-foreground">
-                  KonnectX simplifies hotspot management, allowing you to track your devices with ease. Monitor your performance and optimize your network to earn more rewards. Experience a seamless interface designed for efficiency and clarity.
-                </p>
-              </div>
-            </div>
-            
-            {/* Features Grid */}
-            <div className="grid md:grid-cols-3 gap-8 md:gap-10">
-              {[
-                {
-                  icon: TrendingUp,
-                  title: "Track Your $KXT Rewards and Watch Your Earnings Grow",
-                  description: "Stay informed about your earnings in real-time with our intuitive dashboard."
-                },
-                {
-                  icon: Users,
-                  title: "Unlock Exclusive Benefits with Our Referral Program",
-                  description: "Invite friends and earn rewards for every successful referral you make."
-                },
-                {
-                  icon: Gift,
-                  title: "Experience a Community of Like-Minded Users and Grow Together",
-                  description: "Connect with others, share tips, and enhance your hotspot experience."
-                }
-              ].map((feature, idx) => (
-                <div
-                  key={idx}
-                  className="flex flex-col"
-                >
-                  <div className="w-14 h-14 rounded-full bg-primary flex items-center justify-center mb-6">
-                    <feature.icon className="w-7 h-7 text-white" strokeWidth={2.5} />
-                  </div>
-                  <h3 className="text-xl md:text-2xl font-bold text-foreground mb-3 leading-snug">
-                    {feature.title}
-                  </h3>
-                  <p className="text-base text-muted-foreground leading-relaxed">
-                    {feature.description}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
+           {/* Features Section */}
+<section id="features" className="py-16 md:py-24 bg-background w-full">
+  {/* Remove container to make it full width */}
+  <div className="px-4 md:px-12 lg:px-20">
+    <div className="max-w-[1600px] mx-auto">
+      {/* Section Header */}
+      <div className="grid md:grid-cols-2 gap-8 md:gap-12 mb-12 md:mb-16">
+        <div>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight">
+            Manage Your Hotspots Effortlessly and Maximize Your Earnings with KonnectX
+          </h2>
         </div>
-      </section>
+        <div className="flex items-center">
+          <p className="text-base md:text-lg text-muted-foreground">
+            KonnectX simplifies hotspot management, allowing you to track your devices with ease. Monitor your performance and optimize your network to earn more rewards. Experience a seamless interface designed for efficiency and clarity.
+          </p>
+        </div>
+      </div>
+      
+      {/* Features Grid */}
+      <div className="grid md:grid-cols-3 gap-8 md:gap-10">
+        {[
+          {
+            icon: TrendingUp,
+            title: "Track Your $KXT Rewards and Watch Your Earnings Grow",
+            description: "Stay informed about your earnings in real-time with our intuitive dashboard."
+          },
+          {
+            icon: Users,
+            title: "Unlock Exclusive Benefits with Our Referral Program",
+            description: "Invite friends and earn rewards for every successful referral you make."
+          },
+          {
+            icon: Gift,
+            title: "Experience a Community of Like-Minded Users and Grow Together",
+            description: "Connect with others, share tips, and enhance your hotspot experience."
+          }
+        ].map((feature, idx) => (
+          <div key={idx} className="flex flex-col">
+            <div className="w-14 h-14 rounded-full bg-primary flex items-center justify-center mb-6">
+              <feature.icon className="w-7 h-7 text-white" strokeWidth={2.5} />
+            </div>
+            <h3 className="text-xl md:text-2xl font-bold text-foreground mb-3 leading-snug">
+              {feature.title}
+            </h3>
+            <p className="text-base text-muted-foreground leading-relaxed">
+              {feature.description}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
     
   
 
