@@ -61,7 +61,7 @@ export default function SignIn() {
         </div>
 
         {/* Sign In Card */}
-        <div className="bg-white dark:bg-card rounded-3xl shadow-2xl p-10">
+        <div className="bg-white dark:bg-black rounded-3xl shadow-2xl p-10">
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-3xl font-bold text-gray-800 dark:text-white">Sign In</h2>
@@ -130,7 +130,7 @@ export default function SignIn() {
             {/* Sign In Button */}
             <Button
               type="submit"
-              className="w-full bg-black hover:bg-gray-800 text-white font-semibold py-3.5 rounded-xl transition h-auto text-base"
+              className="w-full bg-black hover:bg-gray-800 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-semibold py-3.5 rounded-xl transition h-auto text-base"
             >
               Sign In
             </Button>
@@ -186,7 +186,7 @@ export default function SignIn() {
             Don't have an account?{" "}
             <button
               onClick={() => navigate("/register")}
-              className="text-gray-800 hover:text-gray-600 font-semibold transition"
+              className="text-blue-800 hover:text-blue-400 font-semibold transition"
             >
               Sign up
             </button>
