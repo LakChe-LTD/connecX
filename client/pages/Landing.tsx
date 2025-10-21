@@ -58,7 +58,7 @@ export default function Landing() {
         onClick={toggleTheme}
         className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900 transition text-gray-700 dark:text-gray-300"
       >
-        {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
+        {theme === 'dark' ? <Moon size={20} /> : <Sun size={20} />}
       </button>
       <Button
         onClick={() => navigate("/register")}
