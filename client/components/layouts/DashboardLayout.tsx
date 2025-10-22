@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useApp } from "@/contexts/AppContext";
-import { Menu, X, LogOut, Settings, Moon, Sun, BarChart3, TrendingUp, User } from "lucide-react";
+import { Menu, X, LogOut, Settings, Moon, Sun, Wifi, Users, Gift, Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function DashboardLayout() {
@@ -11,9 +11,11 @@ export default function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const menuItems = [
-    { label: "Overview", path: "/dashboard", icon: BarChart3 },
-    { label: "Earnings", path: "/dashboard/earnings", icon: TrendingUp },
-    { label: "Profile", path: "/dashboard/profile", icon: User },
+    { label: "Hotspots", path: "/dashboard/hotspots", icon: Wifi },
+    { label: "Referrals", path: "/dashboard/referrals", icon: Users },
+    { label: "Rewards", path: "/dashboard/rewards", icon: Gift },
+    { label: "Store", path: "/dashboard/store", icon: Home },
+    { label: "Settings", path: "/dashboard/settings", icon: Settings },
   ];
 
   if (!user) {
@@ -30,78 +32,103 @@ export default function DashboardLayout() {
         } bg-sidebar border-r border-sidebar-border transition-all duration-300 flex flex-col`}
       >
         {/* Logo */}
-        <div className="p-6 border-b border-sidebar-border flex items-center justify-between">
-          {sidebarOpen && (
+        <div className="p-6 border-b border-sidebar-border">
+          {sidebarOpen ? (
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-sidebar-primary rounded-lg flex items-center justify-center">
-                <span className="text-sidebar-primary-foreground font-bold text-sm">KX</span>
+              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                <Wifi className="w-5 h-5 text-white" />
               </div>
-              <span className="font-bold text-sidebar-foreground">KonnectX</span>
+              <span className="text-xl font-bold text-sidebar-foreground">KonnectX</span>
+            </div>
+          ) : (
+            <div className="flex justify-center">
+              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                <Wifi className="w-5 h-5 text-white" />
+              </div>
             </div>
           )}
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="p-2 hover:bg-sidebar-accent rounded-lg transition text-sidebar-foreground"
-          >
-            {sidebarOpen ? <X size={18} /> : <Menu size={18} />}
-          </button>
         </div>
 
         {/* Menu Items */}
-        <nav className="flex-1 p-4 space-y-2">
+        <nav className="flex-1 p-4 space-y-1">
           {menuItems.map((item) => (
             <a
               key={item.path}
               href={item.path}
-              className={`flex items-center gap-4 px-4 py-3 rounded-lg transition ${
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition ${
                 location.pathname === item.path
-                  ? "bg-sidebar-primary text-sidebar-primary-foreground"
+                  ? "bg-gray-900 text-white dark:bg-white dark:text-gray-900"
                   : "text-sidebar-foreground hover:bg-sidebar-accent"
               }`}
             >
-              <item.icon size={20} />
-              {sidebarOpen && <span>{item.label}</span>}
+              <item.icon className="w-5 h-5" />
+              {sidebarOpen && <span className="font-medium">{item.label}</span>}
             </a>
           ))}
         </nav>
 
-        {/* Bottom Actions */}
-        <div className="border-t border-sidebar-border p-4 space-y-2">
-          <button
-            onClick={toggleTheme}
-            className="w-full flex items-center gap-4 px-4 py-3 rounded-lg text-sidebar-foreground hover:bg-sidebar-accent transition"
-          >
-            {theme === "light" ? <Moon size={20} /> : <Sun size={20} />}
-            {sidebarOpen && <span>{theme === "light" ? "Dark" : "Light"}</span>}
-          </button>
-          <button
-            onClick={logout}
-            className="w-full flex items-center gap-4 px-4 py-3 rounded-lg text-sidebar-foreground hover:bg-sidebar-accent transition hover:text-red-500"
-          >
-            <LogOut size={20} />
-            {sidebarOpen && <span>Logout</span>}
-          </button>
+        {/* Bottom Section */}
+        <div className="border-t border-sidebar-border">
+          {/* Dark Mode & Logout */}
+          <div className="p-4 space-y-2">
+            <button
+              onClick={toggleTheme}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sidebar-foreground hover:bg-sidebar-accent transition ${
+                !sidebarOpen && "justify-center"
+              }`}
+            >
+              {theme === "light" ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
+              {sidebarOpen && <span className="font-medium">{theme === "light" ? "Dark" : "Light"}</span>}
+            </button>
+            <button
+              onClick={logout}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sidebar-foreground hover:bg-sidebar-accent transition hover:text-red-500 ${
+                !sidebarOpen && "justify-center"
+              }`}
+            >
+              <LogOut className="w-5 h-5" />
+              {sidebarOpen && <span className="font-medium">Logout</span>}
+            </button>
+          </div>
+
+          {/* User Profile */}
+          {sidebarOpen && (
+            <div className="p-4 border-t border-sidebar-border">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-semibold">
+                  JD
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-sidebar-foreground truncate">John Doe</p>
+                  <p className="text-xs text-sidebar-foreground/60 truncate">victorajuzie580@gmail.com</p>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Top Header */}
         <header className="bg-card border-b border-border/40 px-6 py-4 flex items-center justify-between">
           <h2 className="text-2xl font-bold text-foreground">Dashboard</h2>
-          <div className="flex items-center gap-4">
-            <div className="text-right">
-              <p className="text-sm font-medium text-foreground">{user.name}</p>
-              <p className="text-xs text-foreground/60">{user.email}</p>
-            </div>
-            <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-bold">
-              {user.name.charAt(0)}
-            </div>
+          <div className="flex items-center gap-3">
+            <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+              ↑ Export
+            </button>
+            <button className="px-4 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-800">
+              + Add Hotspot
+            </button>
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="p-2 hover:bg-accent rounded-lg transition text-foreground lg:hidden"
+            >
+              {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
           </div>
         </header>
-
         {/* Page Content */}
-        <main className="flex-1 overflow-auto">
+        <main className="flex-1 overflow-auto bg-gray-50">
           <div className="p-6">
             <Outlet />
           </div>
