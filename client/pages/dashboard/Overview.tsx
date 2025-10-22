@@ -45,7 +45,7 @@ export default function DashboardOverview() {
             <Card key={idx} className="p-6 bg-white border border-gray-200">
               <div className="flex items-start justify-between mb-2">
                 <div>
-                  <p className="text-sm text-gray-500 mb-1">{stat.label}</p>
+                  <p className="text-xl font-bold text-black mb-1">{stat.label}</p>
                   <div className="flex items-baseline gap-1">
                     <h3 className="text-3xl font-bold text-gray-900">{stat.value}</h3>
                     {stat.sublabel && <span className="text-sm text-gray-500">{stat.sublabel}</span>}
@@ -149,7 +149,7 @@ export default function DashboardOverview() {
                   r="80"
                   fill="none"
                   stroke="#3b82f6"
-                  strokeWidth="20"
+                  strokeWidth="40"
                   strokeDasharray="150 502"
                   transform="rotate(-90 100 100)"
                 />
@@ -159,7 +159,7 @@ export default function DashboardOverview() {
                   r="80"
                   fill="none"
                   stroke="#ef4444"
-                  strokeWidth="20"
+                  strokeWidth="40"
                   strokeDasharray="125 502"
                   strokeDashoffset="-150"
                   transform="rotate(-90 100 100)"
@@ -170,7 +170,7 @@ export default function DashboardOverview() {
                   r="80"
                   fill="none"
                   stroke="#fbbf24"
-                  strokeWidth="20"
+                  strokeWidth="40"
                   strokeDasharray="100 502"
                   strokeDashoffset="-275"
                   transform="rotate(-90 100 100)"
@@ -181,7 +181,7 @@ export default function DashboardOverview() {
                   r="80"
                   fill="none"
                   stroke="#10b981"
-                  strokeWidth="20"
+                  strokeWidth="40"
                   strokeDasharray="127 502"
                   strokeDashoffset="-375"
                   transform="rotate(-90 100 100)"

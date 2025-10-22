@@ -110,8 +110,8 @@ export default function DashboardLayout() {
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        <header className="bg-card border-b border-border/40 px-6 py-4 flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-foreground">Dashboard</h2>
+        <header className=" bg-gray-50 px-6 py-4 flex items-center justify-between">
+          <h2 className="text-2xl font-bold text-foreground">Dashboard Overview</h2>
           <div className="flex items-center gap-3">
             <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
               ↑ Export
