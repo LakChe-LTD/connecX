@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useApp } from "@/contexts/AppContext";
-import { Menu, X, LogOut, Settings, Moon, Sun, Wifi, Users, Gift, Home } from "lucide-react";
+import { Menu, X, LogOut, Settings, Moon, Sun, Wifi, Users, Gift, Home, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function DashboardLayout() {
@@ -9,6 +9,8 @@ export default function DashboardLayout() {
   const location = useLocation();
   const { user, logout, theme, toggleTheme } = useApp();
   const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  const isRewardPage = location.pathname === "/dashboard/Reward";
 
   const menuItems = [
     { label: "Hotspots", path: "/dashboard/hotspots", icon: Wifi },
@@ -31,31 +33,43 @@ export default function DashboardLayout() {
           sidebarOpen ? "w-64" : "w-20"
         } bg-sidebar border-r border-sidebar-border transition-all duration-300 flex flex-col`}
       >
-       {/* Logo Section */}
-    <div className="flex items-center gap-2">
-      <img
-        src="/footericon/Frame4.png" 
-        alt="KonnectX Logo"
-        className="w-25 h-25 object-contain" 
-      />
-    </div>
+        {/* Logo Section */}
+        <div className="flex items-center gap-2">
+          <img
+            src="/footericon/Frame4.png" 
+            alt="KonnectX Logo"
+            className="w-25 h-25 object-contain" 
+          />
+        </div>
 
         {/* Menu Items */}
         <nav className="flex-1 p-4 space-y-1">
-          {menuItems.map((item) => (
+          {isRewardPage ? (
+            // Back button when on Reward page
             <a
-              key={item.path}
-              href={item.path}
-              className={`flex items-center gap-8 px-4 py-3 rounded-lg transition ${
-                location.pathname === item.path
-                  ? "bg-gray-900 text-white dark:bg-white dark:text-gray-900 "
-                  : "text-sidebar-foreground hover:bg-black hover:text-white"
-              }`}
+              href="/dashboard/hotspots"
+              className="flex items-center gap-8 px-4 py-3 rounded-lg transition bg-gray-900 text-white dark:bg-white dark:text-gray-900 hover:bg-gray-800"
             >
-              <item.icon className="w-7 h-7" />
-              {sidebarOpen && <span className="font-Bold text-xl">{item.label}</span>}
+              <ArrowLeft className="w-7 h-7" />
+              {sidebarOpen && <span className="font-Bold text-xl">Back</span>}
             </a>
-          ))}
+          ) : (
+            // Regular menu items
+            menuItems.map((item) => (
+              <a
+                key={item.path}
+                href={item.path}
+                className={`flex items-center gap-8 px-4 py-3 rounded-lg transition ${
+                  location.pathname === item.path
+                    ? "bg-gray-900 text-white dark:bg-white dark:text-gray-900 "
+                    : "text-sidebar-foreground hover:bg-black hover:text-white"
+                }`}
+              >
+                <item.icon className="w-7 h-7" />
+                {sidebarOpen && <span className="font-Bold text-xl">{item.label}</span>}
+              </a>
+            ))
+          )}
         </nav>
 
         {/* Bottom Section */}
@@ -101,15 +115,30 @@ export default function DashboardLayout() {
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        <header className=" bg-gray-50 px-6 py-4 flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-foreground">Dashboard Overview</h2>
+        <header className="bg-gray-50 px-6 py-4 flex items-center justify-between">
+          <h2 className="text-2xl font-bold text-foreground">
+            {isRewardPage ? "Rewards Dashboard" : "Dashboard Overview"}
+          </h2>
           <div className="flex items-center gap-3">
-            <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
-              ↑ Export
-            </button>
-            <button className="px-4 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-800">
-              + Add Hotspot
-            </button>
+            {isRewardPage ? (
+              <>
+                <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+                  Join Smith
+                </button>
+                <button className="px-4 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-800">
+                  Connect Wallet
+                </button>
+              </>
+            ) : (
+              <>
+                <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+                  ↑ Export
+                </button>
+                <button className="px-4 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-800">
+                  + Add Hotspot
+                </button>
+              </>
+            )}
             <button
               onClick={() => setSidebarOpen(!sidebarOpen)}
               className="p-2 hover:bg-accent rounded-lg transition text-foreground lg:hidden"
