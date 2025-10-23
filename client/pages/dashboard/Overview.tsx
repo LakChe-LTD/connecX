@@ -8,23 +8,24 @@ export default function DashboardOverview() {
   const topStats = [
     {
       label: "Active Hotspots",
+      icon: Wifi,
       value: "24",
-      sublabel: "Hotspots"
+      sublabel: "|8.2%"
     },
     {
-      label: "Manage Uptime",
+      label: "Average Uptime",
       value: "99.8%",
-      sublabel: ""
+      sublabel: "|1.2% "  
     },
     {
       label: "Connected Users",
       value: "1,284",
-      sublabel: ""
+      sublabel: "|12.5"
     },
     {
       label: "Avg. Speed",
-      value: "125",
-      sublabel: "Mbps"
+      value: "125 Mbps",
+      sublabel: "|8.2"
     }
   ];
 
@@ -45,10 +46,11 @@ export default function DashboardOverview() {
             <Card key={idx} className="p-6 bg-white border border-gray-200">
               <div className="flex items-start justify-between mb-2">
                 <div>
+                 {/* <stat.icon className="w-5 h-5" /> */}
                   <p className="text-xl font-bold text-black mb-1">{stat.label}</p>
                   <div className="flex items-baseline gap-1">
                     <h3 className="text-3xl font-bold text-gray-900">{stat.value}</h3>
-                    {stat.sublabel && <span className="text-sm text-gray-500">{stat.sublabel}</span>}
+                    {stat.sublabel && <span className="text-xl text-green-500">{stat.sublabel}</span>}
                   </div>
                 </div>
                 {idx === 0 && <Wifi className="w-5 h-5 text-gray-400" />}
@@ -60,12 +62,12 @@ export default function DashboardOverview() {
           ))}
         </div>
 
-        {/* Charts Section */}
+       {/* Charts Section */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
           {/* Performance Overview */}
           <Card className="lg:col-span-2 p-6 bg-white border border-gray-200">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-semibold text-gray-900">Performance Overview</h3>
+              <h3 className="text-xl font-bold text-gray-900">Performance Overview</h3>
               <div className="flex gap-2">
                 {['Day', 'Week', 'Month'].map((tab) => (
                   <button
@@ -83,50 +85,89 @@ export default function DashboardOverview() {
               </div>
             </div>
             <div className="h-64 relative">
-              <svg className="w-full h-full" viewBox="0 0 600 250">
+              <svg className="w-full h-full" viewBox="0 0 700 280">
                 <defs>
                   <linearGradient id="areaGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor="#6366f1" stopOpacity="0.3" />
-                    <stop offset="100%" stopColor="#6366f1" stopOpacity="0.05" />
+                    <stop offset="0%" stopColor="#818cf8" stopOpacity="0.4" />
+                    <stop offset="100%" stopColor="#818cf8" stopOpacity="0.05" />
                   </linearGradient>
                 </defs>
                 
+                {/* Y-axis labels */}
+                {[0, 300, 600, 900, 1200, 1500].map((val, i) => (
+                  <text
+                    key={val}
+                    x="25"
+                    y={240 - i * 48}
+                    fill="#9ca3af"
+                    fontSize="11"
+                    textAnchor="end"
+                  >
+                    {val}
+                  </text>
+                ))}
+                
                 {/* Grid lines */}
-                {[0, 1, 2, 3, 4].map((i) => (
+                {[0, 1, 2, 3, 4, 5].map((i) => (
                   <line
                     key={i}
-                    x1="40"
-                    y1={40 + i * 42}
-                    x2="580"
-                    y2={40 + i * 42}
-                    stroke="#e5e7eb"
+                    x1="50"
+                    y1={240 - i * 48}
+                    x2="670"
+                    y2={240 - i * 48}
+                    stroke="#f3f4f6"
                     strokeWidth="1"
                   />
                 ))}
                 
-                {/* Area under curve */}
+                {/* Area under curve - smooth bezier curve */}
                 <path
-                  d="M 40 140 L 120 120 L 200 110 L 280 115 L 360 95 L 440 80 L 520 85 L 580 75 L 580 220 L 40 220 Z"
+                  d="M 50 180 
+                     C 80 175, 110 170, 140 165
+                     C 170 160, 200 155, 230 150
+                     C 260 145, 290 140, 320 135
+                     C 350 128, 380 115, 410 105
+                     C 440 95, 470 88, 500 82
+                     C 530 76, 560 72, 590 70
+                     C 620 68, 645 67, 670 65
+                     L 670 250 L 50 250 Z"
                   fill="url(#areaGradient)"
                 />
                 
-                {/* Line */}
+                {/* Line - smooth bezier curve */}
                 <path
-                  d="M 40 140 L 120 120 L 200 110 L 280 115 L 360 95 L 440 80 L 520 85 L 580 75"
+                  d="M 50 180 
+                     C 80 175, 110 170, 140 165
+                     C 170 160, 200 155, 230 150
+                     C 260 145, 290 140, 320 135
+                     C 350 128, 380 115, 410 105
+                     C 440 95, 470 88, 500 82
+                     C 530 76, 560 72, 590 70
+                     C 620 68, 645 67, 670 65"
                   fill="none"
                   stroke="#6366f1"
-                  strokeWidth="3"
+                  strokeWidth="2.5"
                   strokeLinecap="round"
                   strokeLinejoin="round"
+                />
+                
+                {/* X-axis */}
+                <line
+                  x1="50"
+                  y1="250"
+                  x2="670"
+                  y2="250"
+                  stroke="#e5e7eb"
+                  strokeWidth="1"
                 />
                 
                 {/* X-axis labels */}
                 {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, i) => (
                   <text
                     key={day}
-                    x={40 + i * 90}
-                    y="240"
-                    fill="#6b7280"
+                    x={50 + i * 90}
+                    y="268"
+                    fill="#9ca3af"
                     fontSize="12"
                     textAnchor="middle"
                   >
@@ -137,10 +178,11 @@ export default function DashboardOverview() {
             </div>
           </Card>
 
-          {/* Rewards Distribution */}
+
+         {/* Rewards Distribution */}
           <Card className="p-6 bg-white border border-gray-200">
             <h3 className="text-lg font-semibold text-gray-900 mb-6">Rewards Distribution</h3>
-            <div className="flex items-center justify-center mb-6">
+            <div className="flex items-center justify-center">
               <svg className="w-48 h-48" viewBox="0 0 200 200">
                 <circle cx="100" cy="100" r="80" fill="none" stroke="#e5e7eb" strokeWidth="20" />
                 <circle
@@ -187,22 +229,6 @@ export default function DashboardOverview() {
                   transform="rotate(-90 100 100)"
                 />
               </svg>
-            </div>
-            <div className="space-y-3">
-              {[
-                { color: 'bg-blue-500', label: 'Referral Rewards', value: '30%' },
-                { color: 'bg-red-500', label: 'Usage Rewards', value: '25%' },
-                { color: 'bg-yellow-500', label: 'Bonus Rewards', value: '20%' },
-                { color: 'bg-green-500', label: 'Uptime Rewards', value: '25%' }
-              ].map((item, idx) => (
-                <div key={idx} className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className={`w-3 h-3 rounded-full ${item.color}`}></div>
-                    <span className="text-sm text-gray-600">{item.label}</span>
-                  </div>
-                  <span className="text-sm font-semibold text-gray-900">{item.value}</span>
-                </div>
-              ))}
             </div>
           </Card>
         </div>

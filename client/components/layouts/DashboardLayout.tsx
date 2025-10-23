@@ -13,7 +13,7 @@ export default function DashboardLayout() {
   const menuItems = [
     { label: "Hotspots", path: "/dashboard/hotspots", icon: Wifi },
     { label: "Referrals", path: "/dashboard/referrals", icon: Users },
-    { label: "Rewards", path: "/dashboard/rewards", icon: Gift },
+    { label: "Rewards", path: "/dashboard/earnings", icon: Gift },
     { label: "Store", path: "/dashboard/store", icon: Home },
     { label: "Settings", path: "/dashboard/settings", icon: Settings },
   ];
@@ -31,23 +31,14 @@ export default function DashboardLayout() {
           sidebarOpen ? "w-64" : "w-20"
         } bg-sidebar border-r border-sidebar-border transition-all duration-300 flex flex-col`}
       >
-        {/* Logo */}
-        <div className="p-6 border-b border-sidebar-border">
-          {sidebarOpen ? (
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <Wifi className="w-5 h-5 text-white" />
-              </div>
-              <span className="text-xl font-bold text-sidebar-foreground">KonnectX</span>
-            </div>
-          ) : (
-            <div className="flex justify-center">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <Wifi className="w-5 h-5 text-white" />
-              </div>
-            </div>
-          )}
-        </div>
+       {/* Logo Section */}
+    <div className="flex items-center gap-2">
+      <img
+        src="/footericon/Frame4.png" 
+        alt="KonnectX Logo"
+        className="w-25 h-25 object-contain" 
+      />
+    </div>
 
         {/* Menu Items */}
         <nav className="flex-1 p-4 space-y-1">
@@ -55,14 +46,14 @@ export default function DashboardLayout() {
             <a
               key={item.path}
               href={item.path}
-              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition ${
+              className={`flex items-center gap-8 px-4 py-3 rounded-lg transition ${
                 location.pathname === item.path
-                  ? "bg-gray-900 text-white dark:bg-white dark:text-gray-900"
-                  : "text-sidebar-foreground hover:bg-sidebar-accent"
+                  ? "bg-gray-900 text-white dark:bg-white dark:text-gray-900 "
+                  : "text-sidebar-foreground hover:bg-black hover:text-white"
               }`}
             >
-              <item.icon className="w-5 h-5" />
-              {sidebarOpen && <span className="font-medium">{item.label}</span>}
+              <item.icon className="w-7 h-7" />
+              {sidebarOpen && <span className="font-Bold text-xl">{item.label}</span>}
             </a>
           ))}
         </nav>
