@@ -190,7 +190,7 @@ export default function DashboardReward() {
   <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
     {/* Title */}
     <h3
-      className={`text-lg font-semibold ${
+      className={`text-xl font-bold ${
         theme === 'dark' ? 'text-white' : 'text-gray-900'
       }`}
     >
