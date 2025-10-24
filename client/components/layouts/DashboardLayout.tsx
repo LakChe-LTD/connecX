@@ -140,14 +140,14 @@ export default function DashboardLayout() {
               <>
                 <button className={`px-4 py-2 text-sm font-medium rounded-lg transition ${
                   theme === 'dark'
-                    ? 'text-white bg-gray-900 border border-gray-700 hover:bg-gray-800'
+                    ? 'text-blue-500 bg-gray-900 border border-blue-500 hover:bg-gray-800'
                     : 'text-gray-700 bg-white border border-gray-300 hover:bg-gray-50'
                 }`}>
                   Join Smith
                 </button>
                 <button className={`px-4 py-2 text-sm font-medium rounded-lg transition ${
                   theme === 'dark'
-                    ? 'text-black bg-white hover:bg-gray-200'
+                    ? 'text-black bg-blue-500 hover:bg-gray-200'
                     : 'text-white bg-gray-900 hover:bg-gray-800'
                 }`}>
                   Connect Wallet

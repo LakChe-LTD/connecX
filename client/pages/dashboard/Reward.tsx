@@ -39,7 +39,7 @@ export default function DashboardReward() {
   return (
     <div className="space-y-6">
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card className={`p-6 ${
           theme === 'dark' 
             ? 'bg-[#333436] border-[#2b2b2c]'
@@ -51,7 +51,11 @@ export default function DashboardReward() {
           <h3 className={`text-3xl font-bold ${
             theme === 'dark' ? 'text-white' : 'text-gray-900'
           }`}>458.61</h3>
-          <p className="text-sm text-blue-600 mt-2">1.12.8% vs last month</p>
+          <p className="text-sm mt-2">
+  <span className="text-green-600 font-semibold">1.12.8%</span>{' '}
+  <span className="text-gray-300">vs last month</span>
+</p>
+          
         </Card>
 
         <Card className={`p-6 ${
@@ -65,9 +69,11 @@ export default function DashboardReward() {
           <h3 className={`text-3xl font-bold ${
             theme === 'dark' ? 'text-white' : 'text-gray-900'
           }`}>38,190.95</h3>
-          <p className={`text-sm mt-2 ${
-            theme === 'dark' ? 'text-gray-400' : 'text-gray-400'
-          }`}>3.6.5% vs previous average</p>
+          <p className="text-sm mt-2">
+  <span className="text-green-600 font-semibold">3.6.5% </span>{' '}
+  <span className="text-gray-300">vs previous average</span>
+</p>
+
         </Card>
 
         <Card className={`p-6 ${
@@ -81,26 +87,14 @@ export default function DashboardReward() {
           <h3 className={`text-3xl font-bold ${
             theme === 'dark' ? 'text-white' : 'text-gray-900'
           }`}>1,284</h3>
-          <p className={`text-sm mt-2 ${
-            theme === 'dark' ? 'text-gray-400' : 'text-gray-400'
-          }`}>1.02.2% vs last month</p>
+          <p className="text-sm mt-2">
+  <span className="text-green-600 font-semibold">1.02.2%</span>{' '}
+  <span className="text-gray-300">vs last month</span>
+</p>
+
         </Card>
 
-        <Card className={`p-6 ${
-          theme === 'dark' 
-            ? 'bg-[#333436] border-[#2b2b2c]'
-            : 'bg-white border-gray-200'
-        }`}>
-          <p className={`text-sm mb-1 ${
-            theme === 'dark' ? 'text-gray-400' : 'text-gray-500'
-          }`}>Total Connections</p>
-          <h3 className={`text-3xl font-bold ${
-            theme === 'dark' ? 'text-white' : 'text-gray-900'
-          }`}>2,847</h3>
-          <p className={`text-sm mt-2 ${
-            theme === 'dark' ? 'text-gray-400' : 'text-gray-400'
-          }`}>Active nodes online</p>
-        </Card>
+        
       </div>
 
       {/* Charts Section */}
@@ -126,7 +120,7 @@ export default function DashboardReward() {
           </div>
           <ResponsiveContainer width="100%" height={250}>
             <BarChart data={monthlyData}>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={theme === 'dark' ? '#1f2937' : '#f0f0f0'} />
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={theme === 'dark' ? '#FFFFFF' : '#A9A9A9'} />
               <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: theme === 'dark' ? '#9ca3af' : '#6b7280' }} />
               <YAxis axisLine={false} tickLine={false} tick={{ fill: theme === 'dark' ? '#9ca3af' : '#6b7280' }} />
               <Tooltip 
@@ -169,7 +163,7 @@ export default function DashboardReward() {
                   <stop offset="95%" stopColor="#4f46e5" stopOpacity={0}/>
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={theme === 'dark' ? '#1f2937' : '#f0f0f0'} />
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={theme === 'dark' ? '#FFFFFF' : '#A9A9A9'} />
               <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: theme === 'dark' ? '#9ca3af' : '#6b7280' }} />
               <YAxis axisLine={false} tickLine={false} tick={{ fill: theme === 'dark' ? '#9ca3af' : '#6b7280' }} />
               <Tooltip 
@@ -186,47 +180,77 @@ export default function DashboardReward() {
       </div>
 
       {/* Hotspots List */}
-      <Card className={`p-6 ${
-        theme === 'dark' 
-          ? 'bg-black border-black'
-          : 'bg-white border-gray-200'
-      }`}>
-        <div className="flex items-center justify-between mb-6">
-          <h3 className={`text-lg font-semibold ${
-            theme === 'dark' ? 'text-white' : 'text-gray-900'
-          }`}>Hotspots List</h3>
-          <div className="flex gap-2">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search products..."
-                className={`border rounded-md pl-9 pr-4 py-2 text-sm w-64 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                  theme === 'dark'
-                    ? 'bg-gray-900 border-gray-800 text-white placeholder-gray-500'
-                    : 'border-gray-300'
-                }`}
-              />
-              <svg className="w-4 h-4 absolute left-3 top-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </div>
-            <select className={`border rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-              theme === 'dark'
-                ? 'bg-gray-900 border-gray-800 text-white'
-                : 'border-gray-300'
-            }`}>
-              <option>All Status</option>
-              <option>Active</option>
-              <option>Inactive</option>
-            </select>
-            <Button className={`px-4 py-2 ${
-              theme === 'dark'
-                ? 'bg-white text-black hover:bg-gray-200'
-                : 'bg-gray-900 text-white hover:bg-gray-800'
-            }`}>
-              <Filter className="w-4 h-4 mr-2" />
-              Filter
-            </Button>
+<Card
+  className={`p-6 ${
+    theme === 'dark'
+      ? 'bg-black border-black'
+      : 'bg-white border-gray-200'
+  }`}
+>
+  <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
+    {/* Title */}
+    <h3
+      className={`text-lg font-semibold ${
+        theme === 'dark' ? 'text-white' : 'text-gray-900'
+      }`}
+    >
+      Hotspots List
+    </h3>
+
+    {/* Search + Filter Section */}
+    <div className="flex items-center justify-center gap-3 w-full md:w-auto">
+      {/* Search Input */}
+      <div className="flex justify-center my-4">
+      <div className="relative w-full md:w-96">
+        <input
+          type="text"
+          placeholder="Search products..."
+          className={`border rounded-md pl-10 pr-4 py-2 text-sm w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+            theme === 'dark'
+              ? 'bg-black border-gray-800 text-white placeholder-gray-500'
+              : 'border-gray-300'
+          }`}
+        />
+        <svg
+          className="w-4 h-4 absolute left-3 top-3 text-gray-400"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+          />
+        </svg>
+        </div>
+      </div>
+
+      {/* Filter Dropdown */}
+      <select
+        className={`border rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+          theme === 'dark'
+            ? 'bg-gray-900 border-gray-800 text-blue-500'
+            : 'border-gray-300'
+        }`}
+      >
+        <option>All Status</option>
+        <option>Active</option>
+        <option>Inactive</option>
+      </select>
+
+      {/* Filter Button */}
+      <Button
+        className={`px-4 py-2 flex items-center ${
+          theme === 'dark'
+            ? 'bg-blue-500 text-black text-xl hover:bg-gray-200'
+            : 'bg-gray-900 text-white hover:bg-gray-800'
+        }`}
+      >
+        <Filter className="w-4 h-4 mr-2" />
+        Filter
+      </Button>
           </div>
         </div>
 
@@ -235,8 +259,8 @@ export default function DashboardReward() {
             <thead>
               <tr className={`border-b ${
                 theme === 'dark' 
-                  ? 'border-gray-800 bg-gray-900/50'
-                  : 'border-gray-200 bg-gray-50'
+                  ? 'border-black bg-black'
+                  : 'border-white bg-white'
               }`}>
                 <th className={`text-left py-4 px-4 font-semibold text-sm ${
                   theme === 'dark' ? 'text-gray-400' : 'text-gray-700'
