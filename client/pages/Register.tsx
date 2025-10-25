@@ -84,7 +84,7 @@ export default function Register() {
         </div>
 
         {/* Register Card */}
-        <div className="bg-white dark:bg-card rounded-3xl shadow-2xl p-10">
+        <div className="bg-white dark:bg-black rounded-3xl shadow-2xl p-10">
           {/* Header */}
           <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-8">Register</h2>
 
@@ -196,7 +196,7 @@ export default function Register() {
             {/* Create Account Button */}
             <Button
               type="submit"
-              className="w-full bg-black hover:bg-gray-800 text-white font-semibold py-3.5 rounded-xl transition h-auto text-base mt-6"
+              className="w-full bg-black hover:bg-gray-800 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-semibold py-3.5 rounded-xl transition h-auto text-base mt-6"
             >
               Create Account
             </Button>
