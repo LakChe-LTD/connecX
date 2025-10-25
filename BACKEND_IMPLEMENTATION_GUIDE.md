@@ -148,71 +148,62 @@ userSchema.index({ createdAt: -1 });
 
 ### 2. Hotspot Model
 ```javascript
-// models/Hotspot.js
-const hotspotSchema = new mongoose.Schema({
+/ models/User.js
+const userSchema = new mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
-  },
-  name: {
+  firstName: {
     type: String,
     required: true,
     trim: true
   },
-  ssid: {
+  lastName: {
     type: String,
     required: true,
-    unique: true
+    trim: true
   },
-  location: {
-    latitude: Number,
-    longitude: Number,
-    address: String,
-    city: String,
-    state: String,
-    country: String
-  },
-  status: {
+  email: {
     type: String,
-    enum: ['online', 'offline', 'maintenance'],
-    default: 'offline'
+    required: true,
+    unique: true,
+    lowercase: true,
+    match: /.+\@.+\..+/
   },
-  bandwidthLimit: {
-    type: Number, // in GB per month
-    default: 100
+  password: {
+    type: String,
+    required: true,
+    minlength: 8,
+    select: false // Don't return password by default
   },
-  bandwidthUsed: {
-    type: Number,
-    default: 0
-  },
-  connectedUsers: {
-    type: Number,
-    default: 0
-  },
-  maxConnections: {
-    type: Number,
-    default: 50
-  },
-  monthlyEarnings: {
-    type: Number,
-    default: 0
+  phone: String,
+  location: String,
+  bio: String,
+  profileImage: String,
+  role: {
+    type: String,
+    enum: ['user', 'admin'],
+    default: 'user'
   },
   totalEarnings: {
     type: Number,
     default: 0
   },
-  hardware: {
-    model: String,
-    macAddress: String,
-    ipAddress: String,
-    firmwareVersion: String
+  availableBalance: {
+    type: Number,
+    default: 0
   },
-  performance: {
-    averageSpeed: Number, // Mbps
-    uptime: Number, // percentage
-    lastChecked: Date
+  bankAccount: {
+    accountHolder: String,
+    accountNumber: String,
+    routingNumber: String,
+    bankName: String
+  },
+  twoFactorEnabled: {
+    type: Boolean,
+    default: false
+  },
+  emailVerified: {
+    type: Boolean,
+    default: false
   },
   createdAt: {
     type: Date,
@@ -221,11 +212,17 @@ const hotspotSchema = new mongoose.Schema({
   updatedAt: {
     type: Date,
     default: Date.now
+  },
+  lastLogin: Date,
+  isActive: {
+    type: Boolean,
+    default: true
   }
 }, { timestamps: true });
 
-hotspotSchema.index({ userId: 1 });
-hotspotSchema.index({ status: 1 });
+// Index for faster queries
+userSchema.index({ email: 1 });
+userSchema.index({ createdAt: -1 });
 ```
 
 ### 3. Analytics Model
