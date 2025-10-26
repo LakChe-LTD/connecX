@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useApp } from "@/contexts/AppContext";
-import { Menu, X, LogOut, Settings, Moon, Sun, BarChart3, TrendingUp, User } from "lucide-react";
+import { Menu, X, LogOut, Settings, Moon, Sun, BarChart3, TrendingUp, User, Wifi, Users, Gift, Home, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function DashboardLayout() {
@@ -11,9 +11,11 @@ export default function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const menuItems = [
-    { label: "Overview", path: "/dashboard", icon: BarChart3 },
-    { label: "Earnings", path: "/dashboard/earnings", icon: TrendingUp },
-    { label: "Profile", path: "/dashboard/profile", icon: User },
+    { label: "Hotspots", path: "/dashboard/Overview", icon: Wifi },
+    { label: "Referrals", path: "/dashboard/referrals", icon: Users },
+    { label: "Rewards", path: "/dashboard/Reward", icon: Gift },
+    { label: "Store", path: "/dashboard/store", icon: Home },
+    { label: "Settings", path: "/dashboard/settings", icon: Settings },
   ];
 
   if (!user) {
@@ -48,21 +50,39 @@ export default function DashboardLayout() {
         </div>
 
         {/* Menu Items */}
-        <nav className="flex-1 p-4 space-y-2">
-          {menuItems.map((item) => (
+        <nav className="flex-1 p-4 space-y-1">
+          {isRewardPage ? (
+            // Back button when on Reward page
             <a
-              key={item.path}
-              href={item.path}
-              className={`flex items-center gap-4 px-4 py-3 rounded-lg transition ${
-                location.pathname === item.path
-                  ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                  : "text-sidebar-foreground hover:bg-sidebar-accent"
+              href="/dashboard/Overview"
+              className={`flex items-center gap-8 px-4 py-3 rounded-lg transition-all duration-200 ${
+                theme === 'dark' 
+                  ? 'bg-blue-600 text-white hover:bg-blue-700' 
+                  : 'bg-blue-600 text-white hover:bg-blue-700'
               }`}
             >
-              <item.icon size={20} />
-              {sidebarOpen && <span>{item.label}</span>}
+              <ArrowLeft className="w-7 h-7" />
+              {sidebarOpen && <span className="font-Bold text-xl">Back</span>}
             </a>
-          ))}
+          ) : (
+            // Regular menu items
+            menuItems.map((item) => (
+              <a
+                key={item.path}
+                href={item.path}
+                className={`flex items-center gap-8 px-4 py-3 rounded-lg transition-all duration-200 ${
+                  location.pathname === item.path
+                    ? 'bg-blue-600 text-white'
+                    : theme === 'dark'
+                      ? 'text-gray-300 hover:bg-blue-600 hover:text-white'
+                      : 'text-gray-700 hover:bg-gray-900 hover:text-white'
+                }`}
+              >
+                <item.icon className="w-7 h-7" />
+                {sidebarOpen && <span className="font-Bold text-xl">{item.label}</span>}
+              </a>
+            ))
+          )}
         </nav>
 
         {/* Bottom Actions */}
