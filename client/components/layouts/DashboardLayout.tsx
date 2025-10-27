@@ -13,7 +13,7 @@ export default function DashboardLayout() {
    const isRewardPage = location.pathname === "/dashboard/Reward";
 
   const menuItems = [
-    { label: "Hotspots", path: "/dashboard/Overview", icon: Wifi },
+    { label: "Hotspots", path: "/dashboard/", icon: Wifi },
     { label: "Referrals", path: "/dashboard/Referrals", icon: Users },
     { label: "Rewards", path: "/dashboard/Reward", icon: Gift },
     { label: "Store", path: "/dashboard/store", icon: Home },
@@ -47,7 +47,7 @@ export default function DashboardLayout() {
           {isRewardPage ? (
             // Back button when on Reward page
             <a
-              href="/dashboard/Overview"
+              href="/dashboard/"
               className={`flex items-center gap-8 px-4 py-3 rounded-lg transition-all duration-200 ${
                 theme === 'dark' 
                   ? 'bg-blue-600 text-white hover:bg-blue-700' 
