@@ -14,7 +14,7 @@ export default function DashboardLayout() {
 
   const menuItems = [
     { label: "Hotspots", path: "/dashboard/Overview", icon: Wifi },
-    { label: "Referrals", path: "/dashboard/referrals", icon: Users },
+    { label: "Referrals", path: "/dashboard/Referrals", icon: Users },
     { label: "Rewards", path: "/dashboard/Reward", icon: Gift },
     { label: "Store", path: "/dashboard/store", icon: Home },
     { label: "Settings", path: "/dashboard/settings", icon: Settings },

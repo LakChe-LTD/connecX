@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowLeft, X, Menu, Users, Send, CheckCircle, Gift, Copy, Facebook, Twitter, Share2 } from 'lucide-react';
 
-export default function ReferralProgram() {
+export default function DashboardReferral() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [copied, setCopied] = useState(false);
 

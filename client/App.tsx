@@ -12,6 +12,7 @@ import SignIn from "./pages/SignIn";
 import Register from "./pages/Register";
 import DashboardLayout from "./components/layouts/DashboardLayout";
 import DashboardOverview from "./pages/dashboard/Overview";
+import DashboardReferral from "./pages/dashboard/Referrals";
 import DashboardReward from "./pages/dashboard/Reward";
 import DashboardProfile from "./pages/dashboard/Profile";
 import AdminLayout from "./components/layouts/AdminLayout";
@@ -37,6 +38,7 @@ const App = () => (
             <Route element={<DashboardLayout />}>
               <Route path="/dashboard" element={<DashboardOverview />} />
               <Route path="/dashboard/reward" element={<DashboardReward />} />
+               <Route path="/dashboard/Referrals" element={<DashboardReferral />} />
               <Route path="/dashboard/profile" element={<DashboardProfile />} />
             </Route>
 
