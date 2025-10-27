@@ -1,5 +1,4 @@
 import "./global.css";
-
 import { Toaster } from "@/components/ui/toaster";
 import { createRoot } from "react-dom/client";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -13,7 +12,7 @@ import SignIn from "./pages/SignIn";
 import Register from "./pages/Register";
 import DashboardLayout from "./components/layouts/DashboardLayout";
 import DashboardOverview from "./pages/dashboard/Overview";
-import DashboardEarnings from "./pages/dashboard/Earnings";
+import DashboardReward from "./pages/dashboard/Reward";
 import DashboardProfile from "./pages/dashboard/Profile";
 import AdminLayout from "./components/layouts/AdminLayout";
 import AdminOverview from "./pages/admin/Overview";
@@ -37,7 +36,7 @@ const App = () => (
             
             <Route element={<DashboardLayout />}>
               <Route path="/dashboard" element={<DashboardOverview />} />
-              <Route path="/dashboard/earnings" element={<DashboardEarnings />} />
+              <Route path="/dashboard/reward" element={<DashboardReward />} />
               <Route path="/dashboard/profile" element={<DashboardProfile />} />
             </Route>
 
@@ -56,3 +55,6 @@ const App = () => (
 );
 
 createRoot(document.getElementById("root")!).render(<App />);
+
+// 👇 Add this line
+export default App;

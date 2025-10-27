@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useApp } from "@/contexts/AppContext";
-import { Menu, X, LogOut, Settings, Moon, Sun, BarChart3, TrendingUp, User } from "lucide-react";
+import { Menu, X, LogOut, Settings, Moon, Sun, Wifi, Users, Gift, Home, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function DashboardLayout() {
@@ -10,10 +10,14 @@ export default function DashboardLayout() {
   const { user, logout, theme, toggleTheme } = useApp();
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
+  const isRewardPage = location.pathname === "/dashboard/Reward";
+
   const menuItems = [
-    { label: "Overview", path: "/dashboard", icon: BarChart3 },
-    { label: "Earnings", path: "/dashboard/earnings", icon: TrendingUp },
-    { label: "Profile", path: "/dashboard/profile", icon: User },
+    { label: "Hotspots", path: "/dashboard/Overview", icon: Wifi },
+    { label: "Referrals", path: "/dashboard/referrals", icon: Users },
+    { label: "Rewards", path: "/dashboard/Reward", icon: Gift },
+    { label: "Store", path: "/dashboard/store", icon: Home },
+    { label: "Settings", path: "/dashboard/settings", icon: Settings },
   ];
 
   if (!user) {
@@ -22,86 +26,163 @@ export default function DashboardLayout() {
   }
 
   return (
-    <div className="flex h-screen bg-background">
+    <div className={`flex h-screen ${theme === 'dark' ? 'bg-black' : 'bg-background'}`}>
       {/* Sidebar */}
       <div
         className={`${
           sidebarOpen ? "w-64" : "w-20"
-        } bg-sidebar border-r border-sidebar-border transition-all duration-300 flex flex-col`}
+        } ${theme === 'dark' ?  'bg-[#333436] border-[#2b2b2c]' : 'bg-gray-100 border-gray-200'} border-r transition-all duration-300 flex flex-col`}
       >
-        {/* Logo */}
-        <div className="p-6 border-b border-sidebar-border flex items-center justify-between">
-          {sidebarOpen && (
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-sidebar-primary rounded-lg flex items-center justify-center">
-                <span className="text-sidebar-primary-foreground font-bold text-sm">KX</span>
-              </div>
-              <span className="font-bold text-sidebar-foreground">KonnectX</span>
-            </div>
-          )}
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="p-2 hover:bg-sidebar-accent rounded-lg transition text-sidebar-foreground"
-          >
-            {sidebarOpen ? <X size={18} /> : <Menu size={18} />}
-          </button>
+        {/* Logo Section */}
+        <div className="flex items-center gap-6">
+          <img
+            src="/footericon/Frame4.png" 
+            alt="KonnectX Logo"
+            className="w-25 h20- object-contain" 
+          />
         </div>
 
         {/* Menu Items */}
-        <nav className="flex-1 p-4 space-y-2">
-          {menuItems.map((item) => (
+        <nav className="flex-1 p-4 space-y-1">
+          {isRewardPage ? (
+            // Back button when on Reward page
             <a
-              key={item.path}
-              href={item.path}
-              className={`flex items-center gap-4 px-4 py-3 rounded-lg transition ${
-                location.pathname === item.path
-                  ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                  : "text-sidebar-foreground hover:bg-sidebar-accent"
+              href="/dashboard/Overview"
+              className={`flex items-center gap-8 px-4 py-3 rounded-lg transition-all duration-200 ${
+                theme === 'dark' 
+                  ? 'bg-blue-600 text-white hover:bg-blue-700' 
+                  : 'bg-blue-600 text-white hover:bg-blue-700'
               }`}
             >
-              <item.icon size={20} />
-              {sidebarOpen && <span>{item.label}</span>}
+              <ArrowLeft className="w-7 h-7" />
+              {sidebarOpen && <span className="font-Bold text-xl">Back</span>}
             </a>
-          ))}
+          ) : (
+            // Regular menu items
+            menuItems.map((item) => (
+              <a
+                key={item.path}
+                href={item.path}
+                className={`flex items-center gap-8 px-4 py-3 rounded-lg transition-all duration-200 ${
+                  location.pathname === item.path
+                    ? 'bg-blue-600 text-white'
+                    : theme === 'dark'
+                      ? 'text-gray-300 hover:bg-blue-600 hover:text-white'
+                      : 'text-gray-700 hover:bg-gray-900 hover:text-white'
+                }`}
+              >
+                <item.icon className="w-7 h-7" />
+                {sidebarOpen && <span className="font-Bold text-xl">{item.label}</span>}
+              </a>
+            ))
+          )}
         </nav>
 
-        {/* Bottom Actions */}
-        <div className="border-t border-sidebar-border p-4 space-y-2">
-          <button
-            onClick={toggleTheme}
-            className="w-full flex items-center gap-4 px-4 py-3 rounded-lg text-sidebar-foreground hover:bg-sidebar-accent transition"
-          >
-            {theme === "light" ? <Moon size={20} /> : <Sun size={20} />}
-            {sidebarOpen && <span>{theme === "light" ? "Dark" : "Light"}</span>}
-          </button>
-          <button
-            onClick={logout}
-            className="w-full flex items-center gap-4 px-4 py-3 rounded-lg text-sidebar-foreground hover:bg-sidebar-accent transition hover:text-red-500"
-          >
-            <LogOut size={20} />
-            {sidebarOpen && <span>Logout</span>}
-          </button>
+        {/* Bottom Section */}
+        <div className={`border-t ${theme === 'dark' ? 'border-gray-800' : 'border-gray-300'}`}>
+          {/* Dark Mode & Logout */}
+          <div className="p-4 space-y-2">
+            <button
+              onClick={toggleTheme}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
+                theme === 'dark' 
+                  ? 'text-gray-300 hover:bg-gray-800' 
+                  : 'text-gray-700 hover:bg-gray-200'
+              } ${!sidebarOpen && "justify-center"}`}
+            >
+              {theme === "light" ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
+              {sidebarOpen && <span className="font-medium">{theme === "light" ? "Dark" : "Light"}</span>}
+            </button>
+            <button
+              onClick={logout}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 hover:text-red-500 ${
+                theme === 'dark' 
+                  ? 'text-gray-300 hover:bg-gray-800' 
+                  : 'text-gray-700 hover:bg-gray-200'
+              } ${!sidebarOpen && "justify-center"}`}
+            >
+              <LogOut className="w-5 h-5" />
+              {sidebarOpen && <span className="font-medium">Logout</span>}
+            </button>
+          </div>
+
+          {/* User Profile */}
+          {sidebarOpen && (
+            <div className={`p-4 border-t ${theme === 'dark' ? 'border-gray-800' : 'border-gray-300'}`}>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-semibold">
+                  JD
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className={`text-sm font-semibold truncate ${theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>
+                    John Doe
+                  </p>
+                  <p className={`text-xs truncate ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+                    victorajuzie580@gmail.com
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Top Header */}
-        <header className="bg-card border-b border-border/40 px-6 py-4 flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-foreground">Dashboard</h2>
-          <div className="flex items-center gap-4">
-            <div className="text-right">
-              <p className="text-sm font-medium text-foreground">{user.name}</p>
-              <p className="text-xs text-foreground/60">{user.email}</p>
-            </div>
-            <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-bold">
-              {user.name.charAt(0)}
-            </div>
+        <header className={`px-6 py-4 flex items-center justify-between ${
+          theme === 'dark' ? 'bg-black border-b border-gray-800' : 'bg-gray-50'
+        }`}>
+          <h2 className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-foreground'}`}>
+            {isRewardPage ? "Rewards Dashboard" : "Dashboard Overview"}
+          </h2>
+          <div className="flex items-center gap-3">
+            {isRewardPage ? (
+              <>
+                <button className={`px-4 py-2 text-sm font-medium rounded-lg transition ${
+                  theme === 'dark'
+                    ? 'text-blue-500 bg-gray-900 border border-blue-500 hover:bg-gray-800'
+                    : 'text-gray-700 bg-white border border-gray-300 hover:bg-gray-50'
+                }`}>
+                  Join Smith
+                </button>
+                <button className={`px-4 py-2 text-sm font-medium rounded-lg transition ${
+                  theme === 'dark'
+                    ? 'text-black bg-blue-500 hover:bg-gray-200'
+                    : 'text-white bg-gray-900 hover:bg-gray-800'
+                }`}>
+                  Connect Wallet
+                </button>
+              </>
+            ) : (
+              <>
+                <button className={`px-4 py-2 text-sm font-medium rounded-lg transition ${
+                  theme === 'dark'
+                    ? 'text-blue-500 bg-gray-900 border border-blue-500 hover:bg-gray-800'
+                    : 'text-gray-700 bg-white border border-gray-300 hover:bg-gray-50'
+                }`}>
+                  ↑ Export
+                </button>
+                <button className={`px-4 py-2 text-sm font-medium rounded-lg transition ${
+                  theme === 'dark'
+                    ? 'text-black bg-blue-500 hover:bg-gray-200'
+                    : 'text-white bg-gray-900 hover:bg-gray-800'
+                }`}>
+                  + Add Hotspot
+                </button>
+              </>
+            )}
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className={`p-2 rounded-lg transition lg:hidden ${
+                theme === 'dark' ? 'hover:bg-gray-900 text-white' : 'hover:bg-accent text-foreground'
+              }`}
+            >
+              {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
           </div>
         </header>
-
         {/* Page Content */}
-        <main className="flex-1 overflow-auto">
+        <main className={`flex-1 overflow-auto ${theme === 'dark' ? 'bg-black' : 'bg-gray-50'}`}>
           <div className="p-6">
             <Outlet />
           </div>
