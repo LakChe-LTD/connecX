@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useApp } from "@/contexts/AppContext";
 import { Menu, X, LogOut, Settings, Moon, Sun, BarChart3, TrendingUp, User, Wifi, Users, Gift, Home, ArrowLeft } from "lucide-react";
+import { usePathname } from 'next/navigation';
 import { Button } from "@/components/ui/button";
 
 export default function DashboardLayout() {
@@ -9,6 +10,9 @@ export default function DashboardLayout() {
   const location = useLocation();
   const { user, logout, theme, toggleTheme } = useApp();
   const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  const pathname = usePathname();
+  const isRewardPage = pathname === '/dashboard/reward';
 
   const menuItems = [
     { label: "Hotspots", path: "/dashboard/Overview", icon: Wifi },
