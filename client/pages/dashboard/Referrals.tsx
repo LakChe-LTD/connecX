@@ -53,7 +53,7 @@ export default function ReferralProgram() {
         {stats.map((stat, idx) => (
           <div key={idx} className="bg-white dark:bg-[#333436] rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-gray-600 dark:text-gray-400 text-sm">{stat.label}</span>
+              <span className="text-gray-600 dark:text-white text-xl">{stat.label}</span>
               <stat.icon className={`w-5 h-5 ${stat.color}`} />
             </div>
             <div className="text-3xl font-bold text-gray-900 dark:text-white">{stat.value}</div>
@@ -67,17 +67,17 @@ export default function ReferralProgram() {
         <div className="col-span-2 space-y-6">
           {/* Referral Link Section */}
           <div className="bg-white dark:bg-[#333436] rounded-xl p-6 border border-gray-200 dark:border-gray-700">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Your Referral Link</h2>
+            <h2 className="text-xl font-bold text-black dark:text-white mb-4">Your Referral Link</h2>
             <div className="flex gap-3 mb-4">
               <input
                 type="text"
                 value={referralLink}
                 readOnly
-                className="flex-1 px-4 py-3 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-700 dark:text-gray-300"
+                className="flex-1 px-4 py-3 bg-gray-50 dark:bg-[#333436] border border-gray-200 dark:border-gray-600 rounded-lg text-sm text-gray-700 dark:text-gray-300"
               />
               <button
                 onClick={handleCopy}
-                className="px-6 py-3 bg-gray-900 dark:bg-gray-700 text-white rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-gray-800 dark:hover:bg-gray-600"
+                className="px-6 py-3 bg-gray-900 dark:bg-blue-800 text-white rounded-lg text-sm  font-medium flex items-center gap-2    hover:bg-gray-800 dark:hover:bg-gray-600"
               >
                 <Copy className="w-4 h-4" />
                 {copied ? 'Copied!' : 'Copy'}
@@ -102,11 +102,11 @@ export default function ReferralProgram() {
           {/* Progress to Next Reward */}
           <div className="bg-white dark:bg-[#333436] rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold text-gray-900 dark:text-white">Progress to Next Reward</h2>
-              <span className="text-sm text-gray-600 dark:text-gray-400">Next Reward: $100 Bonus</span>
+              <h2 className="text-xl font-bold text-black dark:text-white">Progress to Next Reward</h2>
+              <span className="text-sm text-black dark:text-gray-400">Next Reward: $100 Bonus</span>
             </div>
             <div className="mb-6">
-              <div className="text-sm text-gray-600 dark:text-gray-400 mb-2">21/30 Referrals</div>
+              <div className="text-sm text-black dark:text-gray-400 mb-2">21/30 Referrals</div>
               <div className="h-3 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
                 <div className="h-full bg-gradient-to-r from-green-400 to-blue-500" style={{ width: '70%' }}></div>
               </div>
@@ -117,28 +117,28 @@ export default function ReferralProgram() {
                 <div className="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mb-2 mx-auto">
                   <CheckCircle className="w-6 h-6 text-green-600 dark:text-green-400" />
                 </div>
-                <div className="text-xs font-semibold text-gray-900 dark:text-white">Bronze</div>
+                <div className="text-xs font-bold text-black dark:text-white">Bronze</div>
                 <div className="text-xs text-gray-500 dark:text-gray-400">10 Referrals</div>
               </div>
               <div className="text-center">
                 <div className="w-10 h-10 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mb-2 mx-auto">
                   <CheckCircle className="w-6 h-6 text-green-600 dark:text-green-400" />
                 </div>
-                <div className="text-xs font-semibold text-gray-900 dark:text-white">Silver</div>
+                <div className="text-xs font-bold text-black dark:text-white">Silver</div>
                 <div className="text-xs text-gray-500 dark:text-gray-400">15 Referrals</div>
               </div>
               <div className="text-center">
                 <div className="w-10 h-10 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mb-2 mx-auto">
                   <Gift className="w-6 h-6 text-gray-400" />
                 </div>
-                <div className="text-xs font-semibold text-gray-900 dark:text-white">Gold</div>
+                <div className="text-xs font-bold text-black dark:text-white">Gold</div>
                 <div className="text-xs text-gray-500 dark:text-gray-400">20 Referrals</div>
               </div>
               <div className="text-center">
                 <div className="w-10 h-10 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center mb-2 mx-auto">
                   <Gift className="w-6 h-6 text-gray-400" />
                 </div>
-                <div className="text-xs font-semibold text-gray-900 dark:text-white">Platinum</div>
+                <div className="text-xs font-bold text-black dark:text-white">Platinum</div>
                 <div className="text-xs text-gray-500 dark:text-gray-400">30 Referrals</div>
               </div>
             </div>
