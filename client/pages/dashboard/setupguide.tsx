@@ -29,8 +29,8 @@ export default function KonnectXSetupGuide() {
           {/* Step Header */}
           <div className="bg-white dark:bg-[#333436] rounded-xl p-6 border border-gray-200 dark:border-gray-700">
             <div className="flex items-center justify-between mb-2 ">
-              <h2 className="text-lg font-semibold text-gray-800 dark:text-white">Step 1: Device Connection</h2>
-              <span className="text-sm text-gray-500 dark:text-white">Step 1 of 4</span>
+              <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200">Step 1: Device Connection</h2>
+              <span className="text-sm text-gray-500 dark:text-gray-200">Step 1 of 4</span>
                 
              
             </div>
@@ -42,11 +42,11 @@ export default function KonnectXSetupGuide() {
                 <Wifi className="w-5 h-5 text-gray-700" />
               </div>
               <div>
-                <h3 className="font-medium text-gray-800 mb-1 dark:text-white">Connect Your Device</h3>
-                <p className="text-sm text-gray-600 dark:text-white">
+                <h3 className="font-medium text-gray-800 mb-1 dark:text-gray-200">Connect Your Device</h3>
+                <p className="text-sm text-gray-600 dark:text-gray-200">
                   Next Reward: $100 Bonus
                 </p>
-                <p className="text-sm text-gray-500 mt-1 dark:text-white">
+                <p className="text-sm text-gray-500 mt-1 dark:text-gray-200">
                   Ensure your hotspot device is powered on and within range of your computer or mobile device.
                 </p>
               </div>
@@ -57,19 +57,19 @@ export default function KonnectXSetupGuide() {
               <h4 className="text-sm font-medium text-gray-700 mb-3 dark:text-white">Available Devices</h4>
               <div className="space-y-2">
                 <div className="border border-gray-200 rounded-lg p-3 hover:border-blue-300 transition-colors cursor-pointer">
-                  <div className="font-medium text-gray-800 text-sm dark:text-white">Hotspot_Device_323</div>
-                  <div className="text-xs text-gray-500 dark:text-white">Signal Strength: Excellent</div>
+                  <div className="font-medium text-gray-800 text-sm dark:text-gray-200">Hotspot_Device_323</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-200">Signal Strength: Excellent</div>
                 </div>
                 <div className="border border-gray-200 rounded-lg p-3 hover:border-blue-300 transition-colors cursor-pointer">
-                  <div className="font-medium text-gray-800 text-sm dark:text-white">Hotspot_Device_323</div>
-                  <div className="text-xs text-gray-500 dark:text-white">Signal Strength: Excellent</div>
+                  <div className="font-medium text-gray-800 text-sm dark:text-gray-200">Hotspot_Device_323</div>
+                  <div className="text-xs text-gray-500 dark:text-gray-200">Signal Strength: Excellent</div>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Continue Button */}
-          <button className="bg-black text-white px-6 py-2.5 rounded text-sm font-medium dark:bg-blue-600 dark:text-black hover:bg-gray-800 transition-colors flex items-center gap-2">
+          <button className="bg-black text-gray-200 px-6 py-2.5 rounded text-sm font-medium dark:bg-blue-600 dark:text-black hover:bg-gray-800 transition-colors flex items-center gap-2">
             Continue to Network Setup
             <span>→</span>
           </button>
@@ -80,15 +80,15 @@ export default function KonnectXSetupGuide() {
 
           {/* FAQ Section */}
           <div className="bg-white dark:bg-[#333436] rounded-xl p-6 border border-gray-200 dark:border-gray-700">
-            <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">Frequently Asked Questions</h3>
+            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">Frequently Asked Questions</h3>
             <div className="space-y-2">
               {faqs.map((faq, index) => (
-                <div key={index} className="border border-gray-200 rounded-lg">
+                <div key={index} className="border border-gray-200 lg">
                   <button
                     onClick={() => setExpandedFAQ(expandedFAQ === index ? null : index)}
                     className="w-full px-4 py-3 flex items-center justify-between text-left"
                   >
-                    <span className="text-sm font-medium text-gray-800 dark:text-white ">{faq.question}</span>
+                    <span className="text-sm font-medium text-gray-800 dark:text-gray-200 ">{faq.question}</span>
                     <ChevronDown 
                       className={`w-4 h-4 text-gray-500 transition-transform ${
                         expandedFAQ === index ? 'rotate-180' : ''
@@ -96,7 +96,7 @@ export default function KonnectXSetupGuide() {
                     />
                   </button>
                   {expandedFAQ === index && (
-                    <div className="px-4 pb-3 text-sm text-gray-600 dark:text-white">
+                    <div className="px-4 pb-3 text-sm text-gray-600 dark:text-gray-200">
                       {faq.answer}
                     </div>
                   )}

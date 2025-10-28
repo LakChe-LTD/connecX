@@ -13,6 +13,7 @@ export default function DashboardLayout() {
    const isRewardPage = location.pathname === "/dashboard/Reward";
    const isReferralsPage = location.pathname === "/dashboard/Referrals";
    const isSetupguidePage = location.pathname === "/dashboard/setupguide";
+   const isStorePage = location.pathname === "/dashboard/Store";
 
   const menuItems = [
     { label: "Hotspots", path: "/dashboard/", icon: Wifi },
@@ -132,13 +133,15 @@ export default function DashboardLayout() {
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        <header className={`px-6 py-4 flex items-center justify-between ${
-          theme === 'dark' ? 'bg-black border-b border-gray-800' : 'bg-gray-50'
-        }`}>
-          <h2 className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-foreground'}`}>
+               <header className={`px-6 py-4 flex items-center justify-between relative ${theme === 'dark' ? 'bg-black border-b border-gray-800' : 'bg-gray-50'}`}>
+          <h2 className={`text-2xl font-bold ${
+            isReferralsPage || isSetupguidePage 
+              ? `absolute left-1/2 transform -translate-x-1/2 ${theme === 'dark' ? 'text-white' : 'text-foreground'}` 
+              : theme === 'dark' ? 'text-white' : 'text-foreground'
+          }`}>
             {isRewardPage ? "Rewards Dashboard"  :    isReferralsPage ? "Referrals Program"  : isSetupguidePage? "Setup Guide" :  "Dashboard Overview"}
           </h2>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 ml-auto">
             {isRewardPage ? (
               <>
                 <button className={`px-4 py-2 text-sm font-medium rounded-lg transition ${
@@ -156,7 +159,24 @@ export default function DashboardLayout() {
                   Connect Wallet
                 </button>
               </>
-              
+            ) : isSetupguidePage ? (
+              <button className={`px-4 py-2 text-sm font-medium rounded-lg transition flex items-center gap-2 ${
+                theme === 'dark'
+                  ? 'text-white bg-gray-900 border border-gray-700 hover:bg-gray-800'
+                  : 'text-gray-700 bg-white border border-gray-300 hover:bg-gray-50'
+              }`}>
+                English
+                <span className="ml-1">▼</span>
+              </button>
+            ) : isReferralsPage ? (
+              <button className={`px-4 py-2 text-sm font-medium rounded-lg transition flex items-center gap-2 ${
+                theme === 'dark'
+                  ? 'text-white bg-gray-900 border border-gray-700 hover:bg-gray-800'
+                  : 'text-gray-700 bg-white border border-gray-300 hover:bg-gray-50'
+              }`}>
+                <User className="w-4 h-4" />
+                My account
+              </button>
             ) : (
               <>
                 <button className={`px-4 py-2 text-sm font-medium rounded-lg transition ${

@@ -15,6 +15,7 @@ import DashboardOverview from "./pages/dashboard/Overview";
 import DashboardReferral from "./pages/dashboard/Referrals";
 import DashboardReward from "./pages/dashboard/Reward";
 import KonnectXSetupGuide from "./pages/dashboard/setupguide";
+import HotspotStorePage from "./pages/dashboard/Store";
 import DashboardProfile from "./pages/dashboard/Profile";
 import AdminLayout from "./components/layouts/AdminLayout";
 import AdminOverview from "./pages/admin/Overview";
@@ -42,6 +43,7 @@ const App = () => (
                <Route path="/dashboard/Referrals" element={<DashboardReferral />} />
                 <Route path="/dashboard/setupguide" element={<KonnectXSetupGuide />} />
               <Route path="/dashboard/profile" element={<DashboardProfile />} />
+              <Route path="/dashboard/Store" element={<HotspotStorePage />} />
             </Route>
 
             <Route element={<AdminLayout />}>
