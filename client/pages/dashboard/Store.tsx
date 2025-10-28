@@ -55,10 +55,6 @@ const HotspotStorePage = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-8">
               <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-                  <div className="w-4 h-4 border-2 border-white rounded-full"></div>
-                </div>
-                <span className="text-xl font-bold text-gray-800">KonnectX</span>
               </div>
               <div className="relative hidden md:block">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
@@ -69,35 +65,21 @@ const HotspotStorePage = () => {
                 />
               </div>
             </div>
-            <div className="flex items-center space-x-6">
-              <button className="text-gray-600 hover:text-blue-600">
-                <Heart className="w-5 h-5" />
-              </button>
-              <button className="flex items-center space-x-1 text-gray-600 hover:text-blue-600">
-                <ShoppingCart className="w-5 h-5" />
-                <span className="text-sm">Cart (0)</span>
-              </button>
-              <button className="flex items-center space-x-1 text-gray-600 hover:text-blue-600">
-                <User className="w-5 h-5" />
-                <span className="text-sm">Account</span>
-              </button>
-            </div>
+
           </div>
-          <nav className="mt-4 flex space-x-6 text-sm">
-            <a href="#" className="text-gray-700 hover:text-blue-600">Indoor Kits</a>
-            <a href="#" className="text-gray-700 hover:text-blue-600">Outdoor Kits</a>
-            <a href="#" className="text-gray-700 hover:text-blue-600">Accessories</a>
-            <a href="#" className="text-gray-700 hover:text-blue-600">Network Solutions</a>
-            <a href="#" className="text-gray-700 hover:text-blue-600">Support</a>
-          </nav>
         </div>
       </header>
 
       {/* Breadcrumb */}
       <div className="max-w-7xl mx-auto px-4 py-4">
         <button className="flex items-center space-x-1 text-sm text-gray-600 hover:text-blue-600">
-          <ChevronLeft className="w-4 h-4" />
-          <span>Back</span>
+         <nav className="mt-4 flex space-x-6 text-sm">
+            <a href="#" className="text-gray-700 hover:text-blue-600">Indoor Kits</a>
+            <a href="#" className="text-gray-700 hover:text-blue-600">Outdoor Kits</a>
+            <a href="#" className="text-gray-700 hover:text-blue-600">Accessories</a>
+            <a href="#" className="text-gray-700 hover:text-blue-600">Network Solutions</a>
+            <a href="#" className="text-gray-700 hover:text-blue-600">Support</a>
+          </nav>
         </button>
       </div>
 

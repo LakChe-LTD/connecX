@@ -75,6 +75,11 @@ export default function KonnectXSetupGuide() {
           </button>
 
         </div>
+
+        <div>
+
+            
+        </div>
            <span>→</span>
             <span>→</span>
 

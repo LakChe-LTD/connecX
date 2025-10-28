@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useApp } from "@/contexts/AppContext";
-import { Menu, X, LogOut, Settings, Moon, Sun, BarChart3, TrendingUp, User, Wifi, Users, Home, ArrowLeft, Gift } from "lucide-react";
+import { Menu, X, LogOut, Settings, Moon, Sun, BarChart3, TrendingUp, User, Wifi, Users, Home, ArrowLeft, Gift, Heart, ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function DashboardLayout() {
@@ -13,7 +13,8 @@ export default function DashboardLayout() {
    const isRewardPage = location.pathname === "/dashboard/Reward";
    const isReferralsPage = location.pathname === "/dashboard/Referrals";
    const isSetupguidePage = location.pathname === "/dashboard/setupguide";
-   const isStorePage = location.pathname === "/dashboard/Store";
+   const isStorePage = location.pathname === "/dashboard/store";
+   const isSettingsPage = location.pathname === "/dashboard/Settings";
 
   const menuItems = [
     { label: "Hotspots", path: "/dashboard/", icon: Wifi },
@@ -21,7 +22,7 @@ export default function DashboardLayout() {
     { label: "Rewards", path: "/dashboard/Reward", icon: Gift },
     { label: "setupguide", path: "/dashboard/setupguide", icon: Sun },
     { label: "Store", path: "/dashboard/store", icon: Home },
-    { label: "Settings", path: "/dashboard/settings", icon: Settings },
+    { label: "Settings", path: "/dashboard/Settings", icon: Settings },
   ];
 
   if (!user) {
@@ -69,7 +70,7 @@ export default function DashboardLayout() {
                 href={item.path}
                 className={`flex items-center gap-8 px-4 py-3 rounded-lg transition-all duration-200 ${
                   location.pathname === item.path
-                    ? 'bg-blue-600 text-white'
+                    ? 'bg-black text-white dark:bg-blue-600'
                     : theme === 'dark'
                       ? 'text-gray-300 hover:bg-blue-600 hover:text-white'
                       : 'text-gray-700 hover:bg-gray-900 hover:text-white'
@@ -139,7 +140,7 @@ export default function DashboardLayout() {
               ? `absolute left-1/2 transform -translate-x-1/2 ${theme === 'dark' ? 'text-white' : 'text-foreground'}` 
               : theme === 'dark' ? 'text-white' : 'text-foreground'
           }`}>
-            {isRewardPage ? "Rewards Dashboard"  :    isReferralsPage ? "Referrals Program"  : isSetupguidePage? "Setup Guide" :  "Dashboard Overview"}
+            {isRewardPage ? "Rewards Dashboard"  :    isReferralsPage ? "Referrals Program"  : isSetupguidePage? "Setup Guide" : isStorePage? "StorePage" : isSettingsPage? "Account Settings" : "Dashboard Overview"}
           </h2>
           <div className="flex items-center gap-3 ml-auto">
             {isRewardPage ? (
@@ -162,22 +163,53 @@ export default function DashboardLayout() {
             ) : isSetupguidePage ? (
               <button className={`px-4 py-2 text-sm font-medium rounded-lg transition flex items-center gap-2 ${
                 theme === 'dark'
-                  ? 'text-white bg-gray-900 border border-gray-700 hover:bg-gray-800'
-                  : 'text-gray-700 bg-white border border-gray-300 hover:bg-gray-50'
+                  ? 'text-blue-700 bg-gray-900 border border-blue-700 hover:bg-gray-800'
+                  : 'text-gray-700 bg-white border border-black hover:bg-gray-50'
               }`}>
                 English
                 <span className="ml-1">▼</span>
               </button>
-            ) : isReferralsPage ? (
+            )   :  isStorePage ? (
+              
+
+               <>
+               <button className={`px-4 py-2 text-sm font-medium rounded-lg transition flex items-center gap-2 ${
+                theme === 'dark'
+                  ? 'text-gray-300'
+                  : 'text-gray-700'
+              }`}>
+                 <Heart className="w-3 h-3" />
+               Wishlist
+              </button>
               <button className={`px-4 py-2 text-sm font-medium rounded-lg transition flex items-center gap-2 ${
                 theme === 'dark'
-                  ? 'text-white bg-gray-900 border border-gray-700 hover:bg-gray-800'
-                  : 'text-gray-700 bg-white border border-gray-300 hover:bg-gray-50'
+                  ? 'text-gray-300'
+                  : 'text-gray-700'
+              }`}>
+                <ShoppingCart className="w-4 h-4" />
+               Cart{0}
+              </button>
+              <button className={`px-4 py-2 text-sm font-medium rounded-lg transition flex items-center gap-2 ${
+                theme === 'dark'
+                  ? 'text-gray-300'
+                  : 'text-gray-700'
               }`}>
                 <User className="w-4 h-4" />
-                My account
+               Account
               </button>
-            ) : (
+
+              </>
+              
+            ): isReferralsPage ? (
+              <button className={`px-4 py-2 text-sm font-medium rounded-lg transition flex items-center gap-2 ${
+                theme === 'dark'
+                  ? 'text-black bg-blue-700 border border-gray-700'
+                  : 'text-white bg-black border border-gray-300'
+              }`}>
+                <User className="w-4 h-4" />
+                My Account
+              </button>
+            ) :  (
               <>
                 <button className={`px-4 py-2 text-sm font-medium rounded-lg transition ${
                   theme === 'dark'
