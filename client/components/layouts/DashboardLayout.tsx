@@ -12,11 +12,13 @@ export default function DashboardLayout() {
 
    const isRewardPage = location.pathname === "/dashboard/Reward";
    const isReferralsPage = location.pathname === "/dashboard/Referrals";
+   const isSetupguidePage = location.pathname === "/dashboard/setupguide";
 
   const menuItems = [
     { label: "Hotspots", path: "/dashboard/", icon: Wifi },
     { label: "Referrals", path: "/dashboard/Referrals", icon: Users },
     { label: "Rewards", path: "/dashboard/Reward", icon: Gift },
+    { label: "setupguide", path: "/dashboard/setupguide", icon: Sun },
     { label: "Store", path: "/dashboard/store", icon: Home },
     { label: "Settings", path: "/dashboard/settings", icon: Settings },
   ];
@@ -134,7 +136,7 @@ export default function DashboardLayout() {
           theme === 'dark' ? 'bg-black border-b border-gray-800' : 'bg-gray-50'
         }`}>
           <h2 className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-foreground'}`}>
-            {isRewardPage ? "Rewards Dashboard"  :    isReferralsPage ? "Referrals Dashboard"  :   "Dashboard Overview"}
+            {isRewardPage ? "Rewards Dashboard"  :    isReferralsPage ? "Referrals Program"  : isSetupguidePage? "Setup Guide" :  "Dashboard Overview"}
           </h2>
           <div className="flex items-center gap-3">
             {isRewardPage ? (

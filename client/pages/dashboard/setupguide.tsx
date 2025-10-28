@@ -21,25 +21,6 @@ export default function KonnectXSetupGuide() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <button className="text-gray-600 hover:text-gray-800 flex items-center gap-1 text-sm">
-            <span>◄</span> Back
-          </button>
-          <div className="flex items-center gap-2">
-            <Wifi className="w-6 h-6 text-blue-600" />
-            <span className="text-xl font-semibold text-gray-800">KonnectX</span>
-          </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-gray-600">Setup Guide</span>
-        </div>
-        <div className="flex items-center gap-2 px-3 py-1.5 border border-gray-300 rounded bg-white">
-          <span className="text-sm text-gray-700">English</span>
-          <ChevronDown className="w-4 h-4 text-gray-500" />
-        </div>
-      </div>
 
       {/* Main Content */}
       <div className="flex-1 flex">
