@@ -107,7 +107,7 @@ export default function ReferralProgram() {
             <div className="mb-6">
               <div className="text-sm text-black dark:text-gray-400 mb-2">21/30 Referrals</div>
               <div className="h-3 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
-                <div className="h-full bg-gradient-to-r from-green-400 to-blue-500" style={{ width: '70%' }}></div>
+                <div className="h-full bg-black dark:bg-blue-600" style={{ width: '70%' }}></div>
               </div>
             </div>
             {/* Milestone Markers */}

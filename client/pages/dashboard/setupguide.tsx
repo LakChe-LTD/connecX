@@ -31,9 +31,10 @@ export default function KonnectXSetupGuide() {
             <div className="flex items-center justify-between mb-2 ">
               <h2 className="text-lg font-semibold text-gray-800 dark:text-white">Step 1: Device Connection</h2>
               <span className="text-sm text-gray-500 dark:text-white">Step 1 of 4</span>
+                
+             
             </div>
           
-
           {/* Connection Instructions */}
           <div className="mb-8">
             <div className="flex items-start gap-3 mb-6">
@@ -112,12 +113,12 @@ export default function KonnectXSetupGuide() {
           {/* Progress Steps */}
           <div className="space-y-2">
             <div className="flex items-center gap-3">
-              <div className="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center flex-shrink-0">
-                <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <div className="w-6 h-6 rounded-full bg-gray-300 dark:bg-black flex items-center justify-center flex-shrink-0">
+                <svg className="w-4 h-4 text-blue-600 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <span className="text-sm font-medium text-gray-800 dark:text-white">Device Connection</span>
+              <span className="text-sm font-medium  text-black  dark:text-blue-600 ">Device Connection</span>
             </div>
             
             <div className="flex items-center gap-3">
