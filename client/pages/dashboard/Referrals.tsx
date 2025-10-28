@@ -42,7 +42,6 @@ export default function ReferralProgram() {
     <div className="w-full">
       {/* Title and Description */}
       <div className="text-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Referral Program</h1>
         <p className="text-gray-600 dark:text-gray-400 text-sm">
           Invite friends to join our platform and earn amazing rewards. The more friends you bring, the more rewards you unlock!
         </p>
@@ -149,7 +148,7 @@ export default function ReferralProgram() {
             <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Recent Activity</h2>
             <div className="space-y-3">
               {recentActivity.map((activity, idx) => (
-                <div key={idx} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                <div key={idx} className="flex items-center justify-between p-4 bg-white dark:bg-[#333436] rounded-lg">
                   <div className="flex items-center gap-3">
                     <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
                       activity.type === 'pending' ? 'bg-yellow-100 dark:bg-yellow-900' : 'bg-purple-100 dark:bg-purple-900'
@@ -180,15 +179,15 @@ export default function ReferralProgram() {
         <div className="space-y-6">
           {/* Top Referrers */}
           <div className="bg-white dark:bg-[#333436] rounded-xl p-6 border border-gray-200 dark:border-gray-700">
-            <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Top Referrers</h2>
+            <h2 className="text-xl font-bold text-black dark:text-white mb-4">Top Referrers</h2>
             <div className="space-y-3">
               {topReferrers.map((referrer) => (
                 <div key={referrer.rank} className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
-                      referrer.rank === 1 ? 'bg-yellow-100 dark:bg-yellow-900 text-yellow-700 dark:text-yellow-400' :
-                      referrer.rank === 2 ? 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300' :
-                      referrer.rank === 3 ? 'bg-orange-100 dark:bg-orange-900 text-orange-700 dark:text-orange-400' :
+                      referrer.rank === 1 ? 'bg-black dark:bg-blue-900 text-white dark:text-white' :
+                      referrer.rank === 2 ? 'bg-black dark:bg-blue-900 text-white dark:text-white' :
+                      referrer.rank === 3 ? 'bg-black dark:bg-blue-900 text-white dark:text-white' :
                       'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
                     }`}>
                       {referrer.rank}

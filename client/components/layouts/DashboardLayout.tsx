@@ -11,6 +11,7 @@ export default function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
    const isRewardPage = location.pathname === "/dashboard/Reward";
+   const isReferralsPage = location.pathname === "/dashboard/Referrals";
 
   const menuItems = [
     { label: "Hotspots", path: "/dashboard/", icon: Wifi },
@@ -133,7 +134,7 @@ export default function DashboardLayout() {
           theme === 'dark' ? 'bg-black border-b border-gray-800' : 'bg-gray-50'
         }`}>
           <h2 className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-foreground'}`}>
-            {isRewardPage ? "Rewards Dashboard" : "Dashboard Overview"}
+            {isRewardPage ? "Rewards Dashboard"  :    isReferralsPage ? "Referrals Dashboard"  :   "Dashboard Overview"}
           </h2>
           <div className="flex items-center gap-3">
             {isRewardPage ? (
@@ -153,6 +154,7 @@ export default function DashboardLayout() {
                   Connect Wallet
                 </button>
               </>
+              
             ) : (
               <>
                 <button className={`px-4 py-2 text-sm font-medium rounded-lg transition ${
