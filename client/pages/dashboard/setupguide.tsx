@@ -20,7 +20,7 @@ export default function KonnectXSetupGuide() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col ">
+    <div className="min-h-screen bg-white dark:bg-black flex flex-col">
 
       {/* Main Content */}
       <div className=" flex-1 flex">
@@ -28,8 +28,8 @@ export default function KonnectXSetupGuide() {
         <div className="flex-1 bg-white p-8 dark:bg-black">
           {/* Step Header */}
           <div className="bg-white dark:bg-[#333436] rounded-xl p-6 border border-gray-200 dark:border-gray-700">
-            <div className="flex items-center justify-between mb-2 ">
-              <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200">Step 1: Device Connection</h2>
+            <div className="flex items-center justify-between mb-20 ">
+              <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200">Step 1: Device Connection</h2>
               <span className="text-sm text-gray-500 dark:text-gray-200">Step 1 of 4</span>
                 
              
@@ -37,15 +37,15 @@ export default function KonnectXSetupGuide() {
           
           {/* Connection Instructions */}
           <div className="mb-8">
-            <div className="flex items-start gap-3 mb-6">
+            <div className="flex items-start gap-3 mb-10">
               <div className="w-8 h-8 bg-gray-100 rounded flex items-center justify-center flex-shrink-0 mt-1">
                 <Wifi className="w-5 h-5 text-gray-700" />
               </div>
               <div>
-                <h3 className="font-medium text-gray-800 mb-1 dark:text-gray-200">Connect Your Device</h3>
-                <p className="text-sm text-gray-600 dark:text-gray-200">
+                <h3 className="font-bold text-gray-800 mb-1 dark:text-gray-200">Connect Your Device</h3>
+                <span className="text-sm text-gray-600 dark:text-gray-200">
                   Next Reward: $100 Bonus
-                </p>
+                </span>
                 <p className="text-sm text-gray-500 mt-1 dark:text-gray-200">
                   Ensure your hotspot device is powered on and within range of your computer or mobile device.
                 </p>
@@ -54,7 +54,7 @@ export default function KonnectXSetupGuide() {
 
             {/* Available Devices */}
             <div>
-              <h4 className="text-sm font-medium text-gray-700 mb-3 dark:text-white">Available Devices</h4>
+              <h4 className="text-sm font-bold text-gray-700 mb-3 dark:text-white">Available Devices</h4>
               <div className="space-y-2">
                 <div className="border border-gray-200 rounded-lg p-3 hover:border-blue-300 transition-colors cursor-pointer">
                   <div className="font-medium text-gray-800 text-sm dark:text-gray-200">Hotspot_Device_323</div>
@@ -80,39 +80,11 @@ export default function KonnectXSetupGuide() {
 
             
         </div>
-           <span>→</span>
-            <span>→</span>
-
-          {/* FAQ Section */}
-          <div className="bg-white dark:bg-[#333436] rounded-xl p-6 border border-gray-200 dark:border-gray-700">
-            <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">Frequently Asked Questions</h3>
-            <div className="space-y-2">
-              {faqs.map((faq, index) => (
-                <div key={index} className="border border-gray-200 lg">
-                  <button
-                    onClick={() => setExpandedFAQ(expandedFAQ === index ? null : index)}
-                    className="w-full px-4 py-3 flex items-center justify-between text-left"
-                  >
-                    <span className="text-sm font-medium text-gray-800 dark:text-gray-200 ">{faq.question}</span>
-                    <ChevronDown 
-                      className={`w-4 h-4 text-gray-500 transition-transform ${
-                        expandedFAQ === index ? 'rotate-180' : ''
-                      }`}
-                    />
-                  </button>
-                  {expandedFAQ === index && (
-                    <div className="px-4 pb-3 text-sm text-gray-600 dark:text-gray-200">
-                      {faq.answer}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
+         
         </div>
 
         {/* Right Panel */}
-        <div className="bg-white dark:bg-[#333436] rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-[#333436] rounded-2xl p-6 border  dark:border-gray-700 h-[330px]  overflow-y-auto">
           <h3 className="text-lg font-semibold text-gray-800 mb-6 dark:text-white ">Setup Progress</h3>
           
           {/* Progress Steps */}
@@ -164,12 +136,42 @@ export default function KonnectXSetupGuide() {
           </div>
         </div>
       </div>
+       {/* FAQ Section */}
+         <div className="w-full bg-white dark:bg-[#333436] rounded-xl p-6 border border-gray-200 dark:border-gray-700">
+            <h3 className="text-lg font-bold text-gray-800 dark:text-gray-200 mb-4">Frequently Asked Questions</h3>
+            <div className="space-y-2">
+               {faqs.map((faq, index) => (
+      <div
+        key={index}
+        className={`py-4 ${index !== faqs.length - 1 ? "border-b border-gray-300 dark:border-white" : ""}`}
+      >
+                  <button
+                    onClick={() => setExpandedFAQ(expandedFAQ === index ? null : index)}
+                    className="w-full px-4 py-3 flex items-center justify-between text-left"
+                  >
+                    <span className="text-sm font-medium text-gray-800 dark:text-gray-200 ">{faq.question}</span>
+                    <ChevronDown 
+                      className={`w-4 h-4 text-gray-500 transition-transform ${
+                        expandedFAQ === index ? 'rotate-180' : ''
+                      }`}
+                    />
+                  </button>
+                  {expandedFAQ === index && (
+                    <div className="px-4 pb-3 text-sm text-gray-600 dark:text-gray-200">
+                      {faq.answer}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
       {/* Footer */}
       <div className="bg-white dark:bg-black border-t border-gray-200 px-6 py-3 flex items-center justify-between">
         <div className="text-xs text-white">
           © 2024 Hotspot Setup. All rights reserved.
         </div>
-        <button className="bg-black dark:bg-blue-600 text-white px-4 py-1.5 rounded text-xs dark:text-white hover:bg-gray-800 transition-colors">
+        <button className="bg-black dark:bg-blue-600 text-white px-4 py-1.5 rounded text-xs dark:text-black">
           Need Help?
         </button>
       </div>

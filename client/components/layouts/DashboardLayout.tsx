@@ -50,7 +50,6 @@ export default function DashboardLayout() {
         {/* Menu Items */}
         <nav className="flex-1 p-4 space-y-1">
           {isRewardPage ? (
-            // Back button when on Reward page
             <a
               href="/dashboard/"
               className={`flex items-center gap-8 px-4 py-3 rounded-lg transition-all duration-200 ${
@@ -62,7 +61,21 @@ export default function DashboardLayout() {
               <ArrowLeft className="w-7 h-7" />
               {sidebarOpen && <span className="font-Bold text-xl">Back</span>}
             </a>
-          ) : (
+          ) : isStorePage ? (
+            <a
+              href="/dashboard/"
+              className={`flex items-center gap-8 px-4 py-3 rounded-lg transition-all duration-200 ${
+                theme === 'dark' 
+                  ? 'bg-blue-600 text-white hover:bg-blue-700' 
+                  : 'bg-blue-600 text-white hover:bg-blue-700'
+              }`}
+            >
+              <ArrowLeft className="w-7 h-7" />
+              {sidebarOpen && <span className="font-Bold text-xl">Back</span>}
+            </a>
+          )
+          
+          : (
             // Regular menu items
             menuItems.map((item) => (
               <a
@@ -169,7 +182,17 @@ export default function DashboardLayout() {
                 English
                 <span className="ml-1">▼</span>
               </button>
-            )   :  isStorePage ? (
+            )   :
+             isSettingsPage ? (
+              <button className={`px-4 py-2 text-sm font-medium rounded-lg transition flex items-center gap-2 ${
+                theme === 'dark'
+                  ? 'text-black bg-blue-700 border border-blue-700 hover:bg-gray-800'
+                  : 'text-white bg-black border border-black hover:bg-gray-50'
+              }`}>
+                John Doe
+              </button>
+            ) 
+              : isStorePage ? (
               
 
                <>

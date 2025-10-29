@@ -48,31 +48,10 @@ const HotspotStorePage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-8">
-              <div className="flex items-center space-x-2">
-              </div>
-              <div className="relative hidden md:block">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                <input
-                  type="text"
-                  placeholder="Search products..."
-                  className="pl-10 pr-4 py-2 w-64 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </header>
-
+    <div className="min-h-20 bg-gray-50"> 
       {/* Breadcrumb */}
-      <div className="max-w-7xl mx-auto px-4 py-4">
-        <button className="flex items-center space-x-1 text-sm text-gray-600 hover:text-blue-600">
+      <div className="max-w-20xl mx-auto px-4 py-4">
+        <button className="flex items-center space-x-1 text-2xl font-bold text-gray-600 hover:text-blue-600">
          <nav className="mt-4 flex space-x-6 text-sm">
             <a href="#" className="text-gray-700 hover:text-blue-600">Indoor Kits</a>
             <a href="#" className="text-gray-700 hover:text-blue-600">Outdoor Kits</a>
@@ -84,7 +63,7 @@ const HotspotStorePage = () => {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 pb-12">
+      <div className="max-w-20xl mx-auto px-4 pb-12">
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Sidebar */}
           <aside className="lg:w-64 flex-shrink-0">
@@ -152,7 +131,7 @@ const HotspotStorePage = () => {
           {/* Products Grid */}
           <main className="flex-1">
             {/* Toolbar */}
-            <div className="bg-white rounded-lg border border-gray-200 p-4 mb-6 flex items-center justify-between">
+            <div className="rounded-lg  p-2 mb-6 flex items-center justify-between">
               <div className="text-sm text-gray-600">
                 Showing 1-12 of 48 products
               </div>
