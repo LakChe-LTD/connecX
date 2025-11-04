@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useApp } from "@/contexts/AppContext";
 import { Menu, X, LogOut, Moon, Sun, BarChart3, Users, Gift } from "lucide-react";
@@ -15,10 +15,16 @@ export default function AdminLayout() {
     { label: "Rewards", path: "/admin/rewards", icon: Gift },
   ];
 
-  if (!user || user.role !== 'admin') {
-    navigate("/signin");
-    return null;
-  }
+  // useEffect(() => {
+  //   if (!user || user.role !== "admin") {
+  //     navigate("/signin");
+  //   }
+  // }, [user, navigate]);
+
+ 
+  // if (!user || user.role !== "admin") {
+  //   return null;
+  // }
 
   return (
     <div className="flex h-screen bg-background">
