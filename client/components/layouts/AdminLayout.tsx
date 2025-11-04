@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useApp } from "@/contexts/AppContext";
-import { Menu, X, LogOut, Moon, Sun, BarChart3, Users, Gift } from "lucide-react";
+import { Menu, X, LogOut, Moon, Sun, Wifi, Share, DollarSign, BarChart3, Users, Gift } from "lucide-react";
 
 export default function AdminLayout() {
   const navigate = useNavigate();
@@ -10,9 +10,10 @@ export default function AdminLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const menuItems = [
-    { label: "Overview", path: "/admin", icon: BarChart3 },
-    { label: "Users", path: "/admin/users", icon: Users },
-    { label: "Rewards", path: "/admin/rewards", icon: Gift },
+    { label: "User", path: "/admin", icon: Users },
+    { label: "Hotspots", path: "/admin/users", icon: Wifi },
+    { label: "Referrals", path: "/admin/rewards", icon: Share },
+    { label: "Payouts", path: "/admin/rewards", icon: DollarSign },
   ];
 
   // useEffect(() => {
