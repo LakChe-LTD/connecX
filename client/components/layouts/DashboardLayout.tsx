@@ -41,14 +41,7 @@ export default function DashboardLayout() {
           sidebarOpen ? "w-64" : "w-20"
         } ${theme === 'dark' ?  'bg-[#333436] border-[#2b2b2c]' : 'bg-gray-100 border-gray-200'} border-r transition-all duration-300 flex flex-col`}
       >
-        {/* Logo Section */}
-        <div className="flex items-center gap-6">
-          <img
-            src="/footericon/Frame4.png" 
-            alt="KonnectX Logo"
-            className="w-25 h20- object-contain" 
-          />
-        </div>
+       
 
         {/* Menu Items */}
         <nav className="flex-1 p-4 space-y-1">

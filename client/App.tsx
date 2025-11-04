@@ -22,7 +22,7 @@ import DashboardProfile from "./pages/dashboard/Profile";
 import AdminLayout from "./components/layouts/AdminLayout";
 import AdminOverview from "./pages/admin/Overview";
 import AdminUsers from "./pages/admin/Users";
-import AdminRewards from "./pages/admin/Rewards";
+import AdminRewards from "./pages/admin/Hotspots";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useApp } from "@/contexts/AppContext";
-import { Menu, X, LogOut, Moon, Sun, Wifi, Share, DollarSign, BarChart3, Users, Gift } from "lucide-react";
+import { Menu, X, LogOut, Moon, Sun, Wifi, Share, DollarSign, BarChart3, Users, Search, Bell, Gift } from "lucide-react";
 
 export default function AdminLayout() {
   const navigate = useNavigate();
@@ -28,30 +28,45 @@ export default function AdminLayout() {
   // }
 
   return (
-    <div className="flex h-screen bg-background">
+    <div className={`flex h-screen ${theme === 'dark' ? 'bg-black' : 'bg-background'}`}>
       {/* Sidebar */}
       <div
         className={`${
           sidebarOpen ? "w-64" : "w-20"
-        } bg-sidebar border-r border-sidebar-border transition-all duration-300 flex flex-col`}
+        } ${theme === 'dark' ?  'bg-[#333436] border-[#2b2b2c]' : 'bg-gray-100 border-gray-200'} border-r transition-all duration-300 flex flex-col`}
       >
         {/* Logo */}
-        <div className="p-6 border-b border-sidebar-border flex items-center justify-between">
-          {sidebarOpen && (
+          <div className="p-6 border-b border-sidebar-border flex items-center justify-between">
+           {sidebarOpen && (
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-sidebar-primary rounded-lg flex items-center justify-center">
-                <span className="text-sidebar-primary-foreground font-bold text-sm">KX</span>
-              </div>
-              <span className="font-bold text-sidebar-foreground">KonnectX Admin</span>
+          <img
+            src="/footericon/Frame4.png"
+           alt="KonnectX Logo"
+          className="w-20 h-20 object-contain"
+        />
+    </div>
+  )}
+
+  <button
+    onClick={() => setSidebarOpen(!sidebarOpen)}
+    className="p-2 hover:bg-sidebar-accent rounded-lg transition text-sidebar-foreground"
+  >
+    {sidebarOpen ? <X size={18} /> : <Menu size={18} />}
+  </button>
+   </div>
+
+        <div className="flex items-center gap-5">
+            <div className="text-right">
+               <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-bold">
+                  {user.name.charAt(0)}
+               
+                </div>
+                <p className="text-sm font-medium text-foreground">{user.name}</p>
+              <p className="text-xs text-foreground/60">Administrator</p>
+              
             </div>
-          )}
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="p-2 hover:bg-sidebar-accent rounded-lg transition text-sidebar-foreground"
-          >
-            {sidebarOpen ? <X size={18} /> : <Menu size={18} />}
-          </button>
-        </div>
+           
+          </div>
 
         {/* Menu Items */}
         <nav className="flex-1 p-4 space-y-2">
@@ -93,17 +108,25 @@ export default function AdminLayout() {
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Top Header */}
-        <header className="bg-card border-b border-border/40 px-6 py-4 flex items-center justify-between">
+        <header className={`px-6 py-4 flex items-center justify-between relative ${theme === 'dark' ? 'bg-black border-b border-gray-800' : 'bg-gray-50'}`}>
+          <div className="flex flex-col gap-2">
           <h2 className="text-2xl font-bold text-foreground">Admin Dashboard</h2>
-          <div className="flex items-center gap-4">
-            <div className="text-right">
-              <p className="text-sm font-medium text-foreground">{user.name}</p>
-              <p className="text-xs text-foreground/60">Administrator</p>
+          <p className="text-sm text-gray-300">Overview and management of platform activities</p>
+           </div>
+          <div className="flex items-center space-x-4">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Search products..."
+                  className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-black"
+                />
+              </div>
+              <button className="relative p-2 hover:bg-gray-100 rounded-lg">
+                <Bell className="w-5 h-5 text-gray-600 " />
+                <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full dark:bg-gray-300"></span>
+              </button>
             </div>
-            <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-primary-foreground font-bold">
-              {user.name.charAt(0)}
-            </div>
-          </div>
         </header>
 
         {/* Page Content */}
