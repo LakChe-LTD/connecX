@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useApp } from "@/contexts/AppContext";
-import { Eye, EyeOff, Mail, Lock, Moon, Sun } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, Moon, Sun, Loader2 } from "lucide-react";
+import { login } from "@/api/auth";
 
 export default function SignIn() {
   const navigate = useNavigate();
@@ -10,20 +11,64 @@ export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [selectedRole, setSelectedRole] = useState<"user" | "operator" | "admin">("user");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSignIn = (e: React.FormEvent) => {
+  const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Mock sign in
-    const mockUser = {
-      id: "1",
-      name: "John Doe",
-      email: email,
-      role: "user" as const
-    };
-    
-    setUser(mockUser);
-    navigate("/dashboard");
+    setError("");
+    setLoading(true);
+
+    try {
+      const response = await login({ email, password });
+
+      if (response.requires2FA) {
+        // Store temp token and redirect to 2FA page
+        localStorage.setItem('tempToken', response.tempToken!);
+        navigate("/verify-2fa");
+        return;
+      }
+
+      if (response.success && response.data) {
+        const { user } = response.data;
+
+        // Check if user has the required role
+        if (selectedRole === "operator" && user.role !== "operator" && user.role !== "admin") {
+          setError("You don't have operator access. Please contact admin.");
+          setLoading(false);
+          return;
+        }
+
+        if (selectedRole === "admin" && user.role !== "admin") {
+          setError("You don't have admin access. Please contact support.");
+          setLoading(false);
+          return;
+        }
+
+        // Set user in context
+        setUser({
+          id: user._id,
+          name: user.username,
+          email: user.email,
+          role: user.role as "user" | "operator" | "admin"
+        });
+
+        // Redirect based on role
+        if (user.role === "admin") {
+          navigate("/admin/dashboard");
+        } else if (user.role === "operator") {
+          navigate("/operator/dashboard");
+        } else {
+          navigate("/dashboard");
+        }
+      }
+    } catch (err: any) {
+      console.error("Login error:", err);
+      setError(err.message || "Login failed. Please check your credentials.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -63,15 +108,52 @@ export default function SignIn() {
         {/* Sign In Card */}
         <div className="bg-white dark:bg-black rounded-3xl shadow-2xl p-10">
           {/* Header */}
-          <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center justify-between mb-6">
             <h2 className="text-3xl font-bold text-gray-800 dark:text-white">Sign In</h2>
-            <button className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 transition flex items-center gap-2">
-              Login
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            
+            {/* Role Selector Dropdown */}
+            <div className="relative">
+              <select
+                value={selectedRole}
+                onChange={(e) => setSelectedRole(e.target.value as "user" | "operator" | "admin")}
+                className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition cursor-pointer appearance-none pr-10"
+              >
+                <option value="user">User Login</option>
+                <option value="operator">Operator Login</option>
+                <option value="admin">Admin Login</option>
+              </select>
+              <svg 
+                className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-600 dark:text-gray-300" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
-            </button>
+            </div>
           </div>
+
+          {/* Role Badge */}
+          <div className="mb-6">
+            <span className={`inline-block px-4 py-1.5 rounded-full text-sm font-medium ${
+              selectedRole === 'admin' 
+                ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' 
+                : selectedRole === 'operator'
+                ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
+                : 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
+            }`}>
+              {selectedRole === 'admin' && '🔐 Admin Access'}
+              {selectedRole === 'operator' && '⚙️ Operator Access'}
+              {selectedRole === 'user' && '👤 User Access'}
+            </span>
+          </div>
+
+          {/* Error Message */}
+          {error && (
+            <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+              <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+            </div>
+          )}
 
           {/* Form */}
           <form onSubmit={handleSignIn} className="space-y-5">
@@ -88,6 +170,7 @@ export default function SignIn() {
                   placeholder="Email Address"
                   className="w-full pl-12 pr-4 py-3.5 bg-gray-50 dark:bg-gray-800 border-none rounded-xl focus:ring-2 focus:ring-purple-500 outline-none transition text-gray-800 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500"
                   required
+                  disabled={loading}
                 />
               </div>
             </div>
@@ -105,11 +188,13 @@ export default function SignIn() {
                   placeholder="Password"
                   className="w-full pl-12 pr-12 py-3.5 bg-gray-50 dark:bg-gray-800 border-none rounded-xl focus:ring-2 focus:ring-purple-500 outline-none transition text-gray-800 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500"
                   required
+                  disabled={loading}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-400"
+                  disabled={loading}
                 >
                   {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
@@ -119,7 +204,7 @@ export default function SignIn() {
             {/* Remember Me & Forgot Password */}
             <div className="flex items-center justify-between text-sm">
               <label className="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" className="w-4 h-4 rounded border-gray-300 accent-purple-600" />
+                <input type="checkbox" className="w-4 h-4 rounded border-gray-300 accent-purple-600" disabled={loading} />
                 <span className="text-gray-500 dark:text-gray-400">Remember me</span>
               </label>
               <a href="#" className="text-gray-800 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400 transition font-medium">
@@ -130,9 +215,17 @@ export default function SignIn() {
             {/* Sign In Button */}
             <Button
               type="submit"
-              className="w-full bg-black hover:bg-gray-800 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-semibold py-3.5 rounded-xl transition h-auto text-base"
+              disabled={loading}
+              className="w-full bg-black hover:bg-gray-800 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-semibold py-3.5 rounded-xl transition h-auto text-base disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Sign In
+              {loading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  Signing in...
+                </span>
+              ) : (
+                "Sign In"
+              )}
             </Button>
           </form>
 
@@ -147,7 +240,8 @@ export default function SignIn() {
           <div className="flex gap-4">
             <button
               type="button"
-              className="flex-1 flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition"
+              disabled={loading}
+              className="flex-1 flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition disabled:opacity-50"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path
@@ -172,7 +266,8 @@ export default function SignIn() {
 
             <button
               type="button"
-              className="flex-1 flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition"
+              disabled={loading}
+              className="flex-1 flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition disabled:opacity-50"
             >
               <svg className="w-5 h-5" fill="#1877F2" viewBox="0 0 24 24">
                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
@@ -187,6 +282,7 @@ export default function SignIn() {
             <button
               onClick={() => navigate("/register")}
               className="text-blue-800 hover:text-blue-400 font-semibold transition"
+              disabled={loading}
             >
               Sign up
             </button>
