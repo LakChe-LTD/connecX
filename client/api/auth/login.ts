@@ -37,10 +37,13 @@ export interface LoginResponse {
 
 export const login = async (credentials: LoginRequest): Promise<LoginResponse> => {
   try {
+    console.log("Making login request...");
     const response = await apiClient.post<LoginResponse>('/auth/login', credentials);
     
-    // Store tokens if login successful
-    if (response.data.success && response.data.data) {
+    console.log("Login response:", response.data);
+    
+    // Store tokens if login successful and not requiring 2FA
+    if (response.data.success && response.data.data && !response.data.requires2FA) {
       localStorage.setItem('token', response.data.data.token);
       localStorage.setItem('refreshToken', response.data.data.refreshToken);
       localStorage.setItem('sessionId', response.data.data.sessionId);
@@ -49,7 +52,12 @@ export const login = async (credentials: LoginRequest): Promise<LoginResponse> =
     
     return response.data;
   } catch (error: any) {
-    throw error.response?.data || { success: false, message: 'Login failed' };
+    console.error("Login error:", error);
+    console.error("Error response:", error.response?.data);
+    
+    const errorData = error.response?.data || { success: false, message: 'Login failed' };
+    const errorMessage = errorData.error || errorData.message || 'Login failed';
+    
+    throw new Error(errorMessage);
   }
 };
-

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useApp } from "@/contexts/AppContext";
-import { Eye, EyeOff, Moon, Sun, User, Mail, Lock, Loader2 } from "lucide-react";
+import { Eye, EyeOff, Moon, Sun, User, Mail, Lock, Loader2, CheckCircle } from "lucide-react";
 import { register } from "@/api/auth";
 
 export default function Register() {
@@ -21,6 +21,7 @@ export default function Register() {
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -32,6 +33,7 @@ export default function Register() {
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setSuccess(false);
 
     // Validation
     if (formData.password !== formData.confirmPassword) {
@@ -69,6 +71,9 @@ export default function Register() {
       if (response.success && response.data) {
         const { user } = response.data;
 
+        // Show success message
+        setSuccess(true);
+
         // Set user in context
         setUser({
           id: user._id,
@@ -77,8 +82,16 @@ export default function Register() {
           role: user.role as "user" | "operator" | "admin"
         });
 
-        // Redirect to dashboard
-        navigate("/dashboard");
+        // Wait for success animation then redirect based on role
+        setTimeout(() => {
+          if (user.role === "admin") {
+            navigate("/admin/dashboard");
+          } else if (user.role === "operator") {
+            navigate("/operator/dashboard");
+          } else {
+            navigate("/dashboard");
+          }
+        }, 1500);
       }
     } catch (err: any) {
       console.error("Registration error:", err);
@@ -98,6 +111,19 @@ export default function Register() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-500 via-purple-500 to-purple-600 flex items-center justify-center p-4">
+      {/* Success Alert */}
+      {success && (
+        <div className="fixed top-6 right-6 z-50 animate-in slide-in-from-top-5 duration-300">
+          <div className="bg-green-500 text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3">
+            <CheckCircle className="w-6 h-6" />
+            <div>
+              <p className="font-semibold">Registration Successful!</p>
+              <p className="text-sm text-green-100">Redirecting to dashboard...</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Theme Toggle Button */}
       <button
         onClick={toggleTheme}
@@ -298,13 +324,18 @@ export default function Register() {
             {/* Create Account Button */}
             <Button
               type="submit"
-              disabled={loading}
+              disabled={loading || success}
               className="w-full bg-black hover:bg-gray-800 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-semibold py-3.5 rounded-xl transition h-auto text-base mt-6 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
                   <Loader2 className="w-5 h-5 animate-spin" />
                   Creating Account...
+                </span>
+              ) : success ? (
+                <span className="flex items-center justify-center gap-2">
+                  <CheckCircle className="w-5 h-5" />
+                  Account Created!
                 </span>
               ) : (
                 "Create Account"
@@ -323,7 +354,7 @@ export default function Register() {
           <div className="flex gap-4">
             <button
               type="button"
-              disabled={loading}
+              disabled={loading || success}
               className="flex-1 flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition disabled:opacity-50"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
@@ -349,7 +380,7 @@ export default function Register() {
 
             <button
               type="button"
-              disabled={loading}
+              disabled={loading || success}
               className="flex-1 flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition disabled:opacity-50"
             >
               <svg className="w-5 h-5" fill="#1877F2" viewBox="0 0 24 24">
@@ -365,7 +396,7 @@ export default function Register() {
             <button
               onClick={() => navigate("/signin")}
               className="text-blue-800 hover:text-blue-400 font-semibold transition"
-              disabled={loading}
+              disabled={loading || success}
             >
               Sign in
             </button>

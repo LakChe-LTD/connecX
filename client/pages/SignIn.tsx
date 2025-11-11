@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useApp } from "@/contexts/AppContext";
-import { Eye, EyeOff, Mail, Lock, Moon, Sun, Loader2 } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, Moon, Sun, Loader2, CheckCircle } from "lucide-react";
 import { login } from "@/api/auth";
 
 export default function SignIn() {
@@ -14,10 +14,12 @@ export default function SignIn() {
   const [selectedRole, setSelectedRole] = useState<"user" | "operator" | "admin">("user");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setSuccess(false);
     setLoading(true);
 
     try {
@@ -46,26 +48,38 @@ export default function SignIn() {
           return;
         }
 
+        // Show success message
+        setSuccess(true);
+
         // Set user in context
         setUser({
           id: user._id,
-          name: user.username,
+          name: user.username || `${user.profile?.firstName} ${user.profile?.lastName}`,
           email: user.email,
           role: user.role as "user" | "operator" | "admin"
         });
 
-        // Redirect based on role
-        if (user.role === "admin") {
-          navigate("/admin/dashboard");
-        } else if (user.role === "operator") {
-          navigate("/operator/dashboard");
-        } else {
-          navigate("/dashboard");
-        }
+        // Wait for success animation then redirect based on role
+        setTimeout(() => {
+          if (user.role === "admin") {
+            navigate("/admin/dashboard");
+          } else if (user.role === "operator") {
+            navigate("/operator/dashboard");
+          } else {
+            navigate("/dashboard");
+          }
+        }, 1500);
       }
     } catch (err: any) {
       console.error("Login error:", err);
-      setError(err.message || "Login failed. Please check your credentials.");
+      const errorMessage = 
+        err?.message || 
+        err?.error || 
+        err?.data?.message || 
+        err?.response?.data?.message ||
+        err?.response?.data?.error ||
+        "Login failed. Please check your credentials.";
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -73,6 +87,19 @@ export default function SignIn() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-500 via-purple-500 to-purple-600 flex items-center justify-center p-4">
+      {/* Success Alert */}
+      {success && (
+        <div className="fixed top-6 right-6 z-50 animate-in slide-in-from-top-5 duration-300">
+          <div className="bg-green-500 text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3">
+            <CheckCircle className="w-6 h-6" />
+            <div>
+              <p className="font-semibold">Login Successful!</p>
+              <p className="text-sm text-green-100">Redirecting to dashboard...</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Theme Toggle Button */}
       <button
         onClick={toggleTheme}
@@ -117,6 +144,7 @@ export default function SignIn() {
                 value={selectedRole}
                 onChange={(e) => setSelectedRole(e.target.value as "user" | "operator" | "admin")}
                 className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition cursor-pointer appearance-none pr-10"
+                disabled={loading || success}
               >
                 <option value="user">User Login</option>
                 <option value="operator">Operator Login</option>
@@ -170,7 +198,7 @@ export default function SignIn() {
                   placeholder="Email Address"
                   className="w-full pl-12 pr-4 py-3.5 bg-gray-50 dark:bg-gray-800 border-none rounded-xl focus:ring-2 focus:ring-purple-500 outline-none transition text-gray-800 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500"
                   required
-                  disabled={loading}
+                  disabled={loading || success}
                 />
               </div>
             </div>
@@ -188,13 +216,13 @@ export default function SignIn() {
                   placeholder="Password"
                   className="w-full pl-12 pr-12 py-3.5 bg-gray-50 dark:bg-gray-800 border-none rounded-xl focus:ring-2 focus:ring-purple-500 outline-none transition text-gray-800 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500"
                   required
-                  disabled={loading}
+                  disabled={loading || success}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-400"
-                  disabled={loading}
+                  disabled={loading || success}
                 >
                   {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
@@ -204,10 +232,17 @@ export default function SignIn() {
             {/* Remember Me & Forgot Password */}
             <div className="flex items-center justify-between text-sm">
               <label className="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" className="w-4 h-4 rounded border-gray-300 accent-purple-600" disabled={loading} />
+                <input 
+                  type="checkbox" 
+                  className="w-4 h-4 rounded border-gray-300 accent-purple-600" 
+                  disabled={loading || success} 
+                />
                 <span className="text-gray-500 dark:text-gray-400">Remember me</span>
               </label>
-              <a href="#" className="text-gray-800 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400 transition font-medium">
+              <a 
+                href="#" 
+                className="text-gray-800 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400 transition font-medium"
+              >
                 Forgot password?
               </a>
             </div>
@@ -215,13 +250,18 @@ export default function SignIn() {
             {/* Sign In Button */}
             <Button
               type="submit"
-              disabled={loading}
+              disabled={loading || success}
               className="w-full bg-black hover:bg-gray-800 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-semibold py-3.5 rounded-xl transition h-auto text-base disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
                   <Loader2 className="w-5 h-5 animate-spin" />
                   Signing in...
+                </span>
+              ) : success ? (
+                <span className="flex items-center justify-center gap-2">
+                  <CheckCircle className="w-5 h-5" />
+                  Logged In!
                 </span>
               ) : (
                 "Sign In"
@@ -240,7 +280,7 @@ export default function SignIn() {
           <div className="flex gap-4">
             <button
               type="button"
-              disabled={loading}
+              disabled={loading || success}
               className="flex-1 flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition disabled:opacity-50"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
@@ -266,7 +306,7 @@ export default function SignIn() {
 
             <button
               type="button"
-              disabled={loading}
+              disabled={loading || success}
               className="flex-1 flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition disabled:opacity-50"
             >
               <svg className="w-5 h-5" fill="#1877F2" viewBox="0 0 24 24">
@@ -282,7 +322,7 @@ export default function SignIn() {
             <button
               onClick={() => navigate("/register")}
               className="text-blue-800 hover:text-blue-400 font-semibold transition"
-              disabled={loading}
+              disabled={loading || success}
             >
               Sign up
             </button>
