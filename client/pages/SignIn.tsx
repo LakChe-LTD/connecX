@@ -51,22 +51,26 @@ export default function SignIn() {
         // Show success message
         setSuccess(true);
 
-        // Set user in context
-        setUser({
+        // Set user in context with proper formatting
+        const userData = {
           id: user._id,
-          name: user.username || `${user.profile?.firstName} ${user.profile?.lastName}`,
+          name: user.username || `${user.profile?.firstName || ''} ${user.profile?.lastName || ''}`.trim() || user.email,
           email: user.email,
           role: user.role as "user" | "operator" | "admin"
-        });
+        };
+
+        console.log("Setting user in context:", userData);
+        setUser(userData);
 
         // Wait for success animation then redirect based on role
         setTimeout(() => {
+          console.log("Redirecting user with role:", user.role);
           if (user.role === "admin") {
-            navigate("/admin/dashboard");
+            navigate("/admin/dashboard", { replace: true });
           } else if (user.role === "operator") {
-            navigate("/operator/dashboard");
+            navigate("/dashboard", { replace: true });
           } else {
-            navigate("/dashboard");
+            navigate("/dashboard", { replace: true });
           }
         }, 1500);
       }

@@ -4,8 +4,8 @@ import { createRoot } from "react-dom/client";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AppProvider } from "@/contexts/AppContext";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { AppProvider, useApp } from "@/contexts/AppContext";
 
 import Landing from "./pages/Landing";
 import SignIn from "./pages/SignIn";
@@ -27,6 +27,47 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+// Protected Route Component
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+  const { isAuthenticated } = useApp();
+
+  if (!isAuthenticated) {
+    return <Navigate to="/signin" replace />;
+  }
+
+  return <>{children}</>;
+};
+
+// Admin Route Component
+const AdminRoute = ({ children }: { children: React.ReactNode }) => {
+  const { user, isAuthenticated } = useApp();
+
+  if (!isAuthenticated) {
+    return <Navigate to="/signin" replace />;
+  }
+
+  if (user?.role !== "admin") {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  return <>{children}</>;
+};
+
+// Operator Route Component
+const OperatorRoute = ({ children }: { children: React.ReactNode }) => {
+  const { user, isAuthenticated } = useApp();
+
+  if (!isAuthenticated) {
+    return <Navigate to="/signin" replace />;
+  }
+
+  if (user?.role !== "operator" && user?.role !== "admin") {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  return <>{children}</>;
+};
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <AppProvider>
@@ -35,27 +76,61 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
+            {/* Public Routes */}
             <Route path="/" element={<Landing />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/register" element={<Register />} />
-            
-            <Route element={<DashboardLayout />}>
+
+            {/* User Dashboard Routes */}
+            <Route
+              element={
+                <ProtectedRoute>
+                  <DashboardLayout />
+                </ProtectedRoute>
+              }
+            >
               <Route path="/dashboard" element={<DashboardOverview />} />
               <Route path="/dashboard/reward" element={<DashboardReward />} />
-               <Route path="/dashboard/Referrals" element={<DashboardReferral />} />
-                <Route path="/dashboard/setupguide" element={<KonnectXSetupGuide />} />
+              <Route path="/dashboard/referrals" element={<DashboardReferral />} />
+              <Route path="/dashboard/setupguide" element={<KonnectXSetupGuide />} />
               <Route path="/dashboard/profile" element={<DashboardProfile />} />
-              <Route path="/dashboard/Store" element={<HotspotStorePage />} />
-              <Route path="/dashboard/Settings" element={<AccountSettings />} />
-              <Route path="/dashboard/Token" element={<KonnectXToken />} />
+              <Route path="/dashboard/store" element={<HotspotStorePage />} />
+              <Route path="/dashboard/settings" element={<AccountSettings />} />
+              <Route path="/dashboard/token" element={<KonnectXToken />} />
             </Route>
 
-            <Route element={<AdminLayout />}>
-              <Route path="/admin" element={<AdminOverview />} />
+            {/* Operator Dashboard Routes */}
+            <Route
+              element={
+                <OperatorRoute>
+                  <DashboardLayout />
+                </OperatorRoute>
+              }
+            >
+              <Route path="/operator/dashboard" element={<DashboardOverview />} />
+              <Route path="/operator/reward" element={<DashboardReward />} />
+              <Route path="/operator/referrals" element={<DashboardReferral />} />
+              <Route path="/operator/setupguide" element={<KonnectXSetupGuide />} />
+              <Route path="/operator/profile" element={<DashboardProfile />} />
+              <Route path="/operator/store" element={<HotspotStorePage />} />
+              <Route path="/operator/settings" element={<AccountSettings />} />
+              <Route path="/operator/token" element={<KonnectXToken />} />
+            </Route>
+
+            {/* Admin Dashboard Routes */}
+            <Route
+              element={
+                <AdminRoute>
+                  <AdminLayout />
+                </AdminRoute>
+              }
+            >
+              <Route path="/admin/dashboard" element={<AdminOverview />} />
               <Route path="/admin/users" element={<AdminUsers />} />
               <Route path="/admin/rewards" element={<AdminRewards />} />
             </Route>
 
+            {/* 404 Not Found */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
@@ -66,5 +141,4 @@ const App = () => (
 
 createRoot(document.getElementById("root")!).render(<App />);
 
-// 👇 Add this line
 export default App;

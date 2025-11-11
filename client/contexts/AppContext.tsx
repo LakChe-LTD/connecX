@@ -4,7 +4,7 @@ interface User {
   id: string;
   name: string;
   email: string;
-  role: 'user' | 'admin';
+  role: 'user' | 'operator' | 'admin';
 }
 
 interface AppContextType {
@@ -26,7 +26,23 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const [user, setUser] = useState<User | null>(() => {
     const saved = localStorage.getItem('user');
-    return saved ? JSON.parse(saved) : null;
+    if (saved) {
+      try {
+        const parsedUser = JSON.parse(saved);
+        // Handle both formats (from API and from localStorage)
+        return {
+          id: parsedUser._id || parsedUser.id,
+          name: parsedUser.username || parsedUser.name,
+          email: parsedUser.email,
+          role: parsedUser.role,
+        };
+      } catch (error) {
+        console.error('Error parsing user from localStorage:', error);
+        localStorage.removeItem('user');
+        return null;
+      }
+    }
+    return null;
   });
 
   useEffect(() => {
@@ -48,6 +64,11 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const logout = () => {
     setUser(null);
+    // Clear all auth-related data from localStorage
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('sessionId');
   };
 
   return (
