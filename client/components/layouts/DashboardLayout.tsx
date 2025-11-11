@@ -26,6 +26,8 @@ export default function DashboardLayout() {
     { label: "Store", path: "/dashboard/store", icon: Home },
     { label: "Settings", path: "/dashboard/Settings", icon: Settings },
     { label: "Token", path: "/dashboard/Token", icon: DollarSign },
+    { label: "operatorkit", path: "/dashboard/operatorkit", icon: DollarSign },
+    
   ];
 
   if (!user) {

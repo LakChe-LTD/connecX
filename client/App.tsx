@@ -12,6 +12,7 @@ import SignIn from "./pages/SignIn";
 import Register from "./pages/Register";
 import DashboardLayout from "./components/layouts/DashboardLayout";
 import DashboardOverview from "./pages/dashboard/Overview";
+import ManageKits from "./pages/dashboard/operatorkit";
 import DashboardReferral from "./pages/dashboard/Referrals";
 import DashboardReward from "./pages/dashboard/Reward";
 import KonnectXSetupGuide from "./pages/dashboard/setupguide";
@@ -48,6 +49,8 @@ const App = () => (
               <Route path="/dashboard/Store" element={<HotspotStorePage />} />
               <Route path="/dashboard/Settings" element={<AccountSettings />} />
               <Route path="/dashboard/Token" element={<KonnectXToken />} />
+               <Route path="/dashboard/operatorkit" element={< ManageKits />} />
+                <Route path="/dashboard/registerKit" element={< HotspotRegistration/>} />
             </Route>
 
             <Route element={<AdminLayout />}>
