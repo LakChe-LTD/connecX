@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Wifi } from 'lucide-react';
+import { useNavigate } from "react-router-dom";
 
 export default function HotspotRegistration() {
   const [formData, setFormData] = useState({
@@ -8,6 +9,8 @@ export default function HotspotRegistration() {
     macAddress: '',
     serialNumber: ''
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,58 +22,71 @@ export default function HotspotRegistration() {
 
   const handleSubmit = () => {
     console.log('Form submitted:', formData);
-    alert('Registration submitted successfully!');
-    // Handle form submission
+    // alert('Kit information saved successfully!');
+
+    navigate("/dashboard/registerKitStep2");   // ✅ ADD THIS
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-100 via-blue-50 to-purple-100 flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-white rounded-lg shadow-xl overflow-hidden">
-        {/* Header */}
-        <div className="bg-white border-b border-gray-200 px-6 py-4">
+    <div className="min-h-screen w-full bg-gradient-to-br from-purple-100 via-blue-50 to-purple-100 flex items-center justify-center p-8">
+      <div className="w-full max-w-6xl  overflow-hidden items-left justify-left">
+         {/* Header - Full Width */}
+      <div className="bg-white border-b-2 border-gray-300 shadow-sm">
+        <div className="max-w-7xl mx-auto px-8 py-6">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
-                <Wifi className="w-5 h-5 text-white" />
+            <div className="flex items-center gap-4">
+              <button onClick={() => navigate(-1)} className="text-gray-600 hover:text-gray-900 transition">
+                <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center shadow-md">
+                  <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6z" />
+                  </svg>
+                </div>
+                <span className="text-2xl font-bold text-gray-900">KonnectX</span>
               </div>
-              <span className="text-xl font-bold text-gray-800">KonnectX</span>
             </div>
-            <div className="flex items-center gap-4 text-sm">
-              <button className="flex items-center gap-1 text-gray-600 hover:text-gray-800">
+            <div className="flex items-center gap-6 text-base">
+              <button className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition">
                 <span>❤️</span>
                 <span>IOT</span>
               </button>
-              <button className="flex items-center gap-1 text-gray-600 hover:text-gray-800">
+              <button className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition">
                 <span>📦</span>
                 <span>Kits: 0</span>
               </button>
-              <button className="flex items-center gap-1 text-gray-600 hover:text-gray-800">
+              <button className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition">
                 <span>👤</span>
                 <span>Account</span>
               </button>
             </div>
           </div>
         </div>
+      </div>handleSubmit
+
 
         {/* Form Content */}
-        <div className="px-6 py-8">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">
+        <div className="px-12 py-12">
+          <h1 className="text-3xl font-bold text-gray-900 mb-3">
             Register Your Hotspot Kit
           </h1>
-          <p className="text-sm text-gray-500 mb-6">
+          <p className="text-base text-gray-500 mb-8">
             Please provide the hotspot information to complete the kit setup
           </p>
 
-          <div className="space-y-5">
+          <div className="space-y-6">
             {/* Help Link */}
-            <div className="flex items-center gap-2 text-sm">
+            <div className="flex items-center gap-2 text-base">
               <span className="text-gray-600">Help</span>
               <span className="text-blue-500">| Kit ID & Details</span>
             </div>
 
             {/* Device Brand */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-base font-medium text-gray-700 mb-3">
                 Device Brand
               </label>
               <input
@@ -79,13 +95,13 @@ export default function HotspotRegistration() {
                 value={formData.deviceBrand}
                 onChange={handleChange}
                 placeholder="Enter device brand"
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-400"
+                className="w-full px-5 py-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-400 text-base"
               />
             </div>
 
             {/* Device Model */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-base font-medium text-gray-700 mb-3">
                 Device Model
               </label>
               <input
@@ -94,13 +110,13 @@ export default function HotspotRegistration() {
                 value={formData.deviceModel}
                 onChange={handleChange}
                 placeholder="Enter device model"
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-400"
+                className="w-full px-5 py-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-400 text-base"
               />
             </div>
 
             {/* MAC Address */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-base font-medium text-gray-700 mb-3">
                 MAC Address
               </label>
               <input
@@ -109,13 +125,13 @@ export default function HotspotRegistration() {
                 value={formData.macAddress}
                 onChange={handleChange}
                 placeholder="Enter MAC address"
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-400"
+                className="w-full px-5 py-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-400 text-base"
               />
             </div>
 
             {/* Serial Number */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-base font-medium text-gray-700 mb-3">
                 Serial Number
               </label>
               <input
@@ -124,15 +140,15 @@ export default function HotspotRegistration() {
                 value={formData.serialNumber}
                 onChange={handleChange}
                 placeholder="Enter serial number"
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-400"
+                className="w-full px-5 py-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-400 text-base"
               />
             </div>
 
             {/* Submit Button */}
-            <div className="flex justify-end pt-2">
+            <div className="flex justify-end pt-4">
               <button
                 onClick={handleSubmit}
-                className="px-6 py-2.5 bg-blue-500 text-white font-medium rounded-md hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                className="px-8 py-3.5 bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-base"
               >
                 Next: Kit activation
               </button>

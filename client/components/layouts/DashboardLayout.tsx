@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
-import { useApp } from "@/contexts/AppContext";
-import { Menu, X, LogOut, Settings, Moon, Sun, BarChart3, TrendingUp, User, Wifi, Users, Home, ArrowLeft, Gift, Heart, ShoppingCart, DollarSign } from "lucide-react";
+import { useApp } from "@/contexts/AppContext";import { Menu, X, LogOut, Settings, Moon, Sun, BarChart3, TrendingUp, User, Wifi, Users, Home, ArrowLeft, Gift, Heart, ShoppingCart, DollarSign } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function DashboardLayout() {
@@ -17,6 +16,10 @@ export default function DashboardLayout() {
     const isTokenPage = location.pathname === "/dashboard/Token";
 
    const isSettingsPage = location.pathname === "/dashboard/Settings";
+
+   const isregisterKitPage = location.pathname === "/dashboard/registerKit";
+
+   
 
   const menuItems = [
     { label: "Hotspots", path: "/dashboard/", icon: Wifi },
@@ -151,7 +154,7 @@ export default function DashboardLayout() {
               ? `absolute left-1/2 transform -translate-x-1/2 ${theme === 'dark' ? 'text-white' : 'text-foreground'}` 
               : theme === 'dark' ? 'text-white' : 'text-foreground'
           }`}>
-            {isRewardPage ? "Rewards Dashboard"  :    isReferralsPage ? "Referrals Program"  : isSetupguidePage? "Setup Guide" : isStorePage? "StorePage" : isTokenPage? "Claim & Withdraw" :isSettingsPage? "Account Settings" : "Dashboard Overview"}
+            { isregisterKitPage ? "Register Kit" : isRewardPage ? "Rewards Dashboard"  :    isReferralsPage ? "Referrals Program"  : isSetupguidePage? "Setup Guide" : isStorePage? "StorePage" : isTokenPage? "Claim & Withdraw" :isSettingsPage? "Account Settings" : "Dashboard Overview"}
           </h2>
           <div className="flex items-center gap-3 ml-auto">
             {isRewardPage ? (

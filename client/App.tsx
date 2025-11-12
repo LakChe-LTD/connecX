@@ -15,11 +15,14 @@ import DashboardOverview from "./pages/dashboard/Overview";
 import ManageKits from "./pages/dashboard/operatorkit";
 import DashboardReferral from "./pages/dashboard/Referrals";
 import DashboardReward from "./pages/dashboard/Reward";
+import HotspotRegistration from "./pages/dashboard/registerKit";
 import KonnectXSetupGuide from "./pages/dashboard/setupguide";
 import HotspotStorePage from "./pages/dashboard/Store";
 import KonnectXToken from "./pages/dashboard/Token";
 import AccountSettings from "./pages/dashboard/Settings";
 import DashboardProfile from "./pages/dashboard/Profile";
+import HotspotRegistrationStep2 from "./pages/dashboard/registerKitStep2";
+import HotspotRegistrationStep3 from "./pages/dashboard/registerKitStep3";
 import AdminLayout from "./components/layouts/AdminLayout";
 import AdminOverview from "./pages/admin/Overview";
 import AdminUsers from "./pages/admin/Users";
@@ -39,6 +42,9 @@ const App = () => (
             <Route path="/" element={<Landing />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/dashboard/registerKit" element={< HotspotRegistration/>} />
+            <Route path="/dashboard/registerKitStep2" element={<HotspotRegistrationStep2 />} />
+            <Route path="/dashboard/registerKitStep3" element={<HotspotRegistrationStep3 />} />
             
             <Route element={<DashboardLayout />}>
               <Route path="/dashboard" element={<DashboardOverview />} />
@@ -50,7 +56,7 @@ const App = () => (
               <Route path="/dashboard/Settings" element={<AccountSettings />} />
               <Route path="/dashboard/Token" element={<KonnectXToken />} />
                <Route path="/dashboard/operatorkit" element={< ManageKits />} />
-                <Route path="/dashboard/registerKit" element={< HotspotRegistration/>} />
+               
             </Route>
 
             <Route element={<AdminLayout />}>
