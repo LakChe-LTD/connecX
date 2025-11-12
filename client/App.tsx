@@ -23,6 +23,7 @@ import AccountSettings from "./pages/dashboard/Settings";
 import DashboardProfile from "./pages/dashboard/Profile";
 import HotspotRegistrationStep2 from "./pages/dashboard/registerKitStep2";
 import HotspotRegistrationStep3 from "./pages/dashboard/registerKitStep3";
+import KonnectXKitss from "./pages/dashboard/AllKits";
 import AdminLayout from "./components/layouts/AdminLayout";
 import AdminOverview from "./pages/admin/Overview";
 import AdminUsers from "./pages/admin/Users";
@@ -45,6 +46,8 @@ const App = () => (
             <Route path="/dashboard/registerKit" element={< HotspotRegistration/>} />
             <Route path="/dashboard/registerKitStep2" element={<HotspotRegistrationStep2 />} />
             <Route path="/dashboard/registerKitStep3" element={<HotspotRegistrationStep3 />} />
+            <Route path="/dashboard/Allkits" element={<KonnectXKitss />} />
+
             
             <Route element={<DashboardLayout />}>
               <Route path="/dashboard" element={<DashboardOverview />} />

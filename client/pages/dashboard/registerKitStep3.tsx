@@ -11,9 +11,8 @@ export default function HotspotRegistrationStep3() {
 
 
 const handleSubmit = () => {
-    console.log('Form submitted:', formData);
 
-    navigate("/dashboard/KonnecXKit");   
+    navigate("/dashboard/AllKits");   
   };
 
 
@@ -178,10 +177,14 @@ const handleSubmit = () => {
 
             {/* Submit Button */}
             <div className="mt-8 flex justify-end">
-              <button className="px-8 py-3 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 transition">
-                 onClick={handleSubmit}
-                Submit for Approval
-              </button>
+              
+              <button
+                    onClick={handleSubmit}
+                  className="px-8 py-3 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 transition"
+                     >
+               Submit for Approval
+                </button>
+
             </div>
           </div>
         </div>

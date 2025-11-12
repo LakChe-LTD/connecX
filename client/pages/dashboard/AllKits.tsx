@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Search, Heart, ShoppingCart, User, ArrowLeft } from 'lucide-react';
 
-export default function KonnectXKits() {
+export default function KonnectXKitss() {
   const [activeTab, setActiveTab] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
 
