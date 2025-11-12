@@ -203,7 +203,7 @@ export default function DashboardLayout() {
                   : 'text-gray-700'
               }`}>
                  <Heart className="w-3 h-3" />
-               Wishlist
+               Kyc
               </button>
               <button className={`px-4 py-2 text-sm font-medium rounded-lg transition flex items-center gap-2 ${
                 theme === 'dark'

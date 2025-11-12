@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Wifi } from 'lucide-react';
+import {  User, Heart, ShoppingCart,} from "lucide-react";
 import { useNavigate } from "react-router-dom";
+
+
 
 export default function HotspotRegistration() {
   const [formData, setFormData] = useState({
@@ -30,12 +32,12 @@ export default function HotspotRegistration() {
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-purple-50 via-white to-purple-50 flex items-left justify-left p-8">
       <div className="w-full max-w-6xl  overflow-hidden items-center justify-center">
-         {/* Header - Full Width */}
+      {/* Header - Full Width */}
       <div className="bg-white border-b-2 border-gray-300 shadow-sm">
-        <div className="max-w-7xl mx-auto px-8 py-6">
+        <div className="max-w-7xl mx-auto px-15 py-6">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <button onClick={() => navigate(-1)} className="text-gray-600 hover:text-gray-900 transition">
+            <div className="flex items-center ">
+              <button className="text-gray-600 hover:text-gray-900 transition">
                 <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
                 </svg>
@@ -49,18 +51,19 @@ export default function HotspotRegistration() {
                 <span className="text-2xl font-bold text-gray-900">KonnectX</span>
               </div>
             </div>
-            <div className="flex items-center gap-6 text-base">
+            <div className="flex items-center gap-9 text-base ml-auto">
               <button className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition">
-                <span>❤️</span>
-                <span>IOT</span>
+                <Heart className="w-6 h-6 text-black" />
+                  Kyc
+               
               </button>
               <button className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition">
-                <span>📦</span>
-                <span>Kits: 0</span>
+                 <ShoppingCart className="w-6 h-6 text-black" />
+               Kits
               </button>
               <button className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition">
-                <span>👤</span>
-                <span>Account</span>
+               <User className="w-6 h-6 text-black" />
+               Account
               </button>
             </div>
           </div>
