@@ -28,8 +28,8 @@ export default function HotspotRegistration() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-purple-100 via-blue-50 to-purple-100 flex items-center justify-center p-8">
-      <div className="w-full max-w-6xl  overflow-hidden items-left justify-left">
+    <div className="min-h-screen w-full bg-gradient-to-br from-purple-50 via-white to-purple-50 flex items-left justify-left p-8">
+      <div className="w-full max-w-6xl  overflow-hidden items-center justify-center">
          {/* Header - Full Width */}
       <div className="bg-white border-b-2 border-gray-300 shadow-sm">
         <div className="max-w-7xl mx-auto px-8 py-6">
@@ -65,23 +65,25 @@ export default function HotspotRegistration() {
             </div>
           </div>
         </div>
-      </div>handleSubmit
+      </div>
 
 
         {/* Form Content */}
-        <div className="px-12 py-12">
-          <h1 className="text-3xl font-bold text-gray-900 mb-3">
+        <div className="max-w-7xl mx-auto px-8 py-12">
+          <h1 className="text-4xl font-bold text-gray-900 mb-3">
             Register Your Hotspot Kit
           </h1>
-          <p className="text-base text-gray-500 mb-8">
-            Please provide the hotspot information to complete the kit setup
-          </p>
+         <p className="text-base text-gray-500 mt-2">Follow these steps to register your custom hotspot hardware and start providing internet services.</p>
+          <h2 className="text-gray-900 text-lg  font-bold mb-6 mt-2">Step 1 of 3 • Kit Details </h2>
+          {/* Progress Bar */}
+          <div className="flex-1 h-3 bg-black rounded-full">
+            <div className="bg-black h-3 rounded-full" style={{ width: '100%' }}></div>
+          </div>
 
           <div className="space-y-6">
-            {/* Help Link */}
+           
             <div className="flex items-center gap-2 text-base">
-              <span className="text-gray-600">Help</span>
-              <span className="text-blue-500">| Kit ID & Details</span>
+              
             </div>
 
             {/* Device Brand */}

@@ -48,7 +48,7 @@ const HotspotRegistrationStep2 = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-100 via-blue-50 to-purple-100">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-purple-50">
       {/* Header - Full Width */}
       <div className="bg-white border-b-2 border-gray-300 shadow-sm">
         <div className="max-w-7xl mx-auto px-8 py-6">
@@ -87,42 +87,47 @@ const HotspotRegistrationStep2 = () => {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-8 py-12">
+      <div className=" max-w-7xl mx-auto px-8 py-12">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Register Your Hotspot Kit</h1>
-          <p className="text-base text-gray-500 mt-2">Step 2 of 3 • KYC Verification</p>
+           <p className="text-base text-gray-500 mt-2">Follow these steps to register your custom hotspot hardware and start providing internet services.</p>
+          <h2 className="text-gray-900 text-lg  font-bold mb-6 mt-2">Step 2 of 3 • KYC Verification</h2>
+           {/* Progress Bar */}
+          <div className="flex-1 h-3 bg-black rounded-full">
+            <div className="bg-black h-3 rounded-full" style={{ width: '70%' }}></div>
+          </div>
         </div>
 
-        <div className="p-10">
+        <div className="p-15">
           {/* Operator Verification Section */}
           <div className="mb-10">
-            <h2 className="text-xl font-bold text-gray-900 mb-6 pb-3 border-b-2 border-gray-200">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6 pb-3">
               Operator Verification
             </h2>
             
             <div className="space-y-6">
               <div>
                 <label className="block text-base font-semibold text-gray-700 mb-3">
-                  Full Name <span className="text-red-500">*</span>
+                  Full Name
                 </label>
                 <input
                   type="text"
                   name="fullName"
                   value={formData.fullName}
                   onChange={handleInputChange}
-                  className="w-full px-5 py-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
+                  className="w-1/2 px-5 py-4 border-2 border-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
                 />
               </div>
 
               <div>
                 <label className="block text-base font-semibold text-gray-700 mb-3">
-                  Username/Ant-Type <span className="text-red-500">*</span>
+                Goverment ID Type
                 </label>
                 <select
                   name="username"
                   value={formData.username}
                   onChange={handleInputChange}
-                  className="w-full px-5 py-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-base"
+                  className="w-1/2 px-5 py-4 border-2 border-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-base"
                 >
                   <option value="">Select</option>
                   <option value="option1">Option 1</option>
@@ -132,7 +137,7 @@ const HotspotRegistrationStep2 = () => {
 
               <div>
                 <label className="block text-base font-semibold text-gray-700 mb-3">
-                  Occupation <span className="text-red-500">*</span>
+                  ID Number
                 </label>
                 <input
                   type="text"
@@ -140,32 +145,37 @@ const HotspotRegistrationStep2 = () => {
                   value={formData.occupation}
                   onChange={handleInputChange}
                   placeholder="Enter your occupation"
-                  className="w-full px-5 py-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
+                  className="w-1/2 px-5 py-4 border-2 border-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
                 />
               </div>
             </div>
           </div>
 
           {/* Upload Front and Back of ID */}
-          <div className="mb-10">
-            <h3 className="text-xl font-bold text-gray-900 mb-6 pb-3 border-b-2 border-gray-200">
-              Upload Front and Back of ID
-            </h3>
-            
-            <div className="space-y-6">
-              <FileUploadBox
-                label="Upload Front of ID"
-                sublabel="Only government issued documents"
-                onFileSelect={(file) => handleFileUpload('frontIdProof', file)}
-              />
+         <div className="mb-10">
+  <h3 className="text-xl font-bold text-gray-900 mb-6 pb-3">
+    Upload Front and Back of ID
+  </h3>
 
-              <FileUploadBox
-                label="Upload Back of ID"
-                sublabel="Only government issued documents"
-                onFileSelect={(file) => handleFileUpload('backIdProof', file)}
-              />
-            </div>
+  <div className="space-y-6">
+    <div className="border-2 border-dashed  border-gray-900 p-4 rounded-lg">
+      <FileUploadBox
+        label="Upload Front of ID"
+        sublabel="Only government issued documents"
+        onFileSelect={(file) => handleFileUpload('frontIdProof', file)}
+      />
+    </div>
+
+            <div className="border-2 border-dashed border-gray-900 p-4 rounded-lg">
+             <FileUploadBox
+               label="Upload Back of ID"
+                   sublabel="Only government issued documents"
+                  onFileSelect={(file) => handleFileUpload('backIdProof', file)}
+                 />
+             </div>
           </div>
+     </div>
+
 
           {/* Proof of Address */}
           <div className="mb-10">
@@ -173,11 +183,13 @@ const HotspotRegistrationStep2 = () => {
               Proof of Address
             </h3>
             <div>
+            <div className="border-2 border-dashed  border-gray-900 p-4 rounded-lg">
               <FileUploadBox
                 label="Upload Utility Bill or Statement"
                 sublabel="Only government issued documents"
                 onFileSelect={(file) => handleFileUpload('proofOfAddress', file)}
               />
+              </div>
             </div>
           </div>
 
@@ -187,16 +199,19 @@ const HotspotRegistrationStep2 = () => {
               Selfie for Face Match
             </h3>
             <div>
+
+              <div className="border-2 border-dashed  border-gray-900 p-4 rounded-lg">
               <FileUploadBox
                 label="Upload Selfie"
                 sublabel="Hold your ID beside your face"
                 onFileSelect={(file) => handleFileUpload('selfieWithId', file)}
               />
+              </div>
             </div>
           </div>
 
           {/* Submit Button */}
-          <div className="pt-6">
+         <div className="pt-6 flex justify-end">
             <button
               onClick={handleSubmit}
               className="px-8 py-4 bg-blue-600 text-white text-base font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-md transition-all"

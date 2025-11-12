@@ -36,90 +36,80 @@ export default function HotspotRegistrationStep3() {
       <div className="max-w-7xl mx-auto px-8 py-12">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Register Your Hotspot Kit</h1>
-          <p className="text-base text-gray-500 mt-2">Step 3 of 3 • Payment & Review</p>
-        </div>
-
-        {/* Progress Bar */}
-        <div className="mb-12">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-gray-900">Step 1</span>
-            <span className="text-sm font-medium text-gray-900">Step 2</span>
-            <span className="text-sm font-medium text-blue-600">Step 3</span>
+           <p className="text-base text-gray-500 mt-2">Follow these steps to register your custom hotspot hardware and start providing internet services.</p>
+          <h2 className=" text-gray-900 text-lg  font-bold mb-6 mt-2">Step 3 of 3 • Payment & Review</h2>
+          {/* Progress Bar */}
+        <div className="mb-2">
+          <div className="w-full bg-gray-200 rounded-full h-3">
+            <div className="bg-black h-3 rounded-full" style={{ width: '100%' }}></div>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
-            <div className="bg-blue-600 h-2 rounded-full" style={{ width: '100%' }}></div>
-          </div>
-        </div>
+        </div> 
 
         {/* Form Content */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+        <div className=" p-15">
           {/* Payment Section */}
-          <div className="mb-8">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Payment</h2>
+          <div className="mb-3">
+            <h2 className="text-xl font-bold text-gray-900 mb-4">Payment</h2>
             <p className="text-sm text-gray-600 mb-6">One-time activation fee: $20</p>
             
             <div className="flex gap-3">
               <button
                 onClick={() => setPaymentMethod('card')}
-                className={`px-6 py-2 rounded-md font-medium transition ${
-                  paymentMethod === 'card'
+                className={`px-6 py-2 rounded-md font-medium transition border-2 ${
+                  paymentMethod === 'Stripe'
                     ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200 border-gray-900'
                 }`}
               >
-                Card
+                Stripe
               </button>
               <button
                 onClick={() => setPaymentMethod('flutterwave')}
-                className={`px-6 py-2 rounded-md font-medium transition ${
+                className={`px-6 py-2 rounded-md font-medium transition border-2 ${
                   paymentMethod === 'flutterwave'
                     ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    : 'bg-gray-100 text-gray-700  border-black  '
                 }`}
               >
                 Flutterwave
               </button>
               <button
                 onClick={() => setPaymentMethod('yay')}
-                className={`px-6 py-2 rounded-md font-medium transition ${
-                  paymentMethod === 'yay'
+                className={`px-6 py-2 rounded-md font-medium transition border-2 ${
+                  paymentMethod === 'Ton'
                     ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200 border-gray-900'
                 }`}
               >
-                Yay
+                Ton
               </button>
             </div>
           </div>
 
           {/* Review Section */}
           <div>
-            <h2 className="text-xl font-semibold text-gray-900 mb-6">Review</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-9">Review</h2>
             
             <div className="space-y-6">
               {/* Hardware Field */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Hardware
+                  Device Brand
                 </label>
                 <input
                   type="text"
-                  value="nchx"
-                  readOnly
-                  className="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md text-gray-900"
+                  className="w-full px-4 py-2  border-b border-gray-300 text-gray-900 rounded-none focus:outline-none focus:border-blue-600"
                 />
               </div>
 
               {/* Maker Field */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Maker
+                Device Model
                 </label>
                 <input
                   type="text"
-                  value="0x4294967296"
-                  readOnly
-                  className="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md text-gray-900"
+                  className="w-full px-4 py-2  border-b border-gray-300 text-gray-900 rounded-none focus:outline-none focus:border-blue-600"
                 />
               </div>
 
@@ -130,35 +120,29 @@ export default function HotspotRegistrationStep3() {
                 </label>
                 <input
                   type="text"
-                  value="(0 0) 52 33 67 e7 e4"
-                  readOnly
-                  className="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md text-gray-900"
+                  className="w-full px-4 py-2  border-b border-gray-300 text-gray-900 rounded-none focus:outline-none focus:border-blue-600"
                 />
               </div>
 
               {/* IMEI/SWID Field */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  IMEI/SWID
+                  Serial Number
                 </label>
                 <input
                   type="text"
-                  value="nychx9392"
-                  readOnly
-                  className="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md text-gray-900"
+                  className="w-full px-4 py-2  border-b border-gray-300 text-gray-900 rounded-none focus:outline-none focus:border-blue-600"
                 />
               </div>
 
               {/* Verified Field */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Verified
+                  KYC Status
                 </label>
                 <input
                   type="text"
-                  value="yes"
-                  readOnly
-                  className="w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md text-gray-900"
+                 className="w-full px-4 py-2  border-b border-gray-300 text-gray-900 rounded-none focus:outline-none focus:border-blue-600"
                 />
               </div>
             </div>
@@ -172,6 +156,7 @@ export default function HotspotRegistrationStep3() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }
