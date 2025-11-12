@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { Heart, ShoppingCart, User, ArrowLeft } from 'lucide-react';
+import { useNavigate } from "react-router-dom";
+
 
 export default function IndependentOperators() {
+
+       const navigate = useNavigate();
   const [formData, setFormData] = useState({
     hotspotName: '',
     location: '',
@@ -41,22 +45,18 @@ export default function IndependentOperators() {
     }));
   };
 
+
+
   const handleAddHotspot = () => {
-    if (formData.hotspotName && formData.location && formData.pricePerHour && formData.pricePerDay) {
-      alert('Hotspot added successfully!');
-      setFormData({
-        hotspotName: '',
-        location: '',
-        pricePerHour: '',
-        pricePerDay: ''
-      });
-    } else {
-      alert('Please fill in all fields');
-    }
+
+    navigate("/dashboard/HotspotAcess");   
   };
 
+
+
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-100 via-blue-50 to-purple-100">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-purple-50">
       {/* Header */}
       <header className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -107,21 +107,22 @@ export default function IndependentOperators() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-white rounded-lg shadow-lg p-8">
+        <div className=" p-8">
           {/* Title */}
           <div className="mb-6">
             <h1 className="text-3xl font-bold text-gray-900">Independent Operators</h1>
-            <p className="text-gray-500 mt-1">Manage your hotspots and access codes</p>
+
+            <p className="text-gray-500 mt-3">Manage your hotspots and access codes</p>
           </div>
 
           {/* Add New Hotspot Form */}
           <div className="mb-8">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Add New Hotspot</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">Add New Hotspot</h2>
             
             <div className="space-y-4">
               {/* Hotspot Name */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-xl font-medium text-gray-700 mb-2">
                   Hotspot Name
                 </label>
                 <input
@@ -130,13 +131,13 @@ export default function IndependentOperators() {
                   value={formData.hotspotName}
                   onChange={handleChange}
                   placeholder="Enter hotspot name"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-1/2 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
               {/* Location */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-xl font-medium text-gray-700 mb-2">
                   Location
                 </label>
                 <input
@@ -145,14 +146,14 @@ export default function IndependentOperators() {
                   value={formData.location}
                   onChange={handleChange}
                   placeholder="Enter hotspot location"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-1/2 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
               {/* Price Fields */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="block text-xl font-medium text-gray-700 mb-2">
                     Price per Hour
                   </label>
                   <input
@@ -161,7 +162,7 @@ export default function IndependentOperators() {
                     value={formData.pricePerHour}
                     onChange={handleChange}
                     placeholder="Enter price"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-1/2 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
                 <div>
@@ -174,7 +175,7 @@ export default function IndependentOperators() {
                     value={formData.pricePerDay}
                     onChange={handleChange}
                     placeholder="Enter price"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-1/2 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
               </div>
@@ -191,25 +192,25 @@ export default function IndependentOperators() {
 
           {/* Existing Hotspots Table */}
           <div>
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Existing Hotspots</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">Existing Hotspots</h2>
             
-            <div className="overflow-x-auto">
-              <table className="w-full border-collapse">
+            <div className="border-2 border-gray-900 rounded-lg overflow-hidden">
+              <table className="w-full border-collapse  border-gray-300">
                 <thead>
                   <tr className="bg-gray-50 border-b border-gray-200">
-                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
+                    <th className="px-6 py-3 text-left text-xl font-bold text-gray-700">
                       Hotspot Name
                     </th>
-                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
+                    <th className="px-6 py-3 text-left text-xl font-bold text-gray-700">
                       Location
                     </th>
-                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
+                    <th className="px-6 py-3 text-left text-xl font-bold text-gray-700">
                       Price per Hour
                     </th>
-                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
+                    <th className="px-6 py-3 text-left text-xl font-bold text-gray-700">
                       Price per Day
                     </th>
-                    <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">
+                    <th className="px-6 py-3 text-left text-xl font-bold text-gray-700">
                       Actions
                     </th>
                   </tr>
@@ -217,7 +218,7 @@ export default function IndependentOperators() {
                 <tbody>
                   {hotspots.map((hotspot) => (
                     <tr key={hotspot.id} className="border-b border-gray-200 hover:bg-gray-50">
-                      <td className="px-6 py-4 text-sm text-gray-900">
+                      <td className="px-6 py-4 text-xl text-gray-900">
                         {hotspot.name}
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-500">
