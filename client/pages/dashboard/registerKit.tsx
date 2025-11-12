@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import {  User, Heart, ShoppingCart,} from "lucide-react";
+import { User, Heart, ShoppingCart } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
 
 
 export default function HotspotRegistration() {
@@ -12,7 +11,7 @@ export default function HotspotRegistration() {
     serialNumber: ''
   });
 
-  const navigate = useNavigate();
+   const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,71 +23,69 @@ export default function HotspotRegistration() {
 
   const handleSubmit = () => {
     console.log('Form submitted:', formData);
-    // alert('Kit information saved successfully!');
-
-    navigate("/dashboard/registerKitStep2");   // ✅ ADD THIS
+    navigate("/dashboard/registerKitStep2");
   };
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-purple-50 via-white to-purple-50 flex items-left justify-left p-8">
-      <div className="w-full max-w-6xl  overflow-hidden items-center justify-center">
-      {/* Header - Full Width */}
-      <div className="bg-white border-b-2 border-gray-300 shadow-sm">
-        <div className="max-w-7xl mx-auto px-15 py-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center ">
-              <button className="text-gray-600 hover:text-gray-900 transition">
-                <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-purple-50">
+      {/* Header - Full Screen Width */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center gap-2">
+              <button className="text-gray-600 hover:text-gray-800">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
               </button>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center shadow-md">
-                  <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6z" />
-                  </svg>
-                </div>
-                <span className="text-2xl font-bold text-gray-900">KonnectX</span>
+              <div className="flex items-center gap-2 ml-4">
+                <img
+                  src="/icons/KonnectX logo final.png" 
+                  alt="KonnectX Logo"
+                  className="w-10 h-10 object-contain"
+                />
               </div>
             </div>
-            <div className="flex items-center gap-9 text-base ml-auto">
+            <div className="flex items-center gap-6">
               <button className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition">
-                <Heart className="w-6 h-6 text-black" />
-                  Kyc
-               
+                <Heart className="w-5 h-5" />
+                <span>Kyc</span>
               </button>
               <button className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition">
-                 <ShoppingCart className="w-6 h-6 text-black" />
-               Kits
+                <ShoppingCart className="w-5 h-5" />
+                <span>Kits</span>
               </button>
               <button className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition">
-               <User className="w-6 h-6 text-black" />
-               Account
+                <User className="w-5 h-5" />
+                <span>Account</span>
               </button>
             </div>
           </div>
         </div>
       </div>
 
+      {/* Main Content */}
+      <div className="max-w-[1400px] mx-auto px-12 py-12">
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold text-gray-900">Register Your Hotspot Kit</h1>
+          <p className="text-lg text-gray-500 mt-2">Step 1 of 3 • Kit Details</p>
+        </div>
+
+        {/* Progress Bar */}
+        <div className="mb-12">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-sm font-medium text-blue-600">Step 1</span>
+            <span className="text-sm font-medium text-gray-400">Step 2</span>
+            <span className="text-sm font-medium text-gray-400">Step 3</span>
+          </div>
+          <div className="w-full bg-gray-200 rounded-full h-2">
+            <div className="bg-blue-600 h-2 rounded-full" style={{ width: '33.33%' }}></div>
+          </div>
+        </div>
 
         {/* Form Content */}
-        <div className="max-w-7xl mx-auto px-8 py-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-3">
-            Register Your Hotspot Kit
-          </h1>
-         <p className="text-base text-gray-500 mt-2">Follow these steps to register your custom hotspot hardware and start providing internet services.</p>
-          <h2 className="text-gray-900 text-lg  font-bold mb-6 mt-2">Step 1 of 3 • Kit Details </h2>
-          {/* Progress Bar */}
-          <div className="flex-1 h-3 bg-black rounded-full">
-            <div className="bg-black h-3 rounded-full" style={{ width: '100%' }}></div>
-          </div>
-
-          <div className="space-y-6">
-           
-            <div className="flex items-center gap-2 text-base">
-              
-            </div>
-
+        <div className=" rounded-lg shadow-sm p-12">
+          <div className="space-y-8">
             {/* Device Brand */}
             <div>
               <label className="block text-base font-medium text-gray-700 mb-3">
@@ -150,12 +147,12 @@ export default function HotspotRegistration() {
             </div>
 
             {/* Submit Button */}
-            <div className="flex justify-end pt-4">
+            <div className="flex justify-start pt-4">
               <button
                 onClick={handleSubmit}
-                className="px-8 py-3.5 bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-base"
+                className="px-10 py-4 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition text-base"
               >
-                Next: Kit activation
+                Next: Kit Activation
               </button>
             </div>
           </div>

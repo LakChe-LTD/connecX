@@ -51,38 +51,38 @@ const HotspotRegistrationStep2 = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-purple-50">
-      {/* Header - Full Width */}
+       {/* Header - Full Width */}
       <div className="bg-white border-b-2 border-gray-300 shadow-sm">
         <div className="max-w-7xl mx-auto px-15 py-6">
           <div className="flex items-center justify-between">
-            <div className="flex items-center ">
+            <div className="flex items-center">
               <button className="text-gray-600 hover:text-gray-900 transition">
                 <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
                 </svg>
               </button>
+              {/* Logo as PNG */}
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center shadow-md">
-                  <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6z" />
-                  </svg>
-                </div>
-                <span className="text-2xl font-bold text-gray-900">KonnectX</span>
+                <img
+                  src="/icons/KonnectX logo final.png" 
+                  alt="KonnectX Logo"
+                  className="w-11 h-11 object-contain"
+                />
               </div>
             </div>
+      
             <div className="flex items-center gap-9 text-base ml-auto">
               <button className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition">
                 <Heart className="w-6 h-6 text-black" />
-                  Kyc
-               
+                Kyc
               </button>
               <button className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition">
-                 <ShoppingCart className="w-6 h-6 text-black" />
-               Kits
+                <ShoppingCart className="w-6 h-6 text-black" />
+                Kits
               </button>
               <button className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition">
-               <User className="w-6 h-6 text-black" />
-               Account
+                <User className="w-6 h-6 text-black" />
+                Account
               </button>
             </div>
           </div>
