@@ -93,41 +93,41 @@ export default function KonnectXKitss() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-6 py-8">
+      <main className="w-full px-8 py-8">
         {/* Title and Actions */}
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-3xl font-semibold text-gray-900">Kits</h1>
+        <div className="flex items-center justify-between mb-8">
+          <h1 className="text-4xl font-bold text-gray-900">Kits</h1>
           <div className="flex gap-3">
-            <button className="px-4 py-2 text-blue-600 border border-blue-600 rounded-md hover:bg-blue-50 transition-colors">
+            <button className="px-6 py-2.5 text-blue-600 font-semibold border-2 border-blue-600 rounded-md hover:bg-blue-50 transition-colors">
               Donate
             </button>
-            <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+            <button className="px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition-colors">
               Add Kit
             </button>
           </div>
         </div>
 
         {/* Search Bar */}
-        <div className="mb-6">
+        <div className="mb-8">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={22} />
             <input
               type="text"
               placeholder="Search Kits"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full pl-12 pr-4 py-3.5 text-base border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-2 mb-6 border-b border-gray-200">
+        <div className="flex gap-3 mb-8 border-b-2 border-gray-200">
           <button
             onClick={() => setActiveTab('all')}
-            className={`px-4 py-2 font-medium transition-colors relative ${
+            className={`px-5 py-3 font-semibold transition-colors relative ${
               activeTab === 'all'
-                ? 'text-blue-600 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-blue-600'
+                ? 'text-blue-600 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-1 after:bg-blue-600'
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
@@ -135,9 +135,9 @@ export default function KonnectXKitss() {
           </button>
           <button
             onClick={() => setActiveTab('active')}
-            className={`px-4 py-2 font-medium transition-colors relative ${
+            className={`px-5 py-3 font-semibold transition-colors relative ${
               activeTab === 'active'
-                ? 'text-blue-600 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-blue-600'
+                ? 'text-blue-600 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-1 after:bg-blue-600'
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
@@ -145,9 +145,9 @@ export default function KonnectXKitss() {
           </button>
           <button
             onClick={() => setActiveTab('disabled')}
-            className={`px-4 py-2 font-medium transition-colors relative ${
+            className={`px-5 py-3 font-semibold transition-colors relative ${
               activeTab === 'disabled'
-                ? 'text-blue-600 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-0.5 after:bg-blue-600'
+                ? 'text-blue-600 after:absolute after:bottom-0 after:left-0 after:right-0 after:h-1 after:bg-blue-600'
                 : 'text-gray-600 hover:text-gray-900'
             }`}
           >
