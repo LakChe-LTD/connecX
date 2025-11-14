@@ -84,7 +84,7 @@ export default function VoucherManagement() {
         </div>
 
         {/* Filters */}
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 mb-4 sm:mb-6">
+        <div className=" rounded-lg shadow-sm  p-4 sm:p-6 mb-4 sm:mb-6">
           <div className="grid grid-cols-1 sm:grid-cols-1 gap-4">
             <div>
               <input

@@ -41,8 +41,8 @@ export default function WithdrawFunds() {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-2xl mx-auto p-6">
-        <div className="bg-white rounded-lg shadow-sm p-6">
+      <div className="max-w-2xl p-6 text-left border-l-2 border-gray-300 pl-6 ml-6">
+        <div className="shadow-sm p-1">
           <h1 className="text-2xl font-semibold mb-2">Withdraw Funds</h1>
           <p className="text-sm text-gray-600 mb-6">
             Available balance: ₦{availableBalance.toFixed(2)}
