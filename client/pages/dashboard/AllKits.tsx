@@ -68,10 +68,6 @@ export default function KonnectXKitss() {
       <header className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <button className="flex items-center gap-2 text-gray-600 hover:text-gray-900">
-              <ArrowLeft size={20} />
-              <span className="text-sm font-medium">Back</span>
-            </button>
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
                 <div className="w-6 h-6 border-2 border-white rounded-full"></div>

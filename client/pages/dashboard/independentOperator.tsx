@@ -63,10 +63,6 @@ export default function IndependentOperators() {
           <div className="flex justify-between items-center h-16">
             {/* Left section */}
             <div className="flex items-center space-x-4">
-              <button className="flex items-center text-gray-700 hover:text-gray-900">
-                <ArrowLeft className="w-5 h-5 mr-1" />
-                <span className="font-medium">Back</span>
-              </button>
               
               <div className="flex items-center space-x-2 ml-4">
                 <div className="flex items-center justify-center w-8 h-8 bg-blue-600 rounded-full">
@@ -246,3 +242,9 @@ export default function IndependentOperators() {
     </div>
   );
 }
+
+
+
+
+
+

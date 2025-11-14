@@ -26,6 +26,10 @@ import HotspotRegistrationStep3 from "./pages/dashboard/registerKitStep3";
 import KonnectXKitss from "./pages/dashboard/AllKits";
 import IndependentOperators from "./pages/dashboard/independentOperator";
 import HotspotAcess from "./pages/dashboard/HotspotAcess";
+import MyHotSpots from "./pages/dashboard/MyHotspots";
+import VoucherManagement from "./pages/dashboard/Vouchers";
+import FinanceDashboard from "./pages/dashboard/Finances";
+import WithdrawFunds from "./pages/dashboard/Withdrawfunds";
 import AdminLayout from "./components/layouts/AdminLayout";
 import AdminOverview from "./pages/admin/Overview";
 import AdminUsers from "./pages/admin/Users";
@@ -51,6 +55,10 @@ const App = () => (
             <Route path="/dashboard/Allkits" element={<KonnectXKitss />} />
             <Route path="/dashboard/independentOperator" element={<IndependentOperators />} />
             <Route path="/dashboard/HotspotAcess" element={<HotspotAcess />} />
+            <Route path="/dashboard/MyHotspots" element={<MyHotSpots />} />
+            <Route path="/dashboard/Vouchers" element={<VoucherManagement />} />
+            <Route path="/dashboard/Finances" element={<FinanceDashboard  />} />
+            <Route path="/dashboard/Withdrawfunds" element={<WithdrawFunds />} />
 
             
             <Route element={<DashboardLayout />}>

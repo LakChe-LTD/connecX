@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import { Wifi, Heart, ShoppingCart, User, ArrowLeft } from 'lucide-react';
+import { useNavigate } from "react-router-dom";
 
 export default function HotspotAcess() {
+
+    const navigate = useNavigate();
   const [formData, setFormData] = useState({
     deviceBrand: '',
     deviceModel: '',
@@ -23,22 +26,21 @@ export default function HotspotAcess() {
     setSelectedPlan(plan);
   };
 
+
   const handlePayment = () => {
-    alert(`Processing payment for ${selectedPlan} pass...`);
+
+    navigate("/dashboard/MyHotspots");   
   };
 
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-purple-50">
       {/* Header */}
       <header className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo and Back */}
             <div className="flex items-center space-x-4">
-              <button className="flex items-center text-gray-600 hover:text-gray-900">
-                <ArrowLeft className="w-5 h-5 mr-1" />
-                <span className="text-sm font-medium">Back</span>
-              </button>
               <div className="flex items-center space-x-2">
                 <Wifi className="w-6 h-6 text-blue-600" />
                 <span className="text-xl font-bold text-blue-600">KonnectX</span>
@@ -79,23 +81,23 @@ export default function HotspotAcess() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-2xl mx-auto px-4 py-12">
-        <div className="bg-white rounded-lg shadow-sm p-8">
+      <main className="max-w-4xl mx-auto px-4 py-12">
+        <div className="p-8">
           {/* Title */}
-          <h1 className="text-2xl font-bold text-gray-900 text-center mb-2">
+          <h1 className="text-3xl font-bold text-gray-900 text-center mb-3">
             Pay for Hotspot Access
           </h1>
           
           {/* Subtitle */}
-          <p className="text-sm text-gray-600 text-center mb-8">
+          <p className="text-base text-gray-600 text-center mb-12">
             Connect to 'The Coffee Corner' hotspot provided by 'TechConnect Solutions'. Choose a subscription plan:
           </p>
 
           {/* Plan Selection */}
-          <div className="flex gap-3 mb-6">
+          <div className="flex gap-4 mb-12">
             <button
               onClick={() => handlePlanSelect('daily')}
-              className={`flex-1 px-4 py-3 text-sm font-medium rounded-md border transition-colors ${
+              className={`flex-1 px-6 py-2 text-base font-medium rounded-md border transition-colors ${
                 selectedPlan === 'daily'
                   ? 'bg-gray-100 border-gray-300 text-gray-900'
                   : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
@@ -105,7 +107,7 @@ export default function HotspotAcess() {
             </button>
             <button
               onClick={() => handlePlanSelect('weekly')}
-              className={`flex-1 px-4 py-3 text-sm font-medium rounded-md border transition-colors ${
+              className={`flex-1 px-6 py-4 text-base font-medium rounded-md border transition-colors ${
                 selectedPlan === 'weekly'
                   ? 'bg-gray-100 border-gray-300 text-gray-900'
                   : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
@@ -115,7 +117,7 @@ export default function HotspotAcess() {
             </button>
             <button
               onClick={() => handlePlanSelect('monthly')}
-              className={`flex-1 px-4 py-3 text-sm font-medium rounded-md border transition-colors ${
+              className={`flex-1 px-6 py-4 text-base font-medium rounded-md border transition-colors ${
                 selectedPlan === 'monthly'
                   ? 'bg-gray-100 border-gray-300 text-gray-900'
                   : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
@@ -134,11 +136,11 @@ export default function HotspotAcess() {
           </button>
 
           {/* Payment Method Info */}
-          <p className="text-xs text-gray-400 text-center">
+          <p className="text-sm text-gray-900 text-center">
             Pay with KonnectX Wallet or Saved payment method
           </p>
         </div>
       </main>
     </div>
   );
-}
+}   
