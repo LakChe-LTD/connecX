@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
-import { useApp } from "@/contexts/AppContext";
-import { Menu, X, LogOut, Settings, Moon, Sun, BarChart3, TrendingUp, User, Wifi, Users, Home, ArrowLeft, Gift, Heart, ShoppingCart, DollarSign } from "lucide-react";
+import { useApp } from "@/contexts/AppContext";import { Menu, X, LogOut, Settings, Moon, Sun, BarChart3, TrendingUp, User, Wifi, Users, Home, ArrowLeft, Gift, Heart, ShoppingCart, DollarSign } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function DashboardLayout() {
@@ -18,6 +17,10 @@ export default function DashboardLayout() {
 
    const isSettingsPage = location.pathname === "/dashboard/Settings";
 
+   const isregisterKitPage = location.pathname === "/dashboard/registerKit";
+
+   
+
   const menuItems = [
     { label: "Hotspots", path: "/dashboard/", icon: Wifi },
     { label: "Referrals", path: "/dashboard/Referrals", icon: Users },
@@ -26,6 +29,8 @@ export default function DashboardLayout() {
     { label: "Store", path: "/dashboard/store", icon: Home },
     { label: "Settings", path: "/dashboard/Settings", icon: Settings },
     { label: "Token", path: "/dashboard/Token", icon: DollarSign },
+    { label: "operatorkit", path: "/dashboard/operatorkit", icon: DollarSign },
+    
   ];
 
 // if (!user) {
@@ -48,14 +53,7 @@ export default function DashboardLayout() {
           sidebarOpen ? "w-64" : "w-20"
         } ${theme === 'dark' ?  'bg-[#333436] border-[#2b2b2c]' : 'bg-gray-100 border-gray-200'} border-r transition-all duration-300 flex flex-col`}
       >
-        {/* Logo Section */}
-        <div className="flex items-center gap-6">
-          <img
-            src="/footericon/Frame4.png" 
-            alt="KonnectX Logo"
-            className="w-25 h20- object-contain" 
-          />
-        </div>
+       
 
         {/* Menu Items */}
         <nav className="flex-1 p-4 space-y-1">
@@ -163,7 +161,7 @@ export default function DashboardLayout() {
               ? `absolute left-1/2 transform -translate-x-1/2 ${theme === 'dark' ? 'text-white' : 'text-foreground'}` 
               : theme === 'dark' ? 'text-white' : 'text-foreground'
           }`}>
-            {isRewardPage ? "Rewards Dashboard"  :    isReferralsPage ? "Referrals Program"  : isSetupguidePage? "Setup Guide" : isStorePage? "StorePage" : isTokenPage? "Claim & Withdraw" :isSettingsPage? "Account Settings" : "Dashboard Overview"}
+            { isregisterKitPage ? "Register Kit" : isRewardPage ? "Rewards Dashboard"  :    isReferralsPage ? "Referrals Program"  : isSetupguidePage? "Setup Guide" : isStorePage? "StorePage" : isTokenPage? "Claim & Withdraw" :isSettingsPage? "Account Settings" : "Dashboard Overview"}
           </h2>
           <div className="flex items-center gap-3 ml-auto">
             {isRewardPage ? (
@@ -212,7 +210,7 @@ export default function DashboardLayout() {
                   : 'text-gray-700'
               }`}>
                  <Heart className="w-3 h-3" />
-               Wishlist
+               Kyc
               </button>
               <button className={`px-4 py-2 text-sm font-medium rounded-lg transition flex items-center gap-2 ${
                 theme === 'dark'

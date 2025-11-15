@@ -13,17 +13,28 @@ import SignIn from "./pages/SignIn";
 import Register from "./pages/Register";
 import DashboardLayout from "./components/layouts/DashboardLayout";
 import DashboardOverview from "./pages/dashboard/Overview";
+import ManageKits from "./pages/dashboard/operatorkit";
 import DashboardReferral from "./pages/dashboard/Referrals";
 import DashboardReward from "./pages/dashboard/Reward";
+import HotspotRegistration from "./pages/dashboard/registerKit";
 import KonnectXSetupGuide from "./pages/dashboard/setupguide";
 import HotspotStorePage from "./pages/dashboard/Store";
 import KonnectXToken from "./pages/dashboard/Token";
 import AccountSettings from "./pages/dashboard/Settings";
 import DashboardProfile from "./pages/dashboard/Profile";
+import HotspotRegistrationStep2 from "./pages/dashboard/registerKitStep2";
+import HotspotRegistrationStep3 from "./pages/dashboard/registerKitStep3";
+import KonnectXKitss from "./pages/dashboard/AllKits";
+import IndependentOperators from "./pages/dashboard/independentOperator";
+import HotspotAcess from "./pages/dashboard/HotspotAcess";
+import MyHotSpots from "./pages/dashboard/MyHotspots";
+import VoucherManagement from "./pages/dashboard/Vouchers";
+import FinanceDashboard from "./pages/dashboard/Finances";
+import WithdrawFunds from "./pages/dashboard/Withdrawfunds";
 import AdminLayout from "./components/layouts/AdminLayout";
 import AdminOverview from "./pages/admin/Overview";
 import AdminUsers from "./pages/admin/Users";
-import AdminRewards from "./pages/admin/Rewards";
+import AdminRewards from "./pages/admin/Hotspots";
 import NotFound from "./pages/NotFound";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
@@ -57,54 +68,38 @@ const OperatorRoute = ({ children }: { children: React.ReactNode }) => {
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <AppProvider>
-      <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID!}> {/* << Wrap app */}
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              {/* Public Routes */}
-              <Route path="/" element={<Landing />} />
-              <Route path="/signin" element={<SignIn />} />
-              <Route path="/register" element={<Register />} />
-  <Route path="/forgot-password" element={<ForgotPassword />} />
-  <Route path="/reset-password" element={<ResetPassword />} />
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/signin" element={<SignIn />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/dashboard/registerKit" element={< HotspotRegistration/>} />
+            <Route path="/dashboard/registerKitStep2" element={<HotspotRegistrationStep2 />} />
+            <Route path="/dashboard/registerKitStep3" element={<HotspotRegistrationStep3 />} />
+            <Route path="/dashboard/Allkits" element={<KonnectXKitss />} />
+            <Route path="/dashboard/independentOperator" element={<IndependentOperators />} />
+            <Route path="/dashboard/HotspotAcess" element={<HotspotAcess />} />
+            <Route path="/dashboard/MyHotspots" element={<MyHotSpots />} />
+            <Route path="/dashboard/Vouchers" element={<VoucherManagement />} />
+            <Route path="/dashboard/Finances" element={<FinanceDashboard  />} />
+            <Route path="/dashboard/Withdrawfunds" element={<WithdrawFunds />} />
 
-              {/* User Dashboard Routes */}
-              <Route
-                element={
-                  <ProtectedRoute>
-                    <DashboardLayout />
-                  </ProtectedRoute>
-                }
-              >
-                <Route path="/dashboard" element={<DashboardOverview />} />
-                <Route path="/dashboard/reward" element={<DashboardReward />} />
-                <Route path="/dashboard/referrals" element={<DashboardReferral />} />
+            
+            <Route element={<DashboardLayout />}>
+              <Route path="/dashboard" element={<DashboardOverview />} />
+              <Route path="/dashboard/reward" element={<DashboardReward />} />
+               <Route path="/dashboard/Referrals" element={<DashboardReferral />} />
                 <Route path="/dashboard/setupguide" element={<KonnectXSetupGuide />} />
-                <Route path="/dashboard/profile" element={<DashboardProfile />} />
-                <Route path="/dashboard/store" element={<HotspotStorePage />} />
-                <Route path="/dashboard/settings" element={<AccountSettings />} />
-                <Route path="/dashboard/token" element={<KonnectXToken />} />
-              </Route>
-
-              {/* Operator Dashboard Routes */}
-              <Route
-                element={
-                  <OperatorRoute>
-                    <DashboardLayout />
-                  </OperatorRoute>
-                }
-              >
-                <Route path="/operator/dashboard" element={<DashboardOverview />} />
-                <Route path="/operator/reward" element={<DashboardReward />} />
-                <Route path="/operator/referrals" element={<DashboardReferral />} />
-                <Route path="/operator/setupguide" element={<KonnectXSetupGuide />} />
-                <Route path="/operator/profile" element={<DashboardProfile />} />
-                <Route path="/operator/store" element={<HotspotStorePage />} />
-                <Route path="/operator/settings" element={<AccountSettings />} />
-                <Route path="/operator/token" element={<KonnectXToken />} />
-              </Route>
+              <Route path="/dashboard/profile" element={<DashboardProfile />} />
+              <Route path="/dashboard/Store" element={<HotspotStorePage />} />
+              <Route path="/dashboard/Settings" element={<AccountSettings />} />
+              <Route path="/dashboard/Token" element={<KonnectXToken />} />
+               <Route path="/dashboard/operatorkit" element={< ManageKits />} />
+               
+            </Route>
 
               {/* Admin Dashboard Routes */}
               <Route
