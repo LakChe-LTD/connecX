@@ -68,53 +68,44 @@ const OperatorRoute = ({ children }: { children: React.ReactNode }) => {
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <AppProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Landing />} />
-            <Route path="/signin" element={<SignIn />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/dashboard/registerKit" element={< HotspotRegistration/>} />
-            <Route path="/dashboard/registerKitStep2" element={<HotspotRegistrationStep2 />} />
-            <Route path="/dashboard/registerKitStep3" element={<HotspotRegistrationStep3 />} />
-            <Route path="/dashboard/Allkits" element={<KonnectXKitss />} />
-            <Route path="/dashboard/independentOperator" element={<IndependentOperators />} />
-            <Route path="/dashboard/HotspotAcess" element={<HotspotAcess />} />
-            <Route path="/dashboard/MyHotspots" element={<MyHotSpots />} />
-            <Route path="/dashboard/Vouchers" element={<VoucherManagement />} />
-            <Route path="/dashboard/Finances" element={<FinanceDashboard  />} />
-            <Route path="/dashboard/Withdrawfunds" element={<WithdrawFunds />} />
+      <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID || ""}>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Landing />} />
+              <Route path="/signin" element={<SignIn />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/dashboard/registerKit" element={<HotspotRegistration />} />
+              <Route path="/dashboard/registerKitStep2" element={<HotspotRegistrationStep2 />} />
+              <Route path="/dashboard/registerKitStep3" element={<HotspotRegistrationStep3 />} />
+              <Route path="/dashboard/Allkits" element={<KonnectXKitss />} />
+              <Route path="/dashboard/independentOperator" element={<IndependentOperators />} />
+              <Route path="/dashboard/HotspotAcess" element={<HotspotAcess />} />
+              <Route path="/dashboard/MyHotspots" element={<MyHotSpots />} />
+              <Route path="/dashboard/Vouchers" element={<VoucherManagement />} />
+              <Route path="/dashboard/Finances" element={<FinanceDashboard />} />
+              <Route path="/dashboard/Withdrawfunds" element={<WithdrawFunds />} />
 
-            
-            <Route element={<DashboardLayout />}>
-              <Route path="/dashboard" element={<DashboardOverview />} />
-              <Route path="/dashboard/reward" element={<DashboardReward />} />
-               <Route path="/dashboard/Referrals" element={<DashboardReferral />} />
+              <Route element={<DashboardLayout />}>
+                <Route path="/dashboard" element={<DashboardOverview />} />
+                <Route path="/dashboard/reward" element={<DashboardReward />} />
+                <Route path="/dashboard/Referrals" element={<DashboardReferral />} />
                 <Route path="/dashboard/setupguide" element={<KonnectXSetupGuide />} />
-              <Route path="/dashboard/profile" element={<DashboardProfile />} />
-              <Route path="/dashboard/Store" element={<HotspotStorePage />} />
-              <Route path="/dashboard/Settings" element={<AccountSettings />} />
-              <Route path="/dashboard/Token" element={<KonnectXToken />} />
-               <Route path="/dashboard/operatorkit" element={< ManageKits />} />
-               
-            </Route>
+                <Route path="/dashboard/profile" element={<DashboardProfile />} />
+                <Route path="/dashboard/Store" element={<HotspotStorePage />} />
+                <Route path="/dashboard/Settings" element={<AccountSettings />} />
+                <Route path="/dashboard/Token" element={<KonnectXToken />} />
+                <Route path="/dashboard/operatorkit" element={<ManageKits />} />
+              </Route>
 
-              {/* Admin Dashboard Routes */}
-              <Route
-                element={
-                  <AdminRoute>
-                    <AdminLayout />
-                  </AdminRoute>
-                }
-              >
+              <Route element={<AdminRoute><AdminLayout /></AdminRoute>}>
                 <Route path="/admin/dashboard" element={<AdminOverview />} />
                 <Route path="/admin/users" element={<AdminUsers />} />
                 <Route path="/admin/rewards" element={<AdminRewards />} />
               </Route>
 
-              {/* 404 Not Found */}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
@@ -126,16 +117,5 @@ const App = () => (
 
 createRoot(document.getElementById("root")!).render(<App />);
 export default App;
-
-
-
-
-
-
-
-
-
-
-
 
 
