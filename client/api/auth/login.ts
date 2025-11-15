@@ -42,12 +42,12 @@ export const login = async (credentials: LoginRequest): Promise<LoginResponse> =
     
     console.log("Login response:", response.data);
     
-    // Store tokens if login successful and not requiring 2FA
-    if (response.data.success && response.data.data && !response.data.requires2FA) {
-      localStorage.setItem('token', response.data.data.token);
-      localStorage.setItem('refreshToken', response.data.data.refreshToken);
-      localStorage.setItem('sessionId', response.data.data.sessionId);
-      localStorage.setItem('user', JSON.stringify(response.data.data.user));
+    // ✅ FIXED: Backend returns token at top level
+    if (response.data.success && !response.data.requires2FA) {
+      localStorage.setItem('token', response.data.token);
+      localStorage.setItem('refreshToken', response.data.refreshToken);
+      localStorage.setItem('sessionId', response.data.sessionId);
+      localStorage.setItem('user', JSON.stringify(response.data.user));
     }
     
     return response.data;

@@ -134,7 +134,7 @@ export default function SignIn() {
               >
                 <option value="user">User Login</option>
                 <option value="operator">Operator Login</option>
-                <option value="admin">Admin Login</option>
+                {/* <option value="admin">Admin Login</option> */}
               </select>
               <svg 
                 className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-600 dark:text-gray-300" 
@@ -219,12 +219,14 @@ export default function SignIn() {
                 />
                 <span className="text-gray-500 dark:text-gray-400">Remember me</span>
               </label>
-              <a 
-                href="#" 
-                className="text-gray-800 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400 transition font-medium"
-              >
-                Forgot password?
-              </a>
+              <button
+  type="button"
+  onClick={() => navigate("/forgot-password")}
+  className="text-gray-800 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400 transition font-medium"
+  disabled={loading || success}
+>
+  Forgot password?
+</button>
             </div>
 
             <Button

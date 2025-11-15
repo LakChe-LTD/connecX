@@ -4,6 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { useApp } from "@/contexts/AppContext";
 import { Eye, EyeOff, Moon, Sun, User, Mail, Lock, Loader2, CheckCircle } from "lucide-react";
 import { register } from "@/api/auth";
+import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
+import { apiClient } from "@/api/client";
 
 export default function Register() {
   const navigate = useNavigate();
