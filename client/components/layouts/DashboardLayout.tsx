@@ -1,25 +1,24 @@
 import { useState } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
-import { useApp } from "@/contexts/AppContext";import { Menu, X, LogOut, Settings, Moon, Sun, BarChart3, TrendingUp, User, Wifi, Users, Home, ArrowLeft, Gift, Heart, ShoppingCart, DollarSign } from "lucide-react";
+import { useApp } from "@/contexts/AppContext";
+import { Menu, X, LogOut, Settings, Moon, Sun, BarChart3, TrendingUp, User, Wifi, Users, Home, ArrowLeft, Gift, Heart, ShoppingCart, DollarSign } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import CreateHotspotModal from "@/components/CreateHotspotModal";
 
 export default function DashboardLayout() {
   const navigate = useNavigate();
   const location = useLocation();
   const { user, logout, theme, toggleTheme } = useApp();
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-   const isRewardPage = location.pathname === "/dashboard/Reward";
-   const isReferralsPage = location.pathname === "/dashboard/Referrals";
-   const isSetupguidePage = location.pathname === "/dashboard/setupguide";
-   const isStorePage = location.pathname === "/dashboard/store";
-    const isTokenPage = location.pathname === "/dashboard/Token";
-
-   const isSettingsPage = location.pathname === "/dashboard/Settings";
-
-   const isregisterKitPage = location.pathname === "/dashboard/registerKit";
-
-   
+  const isRewardPage = location.pathname === "/dashboard/Reward";
+  const isReferralsPage = location.pathname === "/dashboard/Referrals";
+  const isSetupguidePage = location.pathname === "/dashboard/setupguide";
+  const isStorePage = location.pathname === "/dashboard/store";
+  const isTokenPage = location.pathname === "/dashboard/Token";
+  const isSettingsPage = location.pathname === "/dashboard/Settings";
+  const isregisterKitPage = location.pathname === "/dashboard/registerKit";
 
   const menuItems = [
     { label: "Hotspots", path: "/dashboard/", icon: Wifi },
@@ -30,31 +29,35 @@ export default function DashboardLayout() {
     { label: "Settings", path: "/dashboard/Settings", icon: Settings },
     { label: "Token", path: "/dashboard/Token", icon: DollarSign },
     { label: "operatorkit", path: "/dashboard/operatorkit", icon: DollarSign },
-    
   ];
 
-// if (!user) {
-//   // Don't immediately redirect, give context time to update
-//   return (
-//     <div className="flex items-center justify-center h-screen">
-//       <div className="text-center">
-//         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-//         <p className="mt-4 text-gray-600">Loading...</p>
-//       </div>
-//     </div>
-//   );
-// }
+  const handleHotspotCreated = (hotspot: any) => {
+    console.log("Hotspot created successfully!", hotspot);
+    
+    // Option 1: Force page reload to fetch fresh data
+    // navigate(0);
+    
+    // Option 2: Trigger a custom event that your dashboard page can listen to
+    window.dispatchEvent(new CustomEvent('hotspotCreated', { detail: hotspot }));
+    
+    // Option 3: If you're using a state management library, update the global state here
+  };
 
   return (
     <div className={`flex h-screen ${theme === 'dark' ? 'bg-black' : 'bg-background'}`}>
+      {/* Create Hotspot Modal */}
+      <CreateHotspotModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSuccess={handleHotspotCreated}
+      />
+
       {/* Sidebar */}
       <div
         className={`${
           sidebarOpen ? "w-64" : "w-20"
         } ${theme === 'dark' ?  'bg-[#333436] border-[#2b2b2c]' : 'bg-gray-100 border-gray-200'} border-r transition-all duration-300 flex flex-col`}
       >
-       
-
         {/* Menu Items */}
         <nav className="flex-1 p-4 space-y-1">
           {isRewardPage ? (
@@ -81,9 +84,7 @@ export default function DashboardLayout() {
               <ArrowLeft className="w-7 h-7" />
               {sidebarOpen && <span className="font-Bold text-xl">Back</span>}
             </a>
-          )
-          
-          : (
+          ) : (
             // Regular menu items
             menuItems.map((item) => (
               <a
@@ -155,7 +156,7 @@ export default function DashboardLayout() {
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
-               <header className={`px-6 py-4 flex items-center justify-between relative ${theme === 'dark' ? 'bg-black border-b border-gray-800' : 'bg-gray-50'}`}>
+        <header className={`px-6 py-4 flex items-center justify-between relative ${theme === 'dark' ? 'bg-black border-b border-gray-800' : 'bg-gray-50'}`}>
           <h2 className={`text-2xl font-bold ${
             isReferralsPage || isSetupguidePage 
               ? `absolute left-1/2 transform -translate-x-1/2 ${theme === 'dark' ? 'text-white' : 'text-foreground'}` 
@@ -190,8 +191,7 @@ export default function DashboardLayout() {
                 English
                 <span className="ml-1">▼</span>
               </button>
-            )   :
-             isSettingsPage ? (
+            ) : isSettingsPage ? (
               <button className={`px-4 py-2 text-sm font-medium rounded-lg transition flex items-center gap-2 ${
                 theme === 'dark'
                   ? 'text-black bg-blue-700 border border-blue-700 hover:bg-gray-800'
@@ -199,39 +199,34 @@ export default function DashboardLayout() {
               }`}>
                 John Doe
               </button>
-            ) 
-              : isStorePage ? (
-              
-
-               <>
-               <button className={`px-4 py-2 text-sm font-medium rounded-lg transition flex items-center gap-2 ${
-                theme === 'dark'
-                  ? 'text-gray-300'
-                  : 'text-gray-700'
-              }`}>
-                 <Heart className="w-3 h-3" />
-               Kyc
-              </button>
-              <button className={`px-4 py-2 text-sm font-medium rounded-lg transition flex items-center gap-2 ${
-                theme === 'dark'
-                  ? 'text-gray-300'
-                  : 'text-gray-700'
-              }`}>
-                <ShoppingCart className="w-4 h-4" />
-               Cart{0}
-              </button>
-              <button className={`px-4 py-2 text-sm font-medium rounded-lg transition flex items-center gap-2 ${
-                theme === 'dark'
-                  ? 'text-gray-300'
-                  : 'text-gray-700'
-              }`}>
-                <User className="w-4 h-4" />
-               Account
-              </button>
-
+            ) : isStorePage ? (
+              <>
+                <button className={`px-4 py-2 text-sm font-medium rounded-lg transition flex items-center gap-2 ${
+                  theme === 'dark'
+                    ? 'text-gray-300'
+                    : 'text-gray-700'
+                }`}>
+                  <Heart className="w-3 h-3" />
+                  Kyc
+                </button>
+                <button className={`px-4 py-2 text-sm font-medium rounded-lg transition flex items-center gap-2 ${
+                  theme === 'dark'
+                    ? 'text-gray-300'
+                    : 'text-gray-700'
+                }`}>
+                  <ShoppingCart className="w-4 h-4" />
+                  Cart{0}
+                </button>
+                <button className={`px-4 py-2 text-sm font-medium rounded-lg transition flex items-center gap-2 ${
+                  theme === 'dark'
+                    ? 'text-gray-300'
+                    : 'text-gray-700'
+                }`}>
+                  <User className="w-4 h-4" />
+                  Account
+                </button>
               </>
-              
-            ): isReferralsPage ? (
+            ) : isReferralsPage ? (
               <button className={`px-4 py-2 text-sm font-medium rounded-lg transition flex items-center gap-2 ${
                 theme === 'dark'
                   ? 'text-black bg-blue-700 border border-gray-700'
@@ -240,7 +235,7 @@ export default function DashboardLayout() {
                 <User className="w-4 h-4" />
                 My Account
               </button>
-            ) :  (
+            ) : (
               <>
                 <button className={`px-4 py-2 text-sm font-medium rounded-lg transition ${
                   theme === 'dark'
@@ -249,11 +244,14 @@ export default function DashboardLayout() {
                 }`}>
                   ↑ Export
                 </button>
-                <button className={`px-4 py-2 text-sm font-medium rounded-lg transition ${
-                  theme === 'dark'
-                    ? 'text-black bg-blue-500 hover:bg-gray-200'
-                    : 'text-white bg-gray-900 hover:bg-gray-800'
-                }`}>
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className={`px-4 py-2 text-sm font-medium rounded-lg transition ${
+                    theme === 'dark'
+                      ? 'text-black bg-blue-500 hover:bg-blue-600'
+                      : 'text-white bg-gray-900 hover:bg-gray-800'
+                  }`}
+                >
                   + Add Hotspot
                 </button>
               </>
