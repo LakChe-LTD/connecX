@@ -28,41 +28,6 @@ export default function HotspotRegistration() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-purple-50">
-      {/* Header - Full Screen Width */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-2">
-              <button className="text-gray-600 hover:text-gray-800">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
-              <div className="flex items-center gap-2 ml-4">
-                <img
-                  src="/icons/KonnectX logo final.png" 
-                  alt="KonnectX Logo"
-                  className="w-10 h-10 object-contain"
-                />
-              </div>
-            </div>
-            <div className="flex items-center gap-6">
-              <button className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition">
-                <Heart className="w-5 h-5" />
-                <span>Kyc</span>
-              </button>
-              <button className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition">
-                <ShoppingCart className="w-5 h-5" />
-                <span>Kits</span>
-              </button>
-              <button className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition">
-                <User className="w-5 h-5" />
-                <span>Account</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
 
       {/* Main Content */}
       <div className="max-w-[1400px] mx-auto px-12 py-12">

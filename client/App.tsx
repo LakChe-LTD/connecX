@@ -77,16 +77,7 @@ const App = () => (
               <Route path="/" element={<Landing />} />
               <Route path="/signin" element={<SignIn />} />
               <Route path="/register" element={<Register />} />
-              <Route path="/dashboard/registerKit" element={<HotspotRegistration />} />
-              <Route path="/dashboard/registerKitStep2" element={<HotspotRegistrationStep2 />} />
-              <Route path="/dashboard/registerKitStep3" element={<HotspotRegistrationStep3 />} />
-              <Route path="/dashboard/Allkits" element={<KonnectXKitss />} />
-              <Route path="/dashboard/independentOperator" element={<IndependentOperators />} />
-              <Route path="/dashboard/HotspotAcess" element={<HotspotAcess />} />
-              <Route path="/dashboard/MyHotspots" element={<MyHotSpots />} />
-              <Route path="/dashboard/Vouchers" element={<VoucherManagement />} />
-              <Route path="/dashboard/Finances" element={<FinanceDashboard />} />
-              <Route path="/dashboard/Withdrawfunds" element={<WithdrawFunds />} />
+              
 
               <Route element={<DashboardLayout />}>
                 <Route path="/dashboard" element={<DashboardOverview />} />
@@ -98,6 +89,16 @@ const App = () => (
                 <Route path="/dashboard/Settings" element={<AccountSettings />} />
                 <Route path="/dashboard/Token" element={<KonnectXToken />} />
                 <Route path="/dashboard/operatorkit" element={<ManageKits />} />
+                <Route path="/dashboard/registerKit" element={<HotspotRegistration />} />
+                <Route path="/dashboard/registerKitStep2" element={<HotspotRegistrationStep2 />} />
+                <Route path="/dashboard/registerKitStep3" element={<HotspotRegistrationStep3 />} />
+                <Route path="/dashboard/Allkits" element={<KonnectXKitss />} />
+              <Route path="/dashboard/independentOperator" element={<IndependentOperators />} />
+              <Route path="/dashboard/HotspotAcess" element={<HotspotAcess />} />
+              <Route path="/dashboard/MyHotspots" element={<MyHotSpots />} />
+              <Route path="/dashboard/Vouchers" element={<VoucherManagement />} />
+              <Route path="/dashboard/Finances" element={<FinanceDashboard />} />
+              <Route path="/dashboard/Withdrawfunds" element={<WithdrawFunds />} />
               </Route>
 
               <Route element={<AdminRoute><AdminLayout /></AdminRoute>}>

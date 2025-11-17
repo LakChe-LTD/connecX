@@ -1,7 +1,7 @@
 // client/src/api/auth.ts
 
-import { apiClient } from "./client";
-import { ENDPOINTS } from "./endpoints";
+import { apiClient } from "../client";
+import { ENDPOINTS } from "../endpoints";
 
 // ========== EXISTING FUNCTIONS ==========
 

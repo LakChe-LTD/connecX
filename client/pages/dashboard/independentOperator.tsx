@@ -57,49 +57,6 @@ export default function IndependentOperators() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-purple-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            {/* Left section */}
-            <div className="flex items-center space-x-4">
-              
-              <div className="flex items-center space-x-2 ml-4">
-                <div className="flex items-center justify-center w-8 h-8 bg-blue-600 rounded-full">
-                  <div className="w-4 h-4 border-2 border-white rounded-full"></div>
-                  <div className="absolute w-6 h-6 border-2 border-blue-600 rounded-full animate-pulse"></div>
-                </div>
-                <span className="text-xl font-bold text-gray-900">KonnectX</span>
-              </div>
-            </div>
-
-            {/* Search */}
-            <div className="flex-1 max-w-md mx-8">
-              <input
-                type="text"
-                placeholder="Search Kits..."
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-
-            {/* Right section */}
-            <div className="flex items-center space-x-6">
-              <button className="flex items-center text-gray-700 hover:text-gray-900">
-                <Heart className="w-5 h-5 mr-1" />
-                <span className="text-sm">KYG</span>
-              </button>
-              <button className="flex items-center text-gray-700 hover:text-gray-900">
-                <ShoppingCart className="w-5 h-5 mr-1" />
-                <span className="text-sm">Kits (0)</span>
-              </button>
-              <button className="flex items-center text-gray-700 hover:text-gray-900">
-                <User className="w-5 h-5 mr-1" />
-                <span className="text-sm">Account</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
