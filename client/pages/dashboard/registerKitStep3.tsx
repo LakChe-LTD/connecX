@@ -1,73 +1,85 @@
 import React, { useState } from 'react';
-import {  User, Heart, ShoppingCart,} from "lucide-react";
+import { User, Heart, ShoppingCart } from "lucide-react";
+import { useApp } from "@/contexts/AppContext";
 import { useNavigate } from "react-router-dom";
 
-
-
 export default function HotspotRegistrationStep3() {
+  const [paymentMethod, setPaymentMethod] = useState('stripe');
+  const { theme } = useApp(); // Get theme from context
+  const navigate = useNavigate();
 
-   const navigate = useNavigate();
-  const [paymentMethod, setPaymentMethod] = useState('card');
-
-
-const handleSubmit = () => {
-
-    navigate("/dashboard/AllKits");   
+  const handleSubmit = () => {
+    navigate("/dashboard/independentOperator");   
   };
 
-
-
-
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-purple-50">
+    <div className={`min-h-screen ${theme === 'dark' ? 'bg-black' : 'bg-white'}`}>
+
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-8 py-12">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Register Your Hotspot Kit</h1>
-           <p className="text-base text-gray-500 mt-2">Follow these steps to register your custom hotspot hardware and start providing internet services.</p>
-          <h2 className=" text-gray-900 text-lg  font-bold mb-6 mt-2">Step 3 of 3 • Payment & Review</h2>
+          <h1 className={`text-4xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'} mb-3`}>
+            Register Your Hotspot Kit
+          </h1>
+          <p className={`text-base ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'} mb-4`}>
+            Follow these steps to register your custom hotspot hardware and start providing internet services.
+          </p>
+          <h2 className={`text-xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'} mb-6`}>
+            Step 3 of 3 • Payment & Review
+          </h2>
+          
           {/* Progress Bar */}
-        <div className="mb-2">
-          <div className="w-full bg-gray-200 rounded-full h-3">
-            <div className="bg-black h-3 rounded-full" style={{ width: '100%' }}></div>
+          <div className="mb-8">
+            <div className={`w-full rounded-full h-3 ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-200'}`}>
+              <div className={`h-3 rounded-full ${theme === 'dark' ? 'bg-blue-600' : 'bg-black'}`} style={{ width: '100%' }}></div>
+            </div>
           </div>
-        </div> 
+        </div>
 
         {/* Form Content */}
-        <div className=" p-15">
+        <div className="p-8">
           {/* Payment Section */}
-          <div className="mb-3">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Payment</h2>
-            <p className="text-sm text-gray-600 mb-6">One-time activation fee: $20</p>
+          <div className="mb-12">
+            <h2 className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'} mb-4`}>
+              Payment
+            </h2>
+            <p className={`text-base font-semibold ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'} mb-6`}>
+              One-time activation fee: $20
+            </p>
             
-            <div className="flex gap-3">
+            <div className="flex gap-4">
               <button
-                onClick={() => setPaymentMethod('card')}
-                className={`px-6 py-2 rounded-md font-medium transition border-2 ${
-                  paymentMethod === 'Stripe'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200 border-gray-900'
+                onClick={() => setPaymentMethod('stripe')}
+                className={`px-8 py-3 rounded-lg font-bold text-base transition border-2 ${
+                  paymentMethod === 'stripe'
+                    ? ' bg-black dark:bg-blue-600 text-white border-blue-600'
+                    : theme === 'dark'
+                      ? 'bg-[#333436] text-gray-300 border-gray-700 hover:bg-gray-700'
+                      : 'bg-gray-100 text-gray-700 border-gray-300 hover:bg-gray-200'
                 }`}
               >
                 Stripe
               </button>
               <button
                 onClick={() => setPaymentMethod('flutterwave')}
-                className={`px-6 py-2 rounded-md font-medium transition border-2 ${
+                className={`px-8 py-3 rounded-lg font-bold text-base transition border-2 ${
                   paymentMethod === 'flutterwave'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-700  border-black  '
+                    ? 'bg-blue-600 text-white border-blue-600'
+                    : theme === 'dark'
+                      ? 'bg-[#333436] text-gray-300 border-gray-700 hover:bg-gray-700'
+                      : 'bg-gray-100 text-gray-700 border-gray-300 hover:bg-gray-200'
                 }`}
               >
                 Flutterwave
               </button>
               <button
-                onClick={() => setPaymentMethod('yay')}
-                className={`px-6 py-2 rounded-md font-medium transition border-2 ${
-                  paymentMethod === 'Ton'
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200 border-gray-900'
+                onClick={() => setPaymentMethod('ton')}
+                className={`px-8 py-3 rounded-lg font-bold text-base transition border-2 ${
+                  paymentMethod === 'ton'
+                    ? 'bg-blue-600 text-white border-blue-600'
+                    : theme === 'dark'
+                      ? 'bg-[#333436] text-gray-300 border-gray-700 hover:bg-gray-700'
+                      : 'bg-gray-100 text-gray-700 border-gray-300 hover:bg-gray-200'
                 }`}
               >
                 Ton
@@ -77,80 +89,104 @@ const handleSubmit = () => {
 
           {/* Review Section */}
           <div>
-            <h2 className="text-xl font-bold text-gray-900 mb-9">Review</h2>
+            <h2 className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'} mb-8`}>
+              Review
+            </h2>
             
-            <div className="space-y-6">
-              {/* Hardware Field */}
+            <div className="space-y-8">
+              {/* Device Brand Field */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className={`block text-base font-bold ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'} mb-3`}>
                   Device Brand
                 </label>
                 <input
                   type="text"
-                  className="w-full px-4 py-2  border-b border-gray-300 text-gray-900 rounded-none focus:outline-none focus:border-blue-600"
+                  placeholder="Enter device brand"
+                  className={`w-full px-4 py-3 border-b-2 rounded-none focus:outline-none font-medium text-base ${
+                    theme === 'dark'
+                      ? 'bg-[#333436] border-gray-700 text-white placeholder-gray-500 focus:border-blue-600'
+                      : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400 focus:border-blue-600'
+                  }`}
                 />
               </div>
 
-              {/* Maker Field */}
+              {/* Device Model Field */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                Device Model
+                <label className={`block text-base font-bold ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'} mb-3`}>
+                  Device Model
                 </label>
                 <input
                   type="text"
-                  className="w-full px-4 py-2  border-b border-gray-300 text-gray-900 rounded-none focus:outline-none focus:border-blue-600"
+                  placeholder="Enter device model"
+                  className={`w-full px-4 py-3 border-b-2 rounded-none focus:outline-none font-medium text-base ${
+                    theme === 'dark'
+                      ? 'bg-[#333436] border-gray-700 text-white placeholder-gray-500 focus:border-blue-600'
+                      : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400 focus:border-blue-600'
+                  }`}
                 />
               </div>
 
               {/* Mac Address Field */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className={`block text-base font-bold ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'} mb-3`}>
                   Mac Address
                 </label>
                 <input
                   type="text"
-                  className="w-full px-4 py-2  border-b border-gray-300 text-gray-900 rounded-none focus:outline-none focus:border-blue-600"
+                  placeholder="Enter MAC address"
+                  className={`w-full px-4 py-3 border-b-2 rounded-none focus:outline-none font-medium text-base ${
+                    theme === 'dark'
+                      ? 'bg-[#333436] border-gray-700 text-white placeholder-gray-500 focus:border-blue-600'
+                      : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400 focus:border-blue-600'
+                  }`}
                 />
               </div>
 
-              {/* IMEI/SWID Field */}
+              {/* Serial Number Field */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className={`block text-base font-bold ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'} mb-3`}>
                   Serial Number
                 </label>
                 <input
                   type="text"
-                  className="w-full px-4 py-2  border-b border-gray-300 text-gray-900 rounded-none focus:outline-none focus:border-blue-600"
+                  placeholder="Enter serial number"
+                  className={`w-full px-4 py-3 border-b-2 rounded-none focus:outline-none font-medium text-base ${
+                    theme === 'dark'
+                      ? 'bg-[#333436] border-gray-700 text-white placeholder-gray-500 focus:border-blue-600'
+                      : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400 focus:border-blue-600'
+                  }`}
                 />
               </div>
 
-              {/* Verified Field */}
+              {/* KYC Status Field */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className={`block text-base font-bold ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'} mb-3`}>
                   KYC Status
                 </label>
                 <input
                   type="text"
-                 className="w-full px-4 py-2  border-b border-gray-300 text-gray-900 rounded-none focus:outline-none focus:border-blue-600"
+                  placeholder="Enter KYC status"
+                  className={`w-full px-4 py-3 border-b-2 rounded-none focus:outline-none font-medium text-base ${
+                    theme === 'dark'
+                      ? 'bg-[#333436] border-gray-700 text-white placeholder-gray-500 focus:border-blue-600'
+                      : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400 focus:border-blue-600'
+                  }`}
                 />
               </div>
             </div>
 
             {/* Submit Button */}
-            <div className="mt-8 flex justify-end">
-              
+            <div className="mt-10 flex justify-end">
               <button
-                    onClick={handleSubmit}
-                  className="px-8 py-3 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 transition"
-                     >
-               Submit for Approval
-                </button>
-
+                onClick={handleSubmit}
+                className="px-10 py-4 bg-black dark:bg-blue-600 text-white font-bold text-base rounded-lg transition shadow-lg"
+              >
+                Submit for Approval
+              </button>
             </div>
           </div>
         </div>
       </div>
-    </div>
     </div>
   );
 }

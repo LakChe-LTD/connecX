@@ -4,10 +4,8 @@ import { useApp } from "@/contexts/AppContext";
 import {  User, Heart, ShoppingCart,} from "lucide-react";
 
 const HotspotRegistrationStep2 = () => {
-
-      const navigate = useNavigate();
-
-  
+  const { theme } = useApp();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     kitType: '',
@@ -24,8 +22,6 @@ const HotspotRegistrationStep2 = () => {
     utilityBill: null as File | null,
     selfieWithId: null as File | null
   });
-
-  
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -44,35 +40,33 @@ const HotspotRegistrationStep2 = () => {
 
   const handleSubmit = () => {
     console.log('Form submitted:', formData);
-    // alert('Kit information saved successfully!');
-
-    navigate("/dashboard/registerKitStep3");   // ✅ ADD THIS
+    navigate("/dashboard/registerKitStep3");
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-purple-50">
+    <div className={`min-h-screen ${theme === 'dark' ? 'bg-black' : 'bg-gradient-to-br from-purple-50 via-white to-purple-50'}`}>
       {/* Main Content */}
-      <div className=" max-w-7xl mx-auto px-8 py-12">
+      <div className="max-w-7xl mx-auto px-8 py-12">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Register Your Hotspot Kit</h1>
-           <p className="text-base text-gray-500 mt-2">Follow these steps to register your custom hotspot hardware and start providing internet services.</p>
-          <h2 className="text-gray-900 text-lg  font-bold mb-6 mt-2">Step 2 of 3 • KYC Verification</h2>
-           {/* Progress Bar */}
-          <div className="flex-1 h-3 bg-black rounded-full">
-            <div className="bg-black h-3 rounded-full" style={{ width: '70%' }}></div>
+          <h1 className={`text-4xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Register Your Hotspot Kit</h1>
+          <p className={`text-lg font-medium mt-3 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>Follow these steps to register your custom hotspot hardware and start providing internet services.</p>
+          <h2 className={`text-xl font-bold mb-6 mt-3 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Step 2 of 3 • KYC Verification</h2>
+          {/* Progress Bar */}
+          <div className={`flex-1 h-3 rounded-full ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-200'}`}>
+            <div className={`h-3 rounded-full ${theme === 'dark' ? 'bg-blue-600' : 'bg-black'}`} style={{ width: '70%' }}></div>
           </div>
         </div>
 
         <div className="p-15">
           {/* Operator Verification Section */}
           <div className="mb-10">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6 pb-3">
+            <h2 className={`text-2xl font-bold mb-6 pb-3 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
               Operator Verification
             </h2>
             
             <div className="space-y-6">
               <div>
-                <label className="block text-base font-semibold text-gray-700 mb-3">
+                <label className={`block text-lg font-bold mb-3 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
                   Full Name
                 </label>
                 <input
@@ -80,19 +74,27 @@ const HotspotRegistrationStep2 = () => {
                   name="fullName"
                   value={formData.fullName}
                   onChange={handleInputChange}
-                  className="w-1/2 px-5 py-4 border-2 border-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
+                  className={`w-1/2 px-5 py-4 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base font-medium ${
+                    theme === 'dark'
+                      ? 'bg-[#333436] border-gray-700 text-white placeholder-gray-500'
+                      : 'bg-white border-gray-900 text-gray-900 placeholder-gray-400'
+                  }`}
                 />
               </div>
 
               <div>
-                <label className="block text-base font-semibold text-gray-700 mb-3">
-                Goverment ID Type
+                <label className={`block text-lg font-bold mb-3 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+                  Government ID Type
                 </label>
                 <select
                   name="username"
                   value={formData.username}
                   onChange={handleInputChange}
-                  className="w-1/2 px-5 py-4 border-2 border-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-base"
+                  className={`w-1/2 px-5 py-4 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base font-medium ${
+                    theme === 'dark'
+                      ? 'bg-[#333436] border-gray-700 text-white'
+                      : 'bg-white border-gray-900 text-gray-900'
+                  }`}
                 >
                   <option value="">Select</option>
                   <option value="option1">Option 1</option>
@@ -101,7 +103,7 @@ const HotspotRegistrationStep2 = () => {
               </div>
 
               <div>
-                <label className="block text-base font-semibold text-gray-700 mb-3">
+                <label className={`block text-lg font-bold mb-3 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
                   ID Number
                 </label>
                 <input
@@ -110,76 +112,82 @@ const HotspotRegistrationStep2 = () => {
                   value={formData.occupation}
                   onChange={handleInputChange}
                   placeholder="Enter your occupation"
-                  className="w-1/2 px-5 py-4 border-2 border-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base"
+                  className={`w-1/2 px-5 py-4 border-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-base font-medium ${
+                    theme === 'dark'
+                      ? 'bg-[#333436] border-gray-700 text-white placeholder-gray-500'
+                      : 'bg-white border-gray-900 text-gray-900 placeholder-gray-400'
+                  }`}
                 />
               </div>
             </div>
           </div>
 
           {/* Upload Front and Back of ID */}
-         <div className="mb-10">
-  <h3 className="text-xl font-bold text-gray-900 mb-6 pb-3">
-    Upload Front and Back of ID
-  </h3>
+          <div className="mb-10">
+            <h3 className={`text-2xl font-bold mb-6 pb-3 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+              Upload Front and Back of ID
+            </h3>
 
-  <div className="space-y-6">
-    <div className="border-2 border-dashed  border-gray-900 p-4 rounded-lg">
-      <FileUploadBox
-        label="Upload Front of ID"
-        sublabel="Only government issued documents"
-        onFileSelect={(file) => handleFileUpload('frontIdProof', file)}
-      />
-    </div>
+            <div className="space-y-6">
+              <div className={`border-2 border-dashed p-4 rounded-lg ${theme === 'dark' ? 'bg-[#333436]' : 'border-gray-900'}`}>
+                <FileUploadBox
+                  label="Upload Front of ID"
+                  sublabel="Only government issued documents"
+                  onFileSelect={(file) => handleFileUpload('frontIdProof', file)}
+                  theme={theme}
+                />
+              </div>
 
-            <div className="border-2 border-dashed border-gray-900 p-4 rounded-lg">
-             <FileUploadBox
-               label="Upload Back of ID"
-                   sublabel="Only government issued documents"
+              <div className={`border-2 border-dashed p-4 rounded-lg ${theme === 'dark' ? 'bg-[#333436] border-gray-700' : 'border-gray-900'}`}>
+                <FileUploadBox
+                  label="Upload Back of ID"
+                  sublabel="Only government issued documents"
                   onFileSelect={(file) => handleFileUpload('backIdProof', file)}
-                 />
-             </div>
+                  theme={theme}
+                />
+              </div>
+            </div>
           </div>
-     </div>
-
 
           {/* Proof of Address */}
           <div className="mb-10">
-            <h3 className="text-xl font-bold text-gray-900 mb-6 pb-3 border-b-2 border-gray-200">
+            <h3 className={`text-2xl font-bold mb-6 pb-3 ${theme === 'dark' ? 'text-white border-b-2 border-gray-800' : 'text-gray-900 border-b-2 border-gray-200'}`}>
               Proof of Address
             </h3>
             <div>
-            <div className="border-2 border-dashed  border-gray-900 p-4 rounded-lg">
-              <FileUploadBox
-                label="Upload Utility Bill or Statement"
-                sublabel="Only government issued documents"
-                onFileSelect={(file) => handleFileUpload('proofOfAddress', file)}
-              />
+              <div className={`border-2 border-dashed p-4 rounded-lg ${theme === 'dark' ? 'bg-[#333436] border-gray-700' : 'border-gray-900'}`}>
+                <FileUploadBox
+                  label="Upload Utility Bill or Statement"
+                  sublabel="Only government issued documents"
+                  onFileSelect={(file) => handleFileUpload('proofOfAddress', file)}
+                  theme={theme}
+                />
               </div>
             </div>
           </div>
 
           {/* Selfie for Face Match */}
           <div className="mb-10">
-            <h3 className="text-xl font-bold text-gray-900 mb-6 pb-3 border-b-2 border-gray-200">
+            <h3 className={`text-2xl font-bold mb-6 pb-3 ${theme === 'dark' ? 'text-white border-b-2 border-gray-800' : 'text-gray-900 border-b-2 border-gray-200'}`}>
               Selfie for Face Match
             </h3>
             <div>
-
-              <div className="border-2 border-dashed  border-gray-900 p-4 rounded-lg">
-              <FileUploadBox
-                label="Upload Selfie"
-                sublabel="Hold your ID beside your face"
-                onFileSelect={(file) => handleFileUpload('selfieWithId', file)}
-              />
+              <div className={`border-2 border-dashed p-4 rounded-lg ${theme === 'dark' ? 'bg-[#333436] border-gray-700' : 'border-gray-900'}`}>
+                <FileUploadBox
+                  label="Upload Selfie"
+                  sublabel="Hold your ID beside your face"
+                  onFileSelect={(file) => handleFileUpload('selfieWithId', file)}
+                  theme={theme}
+                />
               </div>
             </div>
           </div>
 
           {/* Submit Button */}
-         <div className="pt-6 flex justify-end">
+          <div className="pt-6 flex justify-end">
             <button
               onClick={handleSubmit}
-              className="px-8 py-4 bg-blue-600 text-white text-base font-semibold rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-md transition-all"
+              className="px-10 py-4  bg-black dark:bg-blue-600 text-white text-lg font-bold rounded-lg  focus:outline-none focus:ring-2  shadow-md hover:shadow-lg transition-all"
             >
               Proceed to Verification
             </button>
@@ -194,7 +202,8 @@ const FileUploadBox: React.FC<{
   label: string;
   sublabel: string;
   onFileSelect: (file: File | null) => void;
-}> = ({ label, sublabel, onFileSelect }) => {
+  theme: 'light' | 'dark';
+}> = ({ label, sublabel, onFileSelect, theme }) => {
   const [fileName, setFileName] = useState<string | null>(null);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
@@ -211,7 +220,14 @@ const FileUploadBox: React.FC<{
   };
 
   return (
-    <div className="border-3 border-dashed border-gray-400 rounded-xl p-10 text-center hover:border-blue-500 hover:bg-blue-50 transition-all cursor-pointer" onClick={handleClick}>
+    <div 
+      className={`border-3 border-dashed rounded-xl p-10 text-center transition-all cursor-pointer ${
+        theme === 'dark'
+          ? 'border-gray-600 '
+          : 'border-gray-400 '
+      }`} 
+      onClick={handleClick}
+    >
       <input
         ref={fileInputRef}
         type="file"
@@ -220,17 +236,25 @@ const FileUploadBox: React.FC<{
         accept="image/*,.pdf"
       />
       <div className="mb-4">
-        <div className="text-base font-bold text-gray-900 mb-2">{label}</div>
-        <div className="text-sm text-gray-600">{sublabel}</div>
+        <div className={`text-lg font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>{label}</div>
+        <div className={`text-base font-medium ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>{sublabel}</div>
       </div>
       {fileName && (
-        <div className="text-sm text-gray-700 mb-4 font-medium bg-gray-100 py-2 px-4 rounded-lg inline-block">
+        <div className={`text-sm font-medium mb-4 py-2 px-4 rounded-lg inline-block ${
+          theme === 'dark'
+            ? 'text-gray-300 bg-gray-800'
+            : 'text-gray-700 bg-gray-100'
+        }`}>
           Selected: {fileName}
         </div>
       )}
       <button
         type="button"
-        className="px-6 py-3 bg-gray-900 text-white text-base font-semibold rounded-lg hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 shadow-md transition-all"
+        className={`px-8 py-3 text-base font-bold rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 shadow-md transition-all ${
+          theme === 'dark'
+            ? 'bg-blue-600 text-white  focus:ring-blue-500'
+            : 'bg-gray-900 text-white  focus:ring-gray-500'
+        }`}
       >
         Upload Document
       </button>

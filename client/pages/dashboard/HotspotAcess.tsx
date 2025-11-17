@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { Wifi, Heart, ShoppingCart, User, ArrowLeft } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
+import { useApp } from "@/contexts/AppContext";
 
 export default function HotspotAcess() {
-
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const { theme } = useApp();
+  
   const [formData, setFormData] = useState({
     deviceBrand: '',
     deviceModel: '',
@@ -26,121 +28,122 @@ export default function HotspotAcess() {
     setSelectedPlan(plan);
   };
 
-
   const handlePayment = () => {
-
     navigate("/dashboard/MyHotspots");   
   };
 
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-purple-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            {/* Logo and Back */}
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2">
-                <Wifi className="w-6 h-6 text-blue-600" />
-                <span className="text-xl font-bold text-blue-600">KonnectX</span>
-              </div>
-            </div>
-
-            {/* Search Bar */}
-            <div className="flex-1 max-w-md mx-8">
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Search Kits..."
-                  className="w-full px-4 py-2 pl-10 pr-4 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                <svg className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </div>
-            </div>
-
-            {/* Right Menu */}
-            <div className="flex items-center space-x-6">
-              <button className="flex items-center text-gray-600 hover:text-gray-900">
-                <Heart className="w-5 h-5 mr-1" />
-                <span className="text-sm font-medium">KYC</span>
-              </button>
-              <button className="flex items-center text-gray-600 hover:text-gray-900">
-                <ShoppingCart className="w-5 h-5 mr-1" />
-                <span className="text-sm font-medium">Kits (0)</span>
-              </button>
-              <button className="flex items-center text-gray-600 hover:text-gray-900">
-                <User className="w-5 h-5 mr-1" />
-                <span className="text-sm font-medium">Account</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
-
+    <div className={`min-h-screen ${
+      theme === 'dark' 
+        ? 'bg-black' 
+        : 'bg-gradient-to-br from-purple-50 via-white to-purple-50'
+    }`}>
       {/* Main Content */}
       <main className="max-w-4xl mx-auto px-4 py-12">
         <div className="p-8">
           {/* Title */}
-          <h1 className="text-3xl font-bold text-gray-900 text-center mb-3">
+          <h1 className={`text-4xl font-extrabold text-center mb-4 ${
+            theme === 'dark' ? 'text-white' : 'text-gray-900'
+          }`}>
             Pay for Hotspot Access
           </h1>
           
           {/* Subtitle */}
-          <p className="text-base text-gray-600 text-center mb-12">
+          <p className={`text-lg font-semibold text-center mb-12 ${
+            theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+          }`}>
             Connect to 'The Coffee Corner' hotspot provided by 'TechConnect Solutions'. Choose a subscription plan:
           </p>
 
           {/* Plan Selection */}
-          <div className="flex gap-4 mb-12">
+          <div className="flex flex-col sm:flex-row gap-4 mb-12">
             <button
               onClick={() => handlePlanSelect('daily')}
-              className={`flex-1 px-6 py-2 text-base font-medium rounded-md border transition-colors ${
+              className={`flex-1 px-6 py-4 text-base font-bold rounded-lg border-2 transition-all duration-200 ${
                 selectedPlan === 'daily'
-                  ? 'bg-gray-100 border-gray-300 text-gray-900'
-                  : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
+                  ? theme === 'dark'
+                    ? 'bg-[#333436] border-blue-500 text-white shadow-lg'
+                    : 'bg-gray-100 border-gray-400 text-gray-900 shadow-md'
+                  : theme === 'dark'
+                    ? 'bg-[#1a1a1b] border-gray-700 text-gray-300 hover:bg-[#2a2a2b] hover:border-gray-600'
+                    : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400'
               }`}
             >
-              Daily Pass - $2 for 3 hours
+              <span className="block text-lg font-extrabold mb-1">Daily Pass</span>
+              <span className={`block text-sm ${
+                selectedPlan === 'daily'
+                  ? theme === 'dark' ? 'text-blue-400' : 'text-gray-700'
+                  : theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+              }`}>
+                $2 for 3 hours
+              </span>
             </button>
+            
             <button
               onClick={() => handlePlanSelect('weekly')}
-              className={`flex-1 px-6 py-4 text-base font-medium rounded-md border transition-colors ${
+              className={`flex-1 px-6 py-4 text-base font-bold rounded-lg border-2 transition-all duration-200 ${
                 selectedPlan === 'weekly'
-                  ? 'bg-gray-100 border-gray-300 text-gray-900'
-                  : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
+                  ? theme === 'dark'
+                    ? 'bg-[#333436] border-blue-500 text-white shadow-lg'
+                    : 'bg-gray-100 border-gray-400 text-gray-900 shadow-md'
+                  : theme === 'dark'
+                    ? 'bg-[#1a1a1b] border-gray-700 text-gray-300 hover:bg-[#2a2a2b] hover:border-gray-600'
+                    : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400'
               }`}
             >
-              Weekly Pass - $10 for 7 days
+              <span className="block text-lg font-extrabold mb-1">Weekly Pass</span>
+              <span className={`block text-sm ${
+                selectedPlan === 'weekly'
+                  ? theme === 'dark' ? 'text-blue-400' : 'text-gray-700'
+                  : theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+              }`}>
+                $10 for 7 days
+              </span>
             </button>
+            
             <button
               onClick={() => handlePlanSelect('monthly')}
-              className={`flex-1 px-6 py-4 text-base font-medium rounded-md border transition-colors ${
+              className={`flex-1 px-6 py-4 text-base font-bold rounded-lg border-2 transition-all duration-200 ${
                 selectedPlan === 'monthly'
-                  ? 'bg-gray-100 border-gray-300 text-gray-900'
-                  : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
+                  ? theme === 'dark'
+                    ? 'bg-[#333436] border-blue-500 text-white shadow-lg'
+                    : 'bg-gray-100 border-gray-400 text-gray-900 shadow-md'
+                  : theme === 'dark'
+                    ? 'bg-[#1a1a1b] border-gray-700 text-gray-300 hover:bg-[#2a2a2b] hover:border-gray-600'
+                    : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400'
               }`}
             >
-              Monthly Pass - $30 for 30 days
+              <span className="block text-lg font-extrabold mb-1">Monthly Pass</span>
+              <span className={`block text-sm ${
+                selectedPlan === 'monthly'
+                  ? theme === 'dark' ? 'text-blue-400' : 'text-gray-700'
+                  : theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+              }`}>
+                $30 for 30 days
+              </span>
             </button>
           </div>
 
           {/* Pay Button */}
           <button
             onClick={handlePayment}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-md transition-colors mb-2"
+            className={`w-full font-bold text-lg py-4 px-6 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg ${
+              theme === 'dark'
+                ? 'bg-blue-600 hover:bg-blue-700 text-black'
+                : 'bg-black hover:bg-black text-white'
+            }`}
           >
             Pay & Connect
           </button>
 
           {/* Payment Method Info */}
-          <p className="text-sm text-gray-900 text-center">
+          <p className={`text-sm font-semibold text-center mt-4 ${
+            theme === 'dark' ? 'text-gray-400' : 'text-gray-900'
+          }`}>
             Pay with KonnectX Wallet or Saved payment method
           </p>
         </div>
       </main>
     </div>
   );
-}   
+}

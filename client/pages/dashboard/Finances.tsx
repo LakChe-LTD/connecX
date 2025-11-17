@@ -38,51 +38,6 @@ const FinanceDashboard = () => {
   return (
     <div className="min-h-screen  bg-gradient-to-br from-purple-50 via-white to-purple-50 p-4 md:p-6">
       <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 md:mb-8 gap-4">
-          <div className="flex items-center gap-3">
-            <button className="text-gray-700 hover:text-gray-900">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                <path d="M12.5 5L7.5 10L12.5 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </button>
-            <div className="flex items-center gap-2">
-              <div className="flex items-center gap-1">
-                <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-                  <div className="w-4 h-4 border-2 border-white rounded-full"></div>
-                  <div className="absolute w-6 h-6 border-2 border-blue-600 rounded-full animate-pulse"></div>
-                </div>
-                <span className="text-xl font-bold text-blue-600">KonnectX</span>
-              </div>
-            </div>
-          </div>
-          
-          <div className="flex flex-wrap items-center gap-3 md:gap-4 w-full md:w-auto">
-            <div className="relative w-full md:w-auto">
-              <input
-                type="text"
-                placeholder="Search Kits..."
-                className="w-full md:w-auto pl-8 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none bg-white"
-              />
-              <svg className="absolute left-2.5 top-2.5 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </div>
-            <button className="flex items-center gap-1 text-gray-700 hover:text-gray-900">
-              <Heart className="w-5 h-5" />
-              <span className="text-sm">KYC</span>
-            </button>
-            <button className="flex items-center gap-1 text-gray-700 hover:text-gray-900">
-              <ShoppingBag className="w-5 h-5" />
-              <span className="text-sm">Kits (0)</span>
-            </button>
-            <button className="flex items-center gap-1 text-gray-700 hover:text-gray-900">
-              <User className="w-5 h-5" />
-              <span className="text-sm">Account</span>
-            </button>
-          </div>
-        </div>
-
         {/* Finances Title */}
         <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 md:mb-6">Finances</h1>
 

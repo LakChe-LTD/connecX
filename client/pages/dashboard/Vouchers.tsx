@@ -39,26 +39,7 @@ export default function VoucherManagement() {
   return (
     <div className="min-h-screen bg-gray-50 p-3 sm:p-6">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-4 sm:mb-6">
-          <div className="flex items-center gap-3 w-full sm:w-auto">
-            <div className="flex items-center gap-2">
-              <Wifi className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600" />
-              <span className="text-lg sm:text-xl font-bold text-gray-900">konnectx</span>
-            </div>
-          </div>
-          <div className="w-full sm:ml-auto sm:w-auto">
-            <div className="relative w-full sm:w-64">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search Kits..."
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm font-semibold focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-              />
-            </div>
-          </div>
-        </div>
-
+        
         {/* Title and Add Button */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4 sm:mb-6">
           <div>

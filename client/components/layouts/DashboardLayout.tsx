@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useApp } from "@/contexts/AppContext";
-import { Menu, X, LogOut, Settings, Moon, Sun, BarChart3, TrendingUp, User, Wifi, Users, Home, ArrowLeft, Gift, Heart, ShoppingCart, DollarSign } from "lucide-react";
+import { Menu, X, LogOut, Settings, Moon, Sun, BarChart3, TrendingUp, User, Wifi, Users, Home, ArrowLeft, Gift, Heart, ShoppingCart, DollarSign, ChevronDown, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import CreateHotspotModal from "@/components/CreateHotspotModal";
 
@@ -11,6 +11,7 @@ export default function DashboardLayout() {
   const { user, logout, theme, toggleTheme } = useApp();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [operatorKitOpen, setOperatorKitOpen] = useState(false);
 
   const isRewardPage = location.pathname === "/dashboard/Reward";
   const isReferralsPage = location.pathname === "/dashboard/Referrals";
@@ -19,6 +20,7 @@ export default function DashboardLayout() {
   const isTokenPage = location.pathname === "/dashboard/Token";
   const isSettingsPage = location.pathname === "/dashboard/Settings";
   const isregisterKitPage = location.pathname === "/dashboard/registerKit";
+  const isAllKitsPage = location.pathname === "/dashboard/allkits";
 
   const menuItems = [
     { label: "Hotspots", path: "/dashboard/", icon: Wifi },
@@ -28,19 +30,21 @@ export default function DashboardLayout() {
     { label: "Store", path: "/dashboard/store", icon: Home },
     { label: "Settings", path: "/dashboard/Settings", icon: Settings },
     { label: "Token", path: "/dashboard/Token", icon: DollarSign },
-    { label: "operatorkit", path: "/dashboard/operatorkit", icon: DollarSign },
   ];
 
   const handleHotspotCreated = (hotspot: any) => {
     console.log("Hotspot created successfully!", hotspot);
-    
-    // Option 1: Force page reload to fetch fresh data
-    // navigate(0);
-    
-    // Option 2: Trigger a custom event that your dashboard page can listen to
     window.dispatchEvent(new CustomEvent('hotspotCreated', { detail: hotspot }));
-    
-    // Option 3: If you're using a state management library, update the global state here
+  };
+
+  const handleOperatorKitClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (sidebarOpen) {
+      setOperatorKitOpen(!operatorKitOpen);
+    } else {
+      // If sidebar is collapsed, navigate directly or expand sidebar
+      navigate("/dashboard/operatorkit");
+    }
   };
 
   return (
@@ -85,23 +89,68 @@ export default function DashboardLayout() {
               {sidebarOpen && <span className="font-Bold text-xl">Back</span>}
             </a>
           ) : (
-            // Regular menu items
-            menuItems.map((item) => (
-              <a
-                key={item.path}
-                href={item.path}
-                className={`flex items-center gap-8 px-4 py-3 rounded-lg transition-all duration-200 ${
-                  location.pathname === item.path
-                    ? 'bg-black text-white dark:bg-blue-600'
-                    : theme === 'dark'
-                      ? 'text-gray-300 hover:bg-blue-600 hover:text-white'
-                      : 'text-gray-700 hover:bg-gray-900 hover:text-white'
-                }`}
-              >
-                <item.icon className="w-7 h-7" />
-                {sidebarOpen && <span className="font-Bold text-xl">{item.label}</span>}
-              </a>
-            ))
+            <>
+              {/* Regular menu items */}
+              {menuItems.map((item) => (
+                <a
+                  key={item.path}
+                  href={item.path}
+                  className={`flex items-center gap-8 px-4 py-3 rounded-lg transition-all duration-200 ${
+                    location.pathname === item.path
+                      ? 'bg-black text-white dark:bg-blue-600'
+                      : theme === 'dark'
+                        ? 'text-gray-300 hover:bg-blue-600 hover:text-white'
+                        : 'text-gray-700 hover:bg-gray-900 hover:text-white'
+                  }`}
+                >
+                  <item.icon className="w-7 h-7" />
+                  {sidebarOpen && <span className="font-Bold text-xl">{item.label}</span>}
+                </a>
+              ))}
+
+              {/* Operator Kit with Dropdown */}
+              <div>
+                <button
+                  onClick={handleOperatorKitClick}
+                  className={`w-full flex items-center justify-between gap-8 px-4 py-3 rounded-lg transition-all duration-200 ${
+                    location.pathname === "/dashboard/operatorkit" || location.pathname === "/dashboard/allkits"
+                      ? 'bg-black text-white dark:bg-blue-600'
+                      : theme === 'dark'
+                        ? 'text-gray-300 hover:bg-blue-600 hover:text-white'
+                        : 'text-gray-700 hover:bg-gray-900 hover:text-white'
+                  }`}
+                >
+                  <div className="flex items-center gap-8">
+                    <DollarSign className="w-7 h-7" />
+                    {sidebarOpen && <span className="font-Bold text-xl">Operator Kit</span>}
+                  </div>
+                  {sidebarOpen && (
+                    operatorKitOpen ? 
+                      <ChevronDown className="w-5 h-5" /> : 
+                      <ChevronRight className="w-5 h-5" />
+                  )}
+                </button>
+
+                {/* Dropdown Menu */}
+                {sidebarOpen && operatorKitOpen && (
+                  <div className="ml-4 mt-1 space-y-1">
+                    <a
+                      href="/dashboard/allkits"
+                      className={`flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 ${
+                        location.pathname === "/dashboard/allkits"
+                          ? 'bg-black text-white dark:bg-blue-600'
+                          : theme === 'dark'
+                            ? 'text-gray-400 hover:bg-blue-600 hover:text-white'
+                            : 'text-gray-600 hover:bg-gray-900 hover:text-white'
+                      }`}
+                    >
+                      <div className="w-2 h-2 rounded-full bg-current" />
+                      <span className="font-medium text-base">All Kits</span>
+                    </a>
+                  </div>
+                )}
+              </div>
+            </>
           )}
         </nav>
 
@@ -162,7 +211,7 @@ export default function DashboardLayout() {
               ? `absolute left-1/2 transform -translate-x-1/2 ${theme === 'dark' ? 'text-white' : 'text-foreground'}` 
               : theme === 'dark' ? 'text-white' : 'text-foreground'
           }`}>
-            { isregisterKitPage ? "Register Kit" : isRewardPage ? "Rewards Dashboard"  :    isReferralsPage ? "Referrals Program"  : isSetupguidePage? "Setup Guide" : isStorePage? "StorePage" : isTokenPage? "Claim & Withdraw" :isSettingsPage? "Account Settings" : "Dashboard Overview"}
+            { isregisterKitPage ? "Register Kit" : isAllKitsPage ? "All Kits" : isRewardPage ? "Rewards Dashboard"  :    isReferralsPage ? "Referrals Program"  : isSetupguidePage? "Setup Guide" : isStorePage? "StorePage" : isTokenPage? "Claim & Withdraw" :isSettingsPage? "Account Settings" : "Dashboard Overview"}
           </h2>
           <div className="flex items-center gap-3 ml-auto">
             {isRewardPage ? (
