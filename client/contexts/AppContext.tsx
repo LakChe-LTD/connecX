@@ -1,4 +1,7 @@
+// client/src/contexts/AppContext.tsx
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import { logout as logoutApi } from '@/api/auth/logout';
+import { useNavigate } from "react-router-dom";
 
 interface User {
   id: string;
@@ -13,7 +16,7 @@ interface AppContextType {
   user: User | null;
   setUser: (user: User | null) => void;
   isAuthenticated: boolean;
-  logout: () => void;
+  logout: () => Promise<void>;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -62,13 +65,37 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setTheme(prev => prev === 'light' ? 'dark' : 'light');
   };
 
-  const logout = () => {
-    setUser(null);
-    // Clear all auth-related data from localStorage
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('sessionId');
+  const logout = async () => {
+    try {
+      // Call the logout API
+      const response = await logoutApi();
+      
+      // Clear user state
+      setUser(null);
+      
+      // Clear all auth-related data from localStorage
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('sessionId');
+      
+      console.log(response.message);
+      
+      // Redirect to login page
+      window.location.href = '/signin';
+    } catch (error: any) {
+      console.error('Logout error:', error);
+      
+      // Even if API fails, still clear local state
+      setUser(null);
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('sessionId');
+      
+      // Redirect to login page anyway
+      window.location.href = '/signin';
+    }
   };
 
   return (

@@ -1,6 +1,6 @@
+// client/src/api/auth/logout.ts
 import apiClient from "../client";
 
-// client/src/api/auth/logout.ts
 export interface LogoutResponse {
   success: boolean;
   message: string;
@@ -8,9 +8,15 @@ export interface LogoutResponse {
 
 export const logout = async (): Promise<LogoutResponse> => {
   try {
-    const response = await apiClient.post<LogoutResponse>('/auth/logout');
+    // Make the logout request to your backend
+    const response = await apiClient.post<LogoutResponse>('/auth/logout', {}, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      withCredentials: true, // Important for cookie-based authentication
+    });
     
-    // Clear local storage
+    // Clear local storage after successful logout
     localStorage.removeItem('token');
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('sessionId');
@@ -18,12 +24,20 @@ export const logout = async (): Promise<LogoutResponse> => {
     
     return response.data;
   } catch (error: any) {
-    // Clear local storage even if request fails
+    // Clear local storage even if request fails (force logout)
     localStorage.removeItem('token');
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('sessionId');
     localStorage.removeItem('user');
     
-    throw error.response?.data || { success: false, message: 'Logout failed' };
+    // Handle error response
+    if (error.response?.data) {
+      throw error.response.data;
+    }
+    
+    throw { 
+      success: false, 
+      message: error.message || 'Logout failed. Please try again.' 
+    };
   }
 };
