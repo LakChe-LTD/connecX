@@ -7,24 +7,28 @@ import { ENDPOINTS } from "@/api/endpoints";
 interface HotspotSetupModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSuccess?: (hotspotId: string) => void;
-  hotspot: any; // The hotspot that needs setup
+  onSuccess?: (hotspot: any) => void;
+  hotspot: any;
 }
 
-type SetupStep = "input" | "starting" | "configuring" | "success" | "error";
+type SetupStep = "input" | "starting" | "firmware" | "completing" | "success" | "error";
 
 export default function HotspotSetupModal({ isOpen, onClose, onSuccess, hotspot }: HotspotSetupModalProps) {
   const { theme } = useApp();
   const [setupCode, setSetupCode] = useState("");
+  const [firmwareVersion, setFirmwareVersion] = useState("");
   const [step, setStep] = useState<SetupStep>("input");
   const [error, setError] = useState<string | null>(null);
   const [hotspotId, setHotspotId] = useState<string | null>(null);
+  const [updatedHotspot, setUpdatedHotspot] = useState<any>(null);
 
   const handleClose = () => {
     setSetupCode("");
+    setFirmwareVersion("");
     setStep("input");
     setError(null);
     setHotspotId(null);
+    setUpdatedHotspot(null);
     onClose();
   };
 
@@ -41,29 +45,40 @@ export default function HotspotSetupModal({ isOpen, onClose, onSuccess, hotspot 
       if (response.data.success) {
         setHotspotId(response.data.hotspotId);
         
-        // If status is maintenance, go to configuring step
-        if (response.data.setupStatus === "maintenance") {
-          setStep("configuring");
-          
-          // Auto-complete after 3 seconds (simulated)
-          // In real app, you'd poll for status or have another endpoint
-          setTimeout(() => {
-            setStep("success");
-            setTimeout(() => {
-              onSuccess?.(response.data.hotspotId);
-              handleClose();
-            }, 2000);
-          }, 3000);
-        } else {
-          setStep("success");
-          setTimeout(() => {
-            onSuccess?.(response.data.hotspotId);
-            handleClose();
-          }, 2000);
-        }
+        // Move to firmware input step
+        setTimeout(() => {
+          setStep("firmware");
+        }, 1500);
       }
     } catch (err: any) {
       setError(err.response?.data?.message || "Failed to start setup");
+      setStep("error");
+    }
+  };
+
+  const completeSetup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    setStep("completing");
+
+    try {
+      const response = await apiClient.post(`${ENDPOINTS.HOTSPOT.LIST}/setup/complete`, {
+        setupCode: setupCode.trim(),
+        firmwareVersion: firmwareVersion.trim(),
+      });
+
+      if (response.data.success) {
+        setUpdatedHotspot(response.data.hotspot);
+        setStep("success");
+        
+        // Call success callback and close after 2 seconds
+        setTimeout(() => {
+          onSuccess?.(response.data.hotspot);
+          handleClose();
+        }, 2000);
+      }
+    } catch (err: any) {
+      setError(err.response?.data?.message || "Failed to complete setup");
       setStep("error");
     }
   };
@@ -88,12 +103,12 @@ export default function HotspotSetupModal({ isOpen, onClose, onSuccess, hotspot 
               <Wifi className="text-blue-500" size={24} />
             </div>
             <h2 className={`text-xl font-bold ${theme === "dark" ? "text-white" : "text-gray-900"}`}>
-              Start Hotspot Setup
+              {step === "firmware" ? "Configure Firmware" : "Start Hotspot Setup"}
             </h2>
           </div>
           <button
             onClick={handleClose}
-            disabled={step === "starting" || step === "configuring"}
+            disabled={step === "starting" || step === "completing"}
             className={`p-2 rounded-lg transition ${
               theme === "dark"
                 ? "hover:bg-gray-800 text-gray-400"
@@ -106,7 +121,7 @@ export default function HotspotSetupModal({ isOpen, onClose, onSuccess, hotspot 
 
         {/* Content */}
         <div className="p-6">
-          {/* Input Step */}
+          {/* Step 1: Input Setup Code */}
           {step === "input" && (
             <form onSubmit={startSetup} className="space-y-4">
               <div>
@@ -155,7 +170,7 @@ export default function HotspotSetupModal({ isOpen, onClose, onSuccess, hotspot 
             </form>
           )}
 
-          {/* Starting Step */}
+          {/* Step 2: Starting */}
           {step === "starting" && (
             <div className="py-8 text-center">
               <Loader className={`animate-spin h-12 w-12 mx-auto mb-4 ${theme === "dark" ? "text-blue-400" : "text-blue-600"}`} />
@@ -168,44 +183,106 @@ export default function HotspotSetupModal({ isOpen, onClose, onSuccess, hotspot 
             </div>
           )}
 
-          {/* Configuring Step */}
-          {step === "configuring" && (
+          {/* Step 3: Firmware Input */}
+          {step === "firmware" && (
+            <form onSubmit={completeSetup} className="space-y-4">
+              <div>
+                <p className={`text-sm mb-4 ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
+                  Setup initiated successfully! Now enter the firmware version to complete activation.
+                </p>
+                
+                <label className={`block text-sm font-medium mb-2 ${theme === "dark" ? "text-gray-300" : "text-gray-700"}`}>
+                  Firmware Version <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={firmwareVersion}
+                  onChange={(e) => setFirmwareVersion(e.target.value)}
+                  placeholder="e.g., 2.1.3"
+                  className={`w-full px-4 py-3 rounded-lg border font-mono text-lg transition ${
+                    theme === "dark"
+                      ? "bg-gray-800 border-gray-700 text-white placeholder-gray-500"
+                      : "bg-white border-gray-300 text-gray-900 placeholder-gray-400"
+                  } focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
+                />
+                <p className={`mt-2 text-xs ${theme === "dark" ? "text-gray-500" : "text-gray-500"}`}>
+                  Format: X.X.X (e.g., 2.1.3)
+                </p>
+              </div>
+
+              <div className={`p-4 rounded-lg ${theme === "dark" ? "bg-green-900/20 border border-green-800" : "bg-green-50 border border-green-200"}`}>
+                <div className="flex items-start gap-3">
+                  <CheckCircle className={`w-5 h-5 mt-0.5 ${theme === "dark" ? "text-green-400" : "text-green-600"}`} />
+                  <div>
+                    <p className={`text-sm font-medium ${theme === "dark" ? "text-green-400" : "text-green-700"}`}>
+                      Setup Code Verified
+                    </p>
+                    <p className={`text-xs mt-1 font-mono ${theme === "dark" ? "text-green-300" : "text-green-600"}`}>
+                      {setupCode}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                className="w-full px-6 py-3 rounded-lg font-medium bg-green-600 text-white hover:bg-green-700 transition flex items-center justify-center gap-2"
+              >
+                <CheckCircle size={18} />
+                Complete Setup
+              </button>
+            </form>
+          )}
+
+          {/* Step 4: Completing */}
+          {step === "completing" && (
             <div className="py-8 text-center">
               <div className="relative">
-                <Loader className={`animate-spin h-12 w-12 mx-auto mb-4 ${theme === "dark" ? "text-yellow-400" : "text-yellow-600"}`} />
+                <Loader className={`animate-spin h-12 w-12 mx-auto mb-4 ${theme === "dark" ? "text-green-400" : "text-green-600"}`} />
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <Wifi className={`h-6 w-6 ${theme === "dark" ? "text-yellow-400" : "text-yellow-600"}`} />
+                  <Wifi className={`h-6 w-6 ${theme === "dark" ? "text-green-400" : "text-green-600"}`} />
                 </div>
               </div>
               <h3 className={`text-lg font-semibold mb-2 ${theme === "dark" ? "text-white" : "text-gray-900"}`}>
-                Configuring Hotspot...
+                Completing Setup...
               </h3>
               <p className={`text-sm ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
-                Setting up network parameters
+                Finalizing configuration and activating hotspot
               </p>
               <div className="mt-4 space-y-2">
                 <div className={`h-2 rounded-full overflow-hidden ${theme === "dark" ? "bg-gray-800" : "bg-gray-200"}`}>
-                  <div className="h-full bg-yellow-500 animate-pulse" style={{ width: "75%" }}></div>
+                  <div className="h-full bg-green-500 animate-pulse" style={{ width: "90%" }}></div>
                 </div>
               </div>
             </div>
           )}
 
-          {/* Success Step */}
+          {/* Step 5: Success */}
           {step === "success" && (
             <div className="py-8 text-center">
               <CheckCircle className="h-16 w-16 mx-auto mb-4 text-green-500 animate-in zoom-in duration-300" />
               <h3 className={`text-lg font-semibold mb-2 ${theme === "dark" ? "text-white" : "text-gray-900"}`}>
                 Setup Complete!
               </h3>
-              <p className={`text-sm ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
-                Your hotspot is now active and ready to use
+              <p className={`text-sm mb-4 ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
+                Your hotspot is now online and ready to use
               </p>
-              {hotspotId && (
-                <div className={`mt-4 p-3 rounded-lg ${theme === "dark" ? "bg-green-900/20" : "bg-green-100"}`}>
-                  <p className={`text-xs font-mono ${theme === "dark" ? "text-green-400" : "text-green-700"}`}>
-                    ID: {hotspotId}
-                  </p>
+              {updatedHotspot && (
+                <div className="space-y-2">
+                  <div className={`p-3 rounded-lg ${theme === "dark" ? "bg-green-900/20" : "bg-green-100"}`}>
+                    <p className={`text-sm font-medium ${theme === "dark" ? "text-green-400" : "text-green-700"}`}>
+                      {updatedHotspot.name}
+                    </p>
+                    <p className={`text-xs mt-1 ${theme === "dark" ? "text-green-300" : "text-green-600"}`}>
+                      Status: {updatedHotspot.status}
+                    </p>
+                  </div>
+                  <div className={`p-3 rounded-lg ${theme === "dark" ? "bg-gray-800" : "bg-gray-100"}`}>
+                    <p className={`text-xs font-mono ${theme === "dark" ? "text-gray-400" : "text-gray-600"}`}>
+                      ID: {updatedHotspot._id}
+                    </p>
+                  </div>
                 </div>
               )}
             </div>
@@ -225,6 +302,8 @@ export default function HotspotSetupModal({ isOpen, onClose, onSuccess, hotspot 
                 onClick={() => {
                   setStep("input");
                   setError(null);
+                  setSetupCode("");
+                  setFirmwareVersion("");
                 }}
                 className={`px-6 py-2 rounded-lg font-medium transition ${
                   theme === "dark"
