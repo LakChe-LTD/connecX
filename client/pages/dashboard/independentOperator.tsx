@@ -154,7 +154,7 @@ export default function IndependentOperators() {
               {/* Add Button */}
               <button
                 onClick={handleAddHotspot}
-                className="px-8 py-3 bg-black dark:bg-blue-600 text-white font-bold text-base rounded-lg hover:bg-blue-700 transition-colors shadow-lg"
+                className="px-8 py-3 bg-black dark:bg-blue-600 text-white font-bold text-base rounded-lg shadow-lg"
               >
                 Add Hotspot
               </button>

@@ -14,31 +14,6 @@ export default function WithdrawFunds() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <button className="text-gray-600 hover:text-gray-800">
-            <ArrowLeft size={20} />
-          </button>
-          <div className="flex items-center gap-2">
-            <Wifi className="text-blue-600" size={24} />
-            <span className="font-semibold text-lg">KonnectX</span>
-          </div>
-        </div>
-        <div className="flex items-center gap-4">
-          <button className="relative">
-            <Heart size={20} className="text-gray-600" />
-          </button>
-          <button className="relative">
-            <ShoppingCart size={20} className="text-gray-600" />
-            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">0</span>
-          </button>
-          <button className="flex items-center gap-1 text-gray-600">
-            <User size={20} />
-            <span className="text-sm">Account</span>
-          </button>
-        </div>
-      </div>
 
       {/* Main Content */}
       <div className="max-w-2xl p-6 text-left border-l-2 border-gray-300 pl-6 ml-6">

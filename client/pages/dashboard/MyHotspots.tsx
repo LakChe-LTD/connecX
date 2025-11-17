@@ -79,7 +79,7 @@ export default function MyHotSpots() {
               <h1 className="text-3xl font-bold text-gray-900">My Hotspots</h1>
               <button
                 onClick={handleSubmit}
-                className="px-6 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
+                className="px-6 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-lg  transition-colors"
               >
                 Add New Hotspot
               </button>

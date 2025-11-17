@@ -1,10 +1,12 @@
 import React from 'react';
 import { Heart, ShoppingBag, User } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
-
+import { useApp } from "@/contexts/AppContext";
 
 const FinanceDashboard = () => {
   const navigate = useNavigate();
+  const { theme } = useApp();
+  
   const chartData = [
     { week: 'Week 1', value: 30 },
     { week: '', value: 55 },
@@ -28,42 +30,95 @@ const FinanceDashboard = () => {
 
   const maxValue = Math.max(...chartData.map(d => d.value));
 
-
-
-    const handleWithdraw = () => {
-
+  const handleWithdraw = () => {
     navigate("/dashboard/Withdrawfunds");   
   };
   
   return (
-    <div className="min-h-screen  bg-gradient-to-br from-purple-50 via-white to-purple-50 p-4 md:p-6">
+    <div>
       <div className="max-w-4xl mx-auto">
         {/* Finances Title */}
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4 md:mb-6">Finances</h1>
+        <h1 className={`text-3xl md:text-4xl font-extrabold mb-6 md:mb-8 ${
+          theme === 'dark' ? 'text-white' : 'text-gray-900'
+        }`}>
+          Finances
+        </h1>
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-          <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-100">
-            <div className="text-sm text-gray-600 mb-1">Total Income</div>
-            <div className="text-2xl font-bold text-gray-900">$1,250</div>
+          <div className={`rounded-lg shadow-lg p-6 border-2 ${
+            theme === 'dark'
+              ? 'bg-[#333436] border-gray-700'
+              : 'bg-white border-gray-100'
+          }`}>
+            <div className={`text-sm font-bold mb-2 ${
+              theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+            }`}>
+              Total Income
+            </div>
+            <div className={`text-3xl font-extrabold ${
+              theme === 'dark' ? 'text-white' : 'text-gray-900'
+            }`}>
+              $1,250
+            </div>
           </div>
-          <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-100">
-            <div className="text-sm text-gray-600 mb-1">Vouchers Sold</div>
-            <div className="text-2xl font-bold text-gray-900">320</div>
+          <div className={`rounded-lg shadow-lg p-6 border-2 ${
+            theme === 'dark'
+              ? 'bg-[#333436] border-gray-700'
+              : 'bg-white border-gray-100'
+          }`}>
+            <div className={`text-sm font-bold mb-2 ${
+              theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+            }`}>
+              Vouchers Sold
+            </div>
+            <div className={`text-3xl font-extrabold ${
+              theme === 'dark' ? 'text-white' : 'text-gray-900'
+            }`}>
+              320
+            </div>
           </div>
-          <div className="bg-white rounded-lg shadow-sm p-6 border border-gray-100">
-            <div className="text-sm text-gray-600 mb-1">Active Subscribers</div>
-            <div className="text-2xl font-bold text-gray-900">150</div>
+          <div className={`rounded-lg shadow-lg p-6 border-2 ${
+            theme === 'dark'
+              ? 'bg-[#333436] border-gray-700'
+              : 'bg-white border-gray-100'
+          }`}>
+            <div className={`text-sm font-bold mb-2 ${
+              theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+            }`}>
+              Active Subscribers
+            </div>
+            <div className={`text-3xl font-extrabold ${
+              theme === 'dark' ? 'text-white' : 'text-gray-900'
+            }`}>
+              150
+            </div>
           </div>
         </div>
 
         {/* Income Trend Chart */}
-        <div className="bg-white rounded-lg shadow-sm p-4 md:p-6 border border-gray-100">
+        <div className={`rounded-lg shadow-lg p-6 md:p-8 border-2 ${
+          theme === 'dark'
+            ? 'bg-[#333436] border-gray-700'
+            : 'bg-white border-gray-100'
+        }`}>
           <div className="mb-6">
-            <div className="text-sm text-gray-600 mb-1">Income Trend</div>
+            <div className={`text-sm font-bold mb-2 ${
+              theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+            }`}>
+              Income Trend
+            </div>
             <div className="flex items-end gap-2">
-              <div className="text-2xl font-bold text-gray-900">$1,250</div>
-              <div className="text-sm text-green-600 mb-1">Last 30 Days +15%</div>
+              <div className={`text-3xl font-extrabold ${
+                theme === 'dark' ? 'text-white' : 'text-gray-900'
+              }`}>
+                $1,250
+              </div>
+              <div className={`text-sm font-bold mb-1 ${
+                theme === 'dark' ? 'text-green-400' : 'text-green-600'
+              }`}>
+                Last 30 Days +15%
+              </div>
             </div>
           </div>
 
@@ -78,9 +133,9 @@ const FinanceDashboard = () => {
                   y1={i * 25}
                   x2="100"
                   y2={i * 25}
-                  stroke="#fbbf24"
+                  stroke={theme === 'dark' ? '#fbbf24' : '#fbbf24'}
                   strokeWidth="0.2"
-                  opacity="0.3"
+                  opacity={theme === 'dark' ? '0.5' : '0.3'}
                   vectorEffect="non-scaling-stroke"
                 />
               ))}
@@ -88,7 +143,7 @@ const FinanceDashboard = () => {
               {/* Smooth curved line chart */}
               <path
                 fill="none"
-                stroke="#fbbf24"
+                stroke={theme === 'dark' ? '#fbbf24' : '#fbbf24'}
                 strokeWidth="0.8"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -118,7 +173,9 @@ const FinanceDashboard = () => {
             </svg>
 
             {/* X-axis labels */}
-            <div className="absolute -bottom-6 left-0 right-0 flex justify-between text-xs text-gray-500">
+            <div className={`absolute -bottom-6 left-0 right-0 flex justify-between text-xs font-bold ${
+              theme === 'dark' ? 'text-gray-400' : 'text-gray-500'
+            }`}>
               <span>Week 1</span>
               <span>Week 2</span>
               <span>Week 3</span>
@@ -128,8 +185,10 @@ const FinanceDashboard = () => {
 
           {/* Withdraw Button */}
           <div className="flex justify-end mt-6">
-            <button onClick={handleWithdraw}
-            className="w-full md:w-auto px-6 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors">
+            <button 
+              onClick={handleWithdraw}
+              className="w-full md:w-auto px-6 py-3 bg-black dark:bg-blue-600 text-white text-sm font-extrabold rounded-lg  transition-all duration-200 shadow-md hover:shadow-lg"
+            >
               Withdraw
             </button>
           </div>
