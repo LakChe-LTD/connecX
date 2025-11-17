@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { BarChart3, TrendingUp, Wifi, Users, Zap, Gift, Home, DollarSign, Settings, RefreshCw, Edit, Trash2 } from "lucide-react";
+import { BarChart3, TrendingUp, Wifi, Users, Zap, Gift, Home, DollarSign, Settings, RefreshCw, Edit, Trash2, Play } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { useApp } from "@/contexts/AppContext";
 import { getHotspots, deleteHotspot, type Hotspot } from "@/api/services/hotspotService";
 import EditHotspotModal from "@/components/EditHotspotModal";
 import DeleteConfirmationDialog from "@/components/DeleteConfirmationDialog";
+import HotspotSetupModal from "@/components/HotspotSetupModal";
 
 export default function DashboardOverview() {
   const [activeTab, setActiveTab] = useState('day');
@@ -21,6 +22,10 @@ export default function DashboardOverview() {
   // Delete dialog state
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [hotspotToDelete, setHotspotToDelete] = useState<Hotspot | null>(null);
+  
+  // Setup modal state
+  const [setupModalOpen, setSetupModalOpen] = useState(false);
+  const [hotspotToSetup, setHotspotToSetup] = useState<Hotspot | null>(null);
 
   const fetchHotspots = async () => {
     try {
@@ -29,6 +34,8 @@ export default function DashboardOverview() {
       const data = await getHotspots();
       setHotspots(data);
       console.log("Fetched hotspots:", data);
+      // Debug: Log each hotspot's status
+      data.forEach(h => console.log(`Hotspot: ${h.name}, Status: ${h.status}`));
     } catch (err: any) {
       setError(err.message);
       console.error("Error fetching hotspots:", err);
@@ -70,6 +77,18 @@ export default function DashboardOverview() {
     setHotspots((prev) =>
       prev.map((h) => (h._id === updatedHotspot._id ? updatedHotspot : h))
     );
+  };
+
+  const handleSetup = (hotspot: Hotspot) => {
+    console.log("Opening setup modal for:", hotspot.name);
+    setHotspotToSetup(hotspot);
+    setSetupModalOpen(true);
+  };
+
+  const handleSetupSuccess = (hotspotId: string) => {
+    console.log("Setup completed for:", hotspotId);
+    // Refetch hotspots to get updated status
+    fetchHotspots();
   };
 
   useEffect(() => {
@@ -125,6 +144,17 @@ export default function DashboardOverview() {
 
   return (
     <div className={`min-h-screen ${theme === 'dark' ? 'bg-black' : 'bg-gray-50'}`}>
+      {/* Setup Modal */}
+      <HotspotSetupModal
+        isOpen={setupModalOpen}
+        onClose={() => {
+          setSetupModalOpen(false);
+          setHotspotToSetup(null);
+        }}
+        onSuccess={handleSetupSuccess}
+        hotspot={hotspotToSetup}
+      />
+
       {/* Edit Modal */}
       <EditHotspotModal
         isOpen={editModalOpen}
@@ -508,6 +538,10 @@ export default function DashboardOverview() {
                             ? theme === 'dark'
                               ? 'bg-green-900/30 text-green-400'
                               : 'bg-green-100 text-green-700'
+                            : hotspot.status === 'maintenance'
+                            ? theme === 'dark'
+                              ? 'bg-yellow-900/30 text-yellow-400'
+                              : 'bg-yellow-100 text-yellow-700'
                             : theme === 'dark'
                               ? 'bg-red-900/30 text-red-400'
                               : 'bg-red-100 text-red-700'
@@ -515,9 +549,11 @@ export default function DashboardOverview() {
                           <div className={`w-2 h-2 rounded-full ${
                             hotspot.status === 'online'
                               ? theme === 'dark' ? 'bg-green-400' : 'bg-green-500'
+                              : hotspot.status === 'maintenance'
+                              ? theme === 'dark' ? 'bg-yellow-400' : 'bg-yellow-500'
                               : theme === 'dark' ? 'bg-red-400' : 'bg-red-500'
                           }`}></div>
-                          {hotspot.status === 'online' ? 'Active' : 'Offline'}
+                          {hotspot.status === 'online' ? 'Active' : hotspot.status === 'maintenance' ? 'Setup' : 'Offline'}
                         </span>
                       </td>
                       <td className={`py-4 px-4 ${
@@ -532,12 +568,29 @@ export default function DashboardOverview() {
                       </td>
                       <td className="py-4 px-4">
                         <div className="flex gap-2">
+                          {/* Show Setup button for offline or maintenance status hotspots */}
+                          {(hotspot.status?.toLowerCase() === 'offline' || hotspot.status?.toLowerCase() === 'maintenance') && (
+                            <button 
+                              onClick={() => {
+                                console.log("Setup button clicked for:", hotspot.name, "Status:", hotspot.status);
+                                handleSetup(hotspot);
+                              }}
+                              className={`text-sm font-medium flex items-center gap-1 px-2 py-1 rounded transition ${
+                                theme === 'dark'
+                                  ? 'text-green-400 hover:text-green-300 hover:bg-green-900/20'
+                                  : 'text-green-600 hover:text-green-700 hover:bg-green-50'
+                              }`}
+                            >
+                              <Play size={14} />
+                              Setup
+                            </button>
+                          )}
                           <button 
                             onClick={() => handleEdit(hotspot)}
-                            className={`text-sm font-medium flex items-center gap-1 ${
+                            className={`text-sm font-medium flex items-center gap-1 px-2 py-1 rounded transition ${
                               theme === 'dark'
-                                ? 'text-blue-400 hover:text-blue-300'
-                                : 'text-blue-600 hover:text-blue-700'
+                                ? 'text-blue-400 hover:text-blue-300 hover:bg-blue-900/20'
+                                : 'text-blue-600 hover:text-blue-700 hover:bg-blue-50'
                             }`}
                           >
                             <Edit size={14} />
@@ -546,10 +599,10 @@ export default function DashboardOverview() {
                           <button 
                             onClick={() => handleDelete(hotspot)}
                             disabled={deletingId === hotspot._id}
-                            className={`text-sm font-medium flex items-center gap-1 disabled:opacity-50 ${
+                            className={`text-sm font-medium flex items-center gap-1 px-2 py-1 rounded transition disabled:opacity-50 ${
                               theme === 'dark'
-                                ? 'text-red-400 hover:text-red-300'
-                                : 'text-red-600 hover:text-red-700'
+                                ? 'text-red-400 hover:text-red-300 hover:bg-red-900/20'
+                                : 'text-red-600 hover:text-red-700 hover:bg-red-50'
                             }`}
                           >
                             <Trash2 size={14} />
