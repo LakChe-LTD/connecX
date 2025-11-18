@@ -211,6 +211,27 @@ export default function DashboardLayout() {
           </div>
         )}
 
+         {/* Logo Section - Always Visible */}
+        <div className={`p-4 border-b ${theme === 'dark' ? 'border-gray-800' : 'border-gray-300'}`}>
+          <div className="flex items-center justify-between">
+            <div className={`flex items-center ${sidebarOpen || isMobile ? 'gap-3' : 'justify-center w-full'}`}>
+              <img 
+                src="/icons/KonnecX-logo.png" 
+                alt="Konnecx Logo" 
+                className={`${sidebarOpen || isMobile ? 'h-8 w-8' : 'h-10 w-10'} object-contain transition-all duration-300`}
+              />
+            </div>
+            {isMobile && (
+              <button
+                onClick={() => setSidebarOpen(false)}
+                className={`p-2 rounded-lg ${theme === 'dark' ? 'hover:bg-gray-800' : 'hover:bg-gray-200'}`}
+              >
+                <X size={20} className={theme === 'dark' ? 'text-white' : 'text-gray-800'} />
+              </button>
+            )}
+          </div>
+        </div>
+
         {/* Menu Items */}
         <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
           {isRewardPage || isStorePage ? (
