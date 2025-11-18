@@ -47,6 +47,36 @@ export default function DashboardLayout() {
     }
   };
 
+
+
+
+  function getInitials(name?: string, email?: string): string {
+  if (name) {
+    const parts = name.trim().split(' ');
+    if (parts.length >= 2) {
+      // Use first letter of first name and first letter of last name
+      return `${parts[0].charAt(0)}${parts[parts.length - 1].charAt(0)}`.toUpperCase();
+    } else if (parts.length === 1) {
+      // Use first two letters of single name
+      return parts[0].substring(0, 2).toUpperCase();
+    }
+  }
+  
+  // Fallback to email
+  if (email) {
+    const emailPrefix = email.split('@')[0];
+    // Try to extract meaningful initials from email
+    // e.g., chizurumarvelous14 -> CM
+    const words = emailPrefix.match(/[A-Za-z]+/g) || [];
+    if (words.length >= 2) {
+      return `${words[0].charAt(0)}${words[1].charAt(0)}`.toUpperCase();
+    }
+    return emailPrefix.substring(0, 2).toUpperCase();
+  }
+  
+  return 'U';
+}
+
   return (
     <div className={`flex h-screen ${theme === 'dark' ? 'bg-black' : 'bg-background'}`}>
       {/* Create Hotspot Modal */}
@@ -183,22 +213,22 @@ export default function DashboardLayout() {
           </div>
 
           {/* User Profile */}
-          {sidebarOpen && (
-            <div className={`p-4 border-t ${theme === 'dark' ? 'border-gray-800' : 'border-gray-300'}`}>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-semibold">
-                  JD
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className={`text-sm font-semibold truncate ${theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>
-                    John Doe
-                  </p>
-                  <p className={`text-xs truncate ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
-                    victorajuzie580@gmail.com
-                  </p>
-                </div>
-              </div>
-            </div>
+          {sidebarOpen && user && (
+      <div className={`p-4 border-t ${theme === 'dark' ? 'border-gray-800' : 'border-gray-300'}`}>
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-semibold text-sm">
+        {user.initials || getInitials(user.name, user.email)}
+      </div>
+      <div className="flex-1 min-w-0">
+        <p className={`text-sm font-semibold truncate ${theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>
+          {user.name || 'User'}
+        </p>
+        <p className={`text-xs truncate ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+          {user.email}
+        </p>
+      </div>
+    </div>
+  </div>
           )}
         </div>
       </div>

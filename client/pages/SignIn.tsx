@@ -59,10 +59,22 @@ export default function SignIn() {
       // Set user in context
       const userData = {
         id: user.id,
-        name: user.firstName || user.email,
+       name: user.firstName && user.lastName 
+    ? `${user.firstName} ${user.lastName}` 
+    : user.firstName || user.email.split('@')[0],
         email: user.email,
-        role: user.role as "user" | "operator" | "admin"
+        role: user.role as "user" | "operator" | "admin",
+        firstName: user.firstName,
+         lastName: user.lastName,
+  // Generate proper initials
+      initials: user.firstName && user.lastName
+    ? `${user.firstName.charAt(0)}${user.lastName.charAt(0)}`.toUpperCase()
+    : user.firstName
+    ? user.firstName.substring(0, 2).toUpperCase()
+    : user.email.substring(0, 2).toUpperCase()
       };
+
+
 
       setUser(userData);
 
