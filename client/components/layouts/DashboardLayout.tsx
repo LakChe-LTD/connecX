@@ -217,7 +217,6 @@ export default function DashboardLayout() {
             <div className={`flex items-center ${sidebarOpen || isMobile ? 'gap-3' : 'justify-center w-full'}`}>
               <img 
                 src="/icons/KonnecX-logo.png" 
-                alt="Konnecx Logo" 
                 className={`${sidebarOpen || isMobile ? 'h-8 w-8' : 'h-10 w-10'} object-contain transition-all duration-300`}
               />
             </div>
