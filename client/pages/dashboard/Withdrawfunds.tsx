@@ -18,13 +18,13 @@ export default function WithdrawFunds() {
   return (
     <div>
       {/* Main Content */}
-      <div className={`max-w-6xl p-8 border-pl-8 ml-6 ${
+      <div className={`max-w-6xl p-8  ml-6 ${
         theme === 'dark' ? 'bg-black' : 'border-gray-200'
       }`}>
         <div className={`shadow-lg rounded-lg p-8  ${
           theme === 'dark'
             ? 'bg-black'
-            : 'bg-white '
+            : ''
         }`}>
           <h1 className={`text-3xl font-extrabold mb-3 ${
             theme === 'dark' ? 'text-white' : 'text-gray-900'
