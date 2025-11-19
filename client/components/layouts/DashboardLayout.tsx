@@ -45,15 +45,15 @@ export default function DashboardLayout() {
     { label: "Token", path: "/dashboard/Token", icon: DollarSign },
   ];
 
-  // Detect mobile screen size
+
   useEffect(() => {
     const checkMobile = () => {
       const mobile = window.innerWidth < 1024;
       setIsMobile(mobile);
       if (!mobile) {
-        setSidebarOpen(true); // Always open on desktop
+        setSidebarOpen(true); 
       } else {
-        setSidebarOpen(false); // Closed by default on mobile
+        setSidebarOpen(false); 
       }
     };
 
@@ -62,31 +62,7 @@ export default function DashboardLayout() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Close sidebar when clicking outside on mobile
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        isMobile &&
-        sidebarOpen &&
-        sidebarRef.current &&
-        !sidebarRef.current.contains(event.target as Node)
-      ) {
-        setSidebarOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [isMobile, sidebarOpen]);
-
-  // Close sidebar on route change (mobile only)
-  useEffect(() => {
-    if (isMobile) {
-      setSidebarOpen(false);
-    }
-  }, [location.pathname, isMobile]);
-
-  // Touch drag handlers for mobile sidebar
+  // Touch start handler for mobile sidebar
   const handleTouchStart = (e: React.TouchEvent) => {
     if (!isMobile) return;
     dragStartX.current = e.touches[0].clientX;
@@ -251,32 +227,40 @@ export default function DashboardLayout() {
 
               {/* Operator Kit with Dropdown */}
               <div>
-                <button
-                  onClick={handleOperatorKitClick}
-                  className={`w-full flex items-center justify-between ${isMobile ? 'gap-4' : 'gap-8'} px-4 py-3 rounded-lg transition-all duration-200 ${
+                <div className={`w-full flex items-center justify-between ${isMobile ? 'gap-4' : 'gap-8'} px-4 py-3 rounded-lg transition-all duration-200 ${
                     location.pathname === "/dashboard/operatorkit" || location.pathname === "/dashboard/allkits"
                       ? 'bg-black text-white dark:bg-blue-600'
                       : theme === 'dark'
                         ? 'text-gray-300 hover:bg-blue-600 hover:text-white'
                         : 'text-gray-700 hover:bg-gray-900 hover:text-white'
-                  }`}
-                >
-                  <div className="flex items-center gap-4">
+                  }`}>
+                  <a
+                    href="/dashboard/operatorkit"
+                    onClick={(e) => { e.preventDefault(); navigate('/dashboard/operatorkit'); }}
+                    className="flex items-center gap-4 flex-1"
+                  >
                     <DollarSign className="w-7 h-7 flex-shrink-0" />
                     {(sidebarOpen || isMobile) && <span className="font-bold text-xl">Operator Kit</span>}
-                  </div>
+                  </a>
+
                   {(sidebarOpen || isMobile) && (
-                    operatorKitOpen ? 
-                      <ChevronDown className="w-5 h-5 flex-shrink-0" /> : 
-                      <ChevronRight className="w-5 h-5 flex-shrink-0" />
+                    <button
+                      onClick={(e) => { e.stopPropagation(); setOperatorKitOpen((s) => !s); }}
+                      aria-expanded={operatorKitOpen}
+                      aria-controls="operator-kit-dropdown"
+                      className="p-1 rounded focus:outline-none"
+                    >
+                      {operatorKitOpen ? <ChevronDown className="w-5 h-5 flex-shrink-0" /> : <ChevronRight className="w-5 h-5 flex-shrink-0" />}
+                    </button>
                   )}
-                </button>
+                </div>
 
                 {/* Dropdown Menu */}
                 {(sidebarOpen || isMobile) && operatorKitOpen && (
-                  <div className="ml-4 mt-1 space-y-1">
+                  <div id="operator-kit-dropdown" className="ml-4 mt-1 space-y-1">
                     <a
                       href="/dashboard/allkits"
+                      onClick={(e) => { e.preventDefault(); navigate('/dashboard/allkits'); }}
                       className={`flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 ${
                         location.pathname === "/dashboard/allkits"
                           ? 'bg-black text-white dark:bg-blue-600'
@@ -369,7 +353,7 @@ export default function DashboardLayout() {
             </button>
           )}
 
-          {isOperatorKitPage || isregisterKitPage || isregisterKitpageStep2  || isregisterKitpageStep3  || Independentoperator || HotspotAcess || Vouchers || Finances || Withdrawfunds? (
+          {(isOperatorKitPage || isregisterKitPage || isregisterKitpageStep2 || isregisterKitpageStep3 || Independentoperator || HotspotAcess || Vouchers || Finances || Withdrawfunds) ? (
             <>
               <h2 className={`text-lg sm:text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-foreground'}`}>
                 {isOperatorKitPage ? "Manage Kit" : isregisterKitpageStep2 ? "Register Kit": isregisterKitpageStep3 ? "Register Kit": ""}
