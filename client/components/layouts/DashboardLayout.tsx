@@ -199,11 +199,10 @@ export default function DashboardLayout() {
           <div className="flex items-center justify-between">
             <div className={`flex items-center ${sidebarOpen || isMobile ? 'gap-3' : 'justify-center w-full'}`}>
               <img 
-                src="/KonnecX-logo.png" 
+                src="/KonnectXLogo.png" 
                 alt="KonnecX Logo"
-                className={`${sidebarOpen || isMobile ? 'h-8 w-8' : 'h-10 w-10'} object-contain transition-all duration-300`}
+                className={`${sidebarOpen || isMobile ? 'h-220 w-220' : 'h-220 w-220'} object-contain transition-all duration-300`}
               />
-              
             </div>
             {isMobile && (
               <button
