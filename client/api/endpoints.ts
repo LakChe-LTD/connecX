@@ -1,6 +1,4 @@
 // client/src/api/endpoints.ts
-// Centralized API endpoint URLs
-
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 export const ENDPOINTS = {
@@ -12,9 +10,9 @@ export const ENDPOINTS = {
     ME: `${API_BASE}/auth/me`,
     REFRESH_TOKEN: `${API_BASE}/auth/refresh-token`,
     VERIFY_2FA: `${API_BASE}/auth/2fa/verify`,
-    FORGOT_PASSWORD: `${API_BASE}/auth/forgot-password`,      // NEW
+    FORGOT_PASSWORD: `${API_BASE}/auth/forgot-password`,
     RESET_PASSWORD: `${API_BASE}/auth/reset-password`,  
-    CHANGE_PASSWORD: `${API_BASE}/auth/change-password`,  // ✅ CORRECT          // NEW
+    CHANGE_PASSWORD: `${API_BASE}/auth/change-password`,
   },
 
   // User endpoints
@@ -22,15 +20,20 @@ export const ENDPOINTS = {
     PROFILE: `${API_BASE}/user/profile`,
     SESSIONS: `${API_BASE}/user/sessions`,
     UPDATE: `${API_BASE}/user/update`,
-    PASSWORD: `${API_BASE}/user/change-password`,                    // NEW - Change password
-    DEVICES: `${API_BASE}/user/devices`,                      // NEW - Get connected devices
-    REMOVE_DEVICE: (deviceId: string) => `${API_BASE}/user/devices/${deviceId}`, // NEW
-    NOTIFICATIONS: `${API_BASE}/user/notifications/preferences`, // NEW
+    PASSWORD: `${API_BASE}/user/change-password`,
+    DEVICES: `${API_BASE}/user/devices`,
+    REMOVE_DEVICE: (deviceId: string) => `${API_BASE}/user/devices/${deviceId}`,
+    NOTIFICATIONS: `${API_BASE}/user/notifications/preferences`,
     TWO_FA: {
-      ENABLE: `${API_BASE}/user/2fa/enable`,                  // NEW
-      DISABLE: `${API_BASE}/user/2fa/disable`,                // NEW
-      VERIFY: `${API_BASE}/user/2fa/verify`,                  // NEW
+      ENABLE: `${API_BASE}/user/2fa/enable`,
+      DISABLE: `${API_BASE}/user/2fa/disable`,
+      VERIFY: `${API_BASE}/user/2fa/verify`,
     },
+  },
+
+  // Dashboard endpoints
+  DASHBOARD: {
+    CARDS: `${API_BASE}/dashboard/cards`,
   },
 
   // Wallet endpoints

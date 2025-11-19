@@ -369,64 +369,6 @@ export default function DashboardOverview() {
           ))}
         </div>
 
-        {/* Status Distribution - Properly Placed */}
-        <Card className={`p-6 mb-8 ${
-          theme === 'dark' 
-            ?  'bg-[#333436] border-[#2b2b2c]'
-            : 'bg-white border-gray-200'
-        }`}>
-          <h3 className={`text-lg font-semibold mb-6 ${
-            theme === 'dark' ? 'text-white' : 'text-gray-900'
-          }`}>
-            Status Distribution
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div className="flex items-center justify-between p-4 rounded-lg bg-green-500/10">
-              <div className="flex items-center gap-3">
-                <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
-                <span className={`text-sm font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
-                  Online
-                </span>
-              </div>
-              <span className={`text-2xl font-bold ${theme === 'dark' ? 'text-green-400' : 'text-green-600'}`}>
-                {stats.online}
-              </span>
-            </div>
-            <div className="flex items-center justify-between p-4 rounded-lg bg-red-500/10">
-              <div className="flex items-center gap-3">
-                <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                <span className={`text-sm font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
-                  Offline
-                </span>
-              </div>
-              <span className={`text-2xl font-bold ${theme === 'dark' ? 'text-red-400' : 'text-red-600'}`}>
-                {stats.offline}
-              </span>
-            </div>
-            <div className="flex items-center justify-between p-4 rounded-lg bg-yellow-500/10">
-              <div className="flex items-center gap-3">
-                <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                <span className={`text-sm font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
-                  Maintenance
-                </span>
-              </div>
-              <span className={`text-2xl font-bold ${theme === 'dark' ? 'text-yellow-400' : 'text-yellow-600'}`}>
-                {stats.maintenance}
-              </span>
-            </div>
-            <div className="flex items-center justify-between p-4 rounded-lg bg-blue-500/10">
-              <div className="flex items-center gap-3">
-                <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-                <span className={`text-sm font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
-                  Total
-                </span>
-              </div>
-              <span className={`text-2xl font-bold ${theme === 'dark' ? 'text-blue-400' : 'text-blue-600'}`}>
-                {stats.total}
-              </span>
-            </div>
-          </div>
-        </Card>
         {/* Charts Section */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
           {/* Performance Overview with Real Data */}
@@ -513,7 +455,7 @@ export default function DashboardOverview() {
             )}
           </Card>
 
-          {/* Rewards Distribution - RESTORED */}
+          {/* Status Distribution */}
           <Card className={`p-6 ${
             theme === 'dark' 
               ?  'bg-[#333436] border-[#2b2b2c]'
@@ -522,66 +464,55 @@ export default function DashboardOverview() {
             <h3 className={`text-lg font-semibold mb-6 ${
               theme === 'dark' ? 'text-white' : 'text-gray-900'
             }`}>
-              Rewards Distribution
+              Status Distribution
             </h3>
-            <div className="flex items-center justify-center">
-              <svg className="w-48 h-48" viewBox="0 0 200 200">
-                <circle 
-                  cx="100" 
-                  cy="100" 
-                  r="80" 
-                  fill="none" 
-                  stroke={theme === 'dark' ? '#1f2937' : '#e5e7eb'} 
-                  strokeWidth="20" 
-                />
-                <circle
-                  cx="100"
-                  cy="100"
-                  r="80"
-                  fill="none"
-                  stroke="#3b82f6"
-                  strokeWidth="40"
-                  strokeDasharray="150 502"
-                  transform="rotate(-90 100 100)"
-                />
-                <circle
-                  cx="100"
-                  cy="100"
-                  r="80"
-                  fill="none"
-                  stroke="#ef4444"
-                  strokeWidth="40"
-                  strokeDasharray="125 502"
-                  strokeDashoffset="-150"
-                  transform="rotate(-90 100 100)"
-                />
-                <circle
-                  cx="100"
-                  cy="100"
-                  r="80"
-                  fill="none"
-                  stroke="#fbbf24"
-                  strokeWidth="40"
-                  strokeDasharray="100 502"
-                  strokeDashoffset="-275"
-                  transform="rotate(-90 100 100)"
-                />
-                <circle
-                  cx="100"
-                  cy="100"
-                  r="80"
-                  fill="none"
-                  stroke="#10b981"
-                  strokeWidth="40"
-                  strokeDasharray="127 502"
-                  strokeDashoffset="-375"
-                  transform="rotate(-90 100 100)"
-                />
-              </svg>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
+                  <span className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
+                    Online
+                  </span>
+                </div>
+                <span className={`text-sm font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+                  {stats.online}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                  <span className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
+                    Offline
+                  </span>
+                </div>
+                <span className={`text-sm font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+                  {stats.offline}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                  <span className={`text-sm ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
+                    Maintenance
+                  </span>
+                </div>
+                <span className={`text-sm font-semibold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+                  {stats.maintenance}
+                </span>
+              </div>
+              <div className={`pt-4 mt-4 border-t ${theme === 'dark' ? 'border-gray-800' : 'border-gray-200'}`}>
+                <div className="flex items-center justify-between">
+                  <span className={`text-sm font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
+                    Total Hotspots
+                  </span>
+                  <span className={`text-lg font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+                    {stats.total}
+                  </span>
+                </div>
+              </div>
             </div>
           </Card>
         </div>
-
 
         {/* Hotspots Table with Filters */}
         <Card className={`p-6 ${
