@@ -71,50 +71,6 @@ export default function MyHotSpots() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50">
-      {/* Header */}
-      <header className="bg-white border-b-2 border-gray-300 shadow-lg">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 lg:h-20">
-            <div className="flex items-center space-x-4 lg:space-x-8">
-              <div className="flex items-center space-x-2">
-                <Wifi className="w-7 h-7 lg:w-9 lg:h-9 text-blue-600" />
-                <span className="text-xl lg:text-3xl font-black text-gray-900">KonnectX</span>
-              </div>
-            </div>
-            
-            <div className="hidden lg:flex items-center space-x-6">
-              <div className="relative">
-                <Search className="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                <input
-                  type="text"
-                  placeholder="Search Kits..."
-                  className="pl-10 pr-4 py-2.5 w-64 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 font-medium"
-                />
-              </div>
-              <button className="flex items-center space-x-1 text-gray-700 hover:text-gray-900">
-                <Heart className="w-5 h-5" />
-                <span className="text-sm font-bold">KYC</span>
-              </button>
-              <button className="flex items-center space-x-1 text-gray-700 hover:text-gray-900">
-                <ShoppingBag className="w-5 h-5" />
-                <span className="text-sm font-bold">Kits (0)</span>
-              </button>
-              <button className="text-gray-700 hover:text-gray-900">
-                <span className="text-sm font-bold">Vouchers (0)</span>
-              </button>
-              <button className="flex items-center space-x-1 text-gray-700 hover:text-gray-900">
-                <UserCircle className="w-5 h-5" />
-                <span className="text-sm font-bold">Account</span>
-              </button>
-            </div>
-            
-            {/* Mobile Menu Button */}
-            <button className="lg:hidden text-gray-700">
-              <UserCircle className="w-7 h-7" />
-            </button>
-          </div>
-        </div>
-      </header>
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -123,7 +79,7 @@ export default function MyHotSpots() {
               <h1 className="text-3xl font-bold text-gray-900">My Hotspots</h1>
               <button
                 onClick={handleSubmit}
-                className="px-6 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
+                className="px-6 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-lg  transition-colors"
               >
                 Add New Hotspot
               </button>

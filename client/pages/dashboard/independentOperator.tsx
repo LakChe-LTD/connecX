@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { Heart, ShoppingCart, User, ArrowLeft } from 'lucide-react';
+import { useApp } from "@/contexts/AppContext";
 import { useNavigate } from "react-router-dom";
 
 
-export default function IndependentOperators() {
 
-       const navigate = useNavigate();
+export default function IndependentOperators() {
+    const navigate = useNavigate();
+  const { theme } = useApp(); 
+  
   const [formData, setFormData] = useState({
     hotspotName: '',
     location: '',
@@ -45,80 +48,36 @@ export default function IndependentOperators() {
     }));
   };
 
-
-
   const handleAddHotspot = () => {
-
     navigate("/dashboard/HotspotAcess");   
   };
 
-
-
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-purple-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            {/* Left section */}
-            <div className="flex items-center space-x-4">
-              
-              <div className="flex items-center space-x-2 ml-4">
-                <div className="flex items-center justify-center w-8 h-8 bg-blue-600 rounded-full">
-                  <div className="w-4 h-4 border-2 border-white rounded-full"></div>
-                  <div className="absolute w-6 h-6 border-2 border-blue-600 rounded-full animate-pulse"></div>
-                </div>
-                <span className="text-xl font-bold text-gray-900">KonnectX</span>
-              </div>
-            </div>
-
-            {/* Search */}
-            <div className="flex-1 max-w-md mx-8">
-              <input
-                type="text"
-                placeholder="Search Kits..."
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-
-            {/* Right section */}
-            <div className="flex items-center space-x-6">
-              <button className="flex items-center text-gray-700 hover:text-gray-900">
-                <Heart className="w-5 h-5 mr-1" />
-                <span className="text-sm">KYG</span>
-              </button>
-              <button className="flex items-center text-gray-700 hover:text-gray-900">
-                <ShoppingCart className="w-5 h-5 mr-1" />
-                <span className="text-sm">Kits (0)</span>
-              </button>
-              <button className="flex items-center text-gray-700 hover:text-gray-900">
-                <User className="w-5 h-5 mr-1" />
-                <span className="text-sm">Account</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
+    <div className={`min-h-screen ${theme === 'dark' ? 'bg-black' : 'bg-gradient-to-br from-purple-50 via-white to-purple-50'}`}>
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className=" p-8">
+        <div className="p-8">
           {/* Title */}
-          <div className="mb-6">
-            <h1 className="text-3xl font-bold text-gray-900">Independent Operators</h1>
-
-            <p className="text-gray-500 mt-3">Manage your hotspots and access codes</p>
+          <div className="mb-8">
+            <h1 className={`text-4xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'} mb-3`}>
+              Independent Operators
+            </h1>
+            <p className={`text-lg ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
+              Manage your hotspots and access codes
+            </p>
           </div>
 
           {/* Add New Hotspot Form */}
-          <div className="mb-8">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Add New Hotspot</h2>
+          <div className="mb-12">
+            <h2 className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'} mb-6`}>
+              Add New Hotspot
+            </h2>
             
-            <div className="space-y-4">
+            <div className="space-y-6">
               {/* Hotspot Name */}
               <div>
-                <label className="block text-xl font-medium text-gray-700 mb-2">
+                <label className={`block text-base font-bold ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'} mb-3`}>
                   Hotspot Name
                 </label>
                 <input
@@ -127,13 +86,17 @@ export default function IndependentOperators() {
                   value={formData.hotspotName}
                   onChange={handleChange}
                   placeholder="Enter hotspot name"
-                  className="w-1/2 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className={`w-1/2 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium ${
+                    theme === 'dark'
+                      ? 'bg-[#333436] border-2 border-gray-700 text-white placeholder-gray-500'
+                      : 'bg-white border-2 border-gray-300 text-gray-900 placeholder-gray-400'
+                  }`}
                 />
               </div>
 
               {/* Location */}
               <div>
-                <label className="block text-xl font-medium text-gray-700 mb-2">
+                <label className={`block text-base font-bold ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'} mb-3`}>
                   Location
                 </label>
                 <input
@@ -142,14 +105,18 @@ export default function IndependentOperators() {
                   value={formData.location}
                   onChange={handleChange}
                   placeholder="Enter hotspot location"
-                  className="w-1/2 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className={`w-1/2 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium ${
+                    theme === 'dark'
+                      ? 'bg-[#333436] border-2 border-gray-700 text-white placeholder-gray-500'
+                      : 'bg-white border-2 border-gray-300 text-gray-900 placeholder-gray-400'
+                  }`}
                 />
               </div>
 
               {/* Price Fields */}
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-xl font-medium text-gray-700 mb-2">
+                  <label className={`block text-base font-bold ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'} mb-3`}>
                     Price per Hour
                   </label>
                   <input
@@ -158,11 +125,15 @@ export default function IndependentOperators() {
                     value={formData.pricePerHour}
                     onChange={handleChange}
                     placeholder="Enter price"
-                    className="w-1/2 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className={`w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium ${
+                      theme === 'dark'
+                        ? 'bg-[#333436] border-2 border-gray-700 text-white placeholder-gray-500'
+                        : 'bg-white border-2 border-gray-300 text-gray-900 placeholder-gray-400'
+                    }`}
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className={`block text-base font-bold ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'} mb-3`}>
                     Price per Day
                   </label>
                   <input
@@ -171,7 +142,11 @@ export default function IndependentOperators() {
                     value={formData.pricePerDay}
                     onChange={handleChange}
                     placeholder="Enter price"
-                    className="w-1/2 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className={`w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium ${
+                      theme === 'dark'
+                        ? 'bg-[#333436] border-2 border-gray-700 text-white placeholder-gray-500'
+                        : 'bg-white border-2 border-gray-300 text-gray-900 placeholder-gray-400'
+                    }`}
                   />
                 </div>
               </div>
@@ -179,7 +154,7 @@ export default function IndependentOperators() {
               {/* Add Button */}
               <button
                 onClick={handleAddHotspot}
-                className="px-6 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
+                className="px-8 py-3 bg-black dark:bg-blue-600 text-white font-bold text-base rounded-lg shadow-lg"
               >
                 Add Hotspot
               </button>
@@ -188,46 +163,83 @@ export default function IndependentOperators() {
 
           {/* Existing Hotspots Table */}
           <div>
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Existing Hotspots</h2>
+            <h2 className={`text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'} mb-6`}>
+              Existing Hotspots
+            </h2>
             
-            <div className="border-2 border-gray-900 rounded-lg overflow-hidden">
-              <table className="w-full border-collapse  border-gray-300">
+            <div className={`rounded-lg overflow-hidden border-2 ${
+              theme === 'dark' ? 'border-gray-700' : 'border-gray-900'
+            }`}>
+              <table className="w-full border-collapse">
                 <thead>
-                  <tr className="bg-gray-50 border-b border-gray-200">
-                    <th className="px-6 py-3 text-left text-xl font-bold text-gray-700">
+                  <tr className={`border-b-2 ${
+                    theme === 'dark' 
+                      ? 'bg-[#333436] border-gray-700' 
+                      : 'bg-gray-50 border-gray-200'
+                  }`}>
+                    <th className={`px-6 py-4 text-left text-base font-bold ${
+                      theme === 'dark' ? 'text-gray-200' : 'text-gray-700'
+                    }`}>
                       Hotspot Name
                     </th>
-                    <th className="px-6 py-3 text-left text-xl font-bold text-gray-700">
+                    <th className={`px-6 py-4 text-left text-base font-bold ${
+                      theme === 'dark' ? 'text-gray-200' : 'text-gray-700'
+                    }`}>
                       Location
                     </th>
-                    <th className="px-6 py-3 text-left text-xl font-bold text-gray-700">
+                    <th className={`px-6 py-4 text-left text-base font-bold ${
+                      theme === 'dark' ? 'text-gray-200' : 'text-gray-700'
+                    }`}>
                       Price per Hour
                     </th>
-                    <th className="px-6 py-3 text-left text-xl font-bold text-gray-700">
+                    <th className={`px-6 py-4 text-left text-base font-bold ${
+                      theme === 'dark' ? 'text-gray-200' : 'text-gray-700'
+                    }`}>
                       Price per Day
                     </th>
-                    <th className="px-6 py-3 text-left text-xl font-bold text-gray-700">
+                    <th className={`px-6 py-4 text-left text-base font-bold ${
+                      theme === 'dark' ? 'text-gray-200' : 'text-gray-700'
+                    }`}>
                       Actions
                     </th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className={theme === 'dark' ? 'bg-black' : 'bg-white'}>
                   {hotspots.map((hotspot) => (
-                    <tr key={hotspot.id} className="border-b border-gray-200 hover:bg-gray-50">
-                      <td className="px-6 py-4 text-xl text-gray-900">
+                    <tr 
+                      key={hotspot.id} 
+                      className={`border-b transition-colors ${
+                        theme === 'dark'
+                          ? 'border-gray-800 hover:bg-gray-900'
+                          : 'border-gray-200 hover:bg-gray-50'
+                      }`}
+                    >
+                      <td className={`px-6 py-4 text-base font-semibold ${
+                        theme === 'dark' ? 'text-white' : 'text-gray-900'
+                      }`}>
                         {hotspot.name}
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-500">
+                      <td className={`px-6 py-4 text-sm font-medium ${
+                        theme === 'dark' ? 'text-gray-400' : 'text-gray-500'
+                      }`}>
                         {hotspot.location}
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-900">
+                      <td className={`px-6 py-4 text-base font-semibold ${
+                        theme === 'dark' ? 'text-white' : 'text-gray-900'
+                      }`}>
                         {hotspot.pricePerHour}
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-900">
+                      <td className={`px-6 py-4 text-base font-semibold ${
+                        theme === 'dark' ? 'text-white' : 'text-gray-900'
+                      }`}>
                         {hotspot.pricePerDay}
                       </td>
-                      <td className="px-6 py-4 text-sm">
-                        <button className="text-blue-600 hover:text-blue-800 font-medium">
+                      <td className="px-6 py-4">
+                        <button className={`font-bold text-sm transition-colors ${
+                          theme === 'dark'
+                            ? 'text-blue-400 hover:text-blue-300'
+                            : 'text-blue-600 hover:text-blue-800'
+                        }`}>
                           View Details
                         </button>
                       </td>
@@ -242,9 +254,3 @@ export default function IndependentOperators() {
     </div>
   );
 }
-
-
-
-
-
-

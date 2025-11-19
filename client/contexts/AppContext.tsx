@@ -1,10 +1,13 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 interface User {
+  initials: string;
   id: string;
   name: string;
   email: string;
   role: 'user' | 'operator' | 'admin';
+  firstName?: string;
+  lastName?: string;
 }
 
 interface AppContextType {

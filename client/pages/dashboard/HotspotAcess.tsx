@@ -1,146 +1,298 @@
 import { useState } from 'react';
-import { Wifi, Heart, ShoppingCart, User, ArrowLeft } from 'lucide-react';
+import { Wifi, Heart, ShoppingBag, UserCircle, Search, ChevronLeft } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
+import { useApp } from "@/contexts/AppContext";
 
-export default function HotspotAcess() {
+export default function MyHotSpots() {
+  const navigate = useNavigate();
+  const { theme } = useApp();
+  
+  const [hotspots, setHotspots] = useState([
+    {
+      id: 1,
+      name: 'Cozy Corner Cafe',
+      location: '123 Main Street, Anytown',
+      description: 'A cozy spot with great coffee and fast internet',
+      pricing: '₦5/hour',
+      availability: 'Available'
+    },
+    {
+      id: 2,
+      name: 'Tech Hub Workspace',
+      location: '456 Innovation Drive, Anytown',
+      description: 'A modern workspace for tech professionals',
+      pricing: '₦20/day',
+      availability: 'Available'
+    },
+    {
+      id: 3,
+      name: 'Community Library',
+      location: '789 Book Lane, Anytown',
+      description: 'A quiet place to study and connect',
+      pricing: 'Free',
+      availability: 'Unavailable'
+    }
+  ]);
 
-    const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    deviceBrand: '',
-    deviceModel: '',
-    macAddress: '',
-    serialNumber: ''
-  });
-
-  const [selectedPlan, setSelectedPlan] = useState('daily');
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+  const handleSubmit = () => {
+    navigate("/dashboard/Vouchers");   
   };
 
-  const handlePlanSelect = (plan) => {
-    setSelectedPlan(plan);
+  const handleEdit = (id) => {
+    console.log('Edit hotspot:', id);
   };
 
-
-  const handlePayment = () => {
-
-    navigate("/dashboard/MyHotspots");   
+  const handleDelete = (id) => {
+    setHotspots(hotspots.filter(h => h.id !== id));
   };
-
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-purple-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            {/* Logo and Back */}
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2">
-                <Wifi className="w-6 h-6 text-blue-600" />
-                <span className="text-xl font-bold text-blue-600">KonnectX</span>
-              </div>
-            </div>
-
-            {/* Search Bar */}
-            <div className="flex-1 max-w-md mx-8">
-              <div className="relative">
-                <input
-                  type="text"
-                  placeholder="Search Kits..."
-                  className="w-full px-4 py-2 pl-10 pr-4 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                <svg className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </div>
-            </div>
-
-            {/* Right Menu */}
-            <div className="flex items-center space-x-6">
-              <button className="flex items-center text-gray-600 hover:text-gray-900">
-                <Heart className="w-5 h-5 mr-1" />
-                <span className="text-sm font-medium">KYC</span>
-              </button>
-              <button className="flex items-center text-gray-600 hover:text-gray-900">
-                <ShoppingCart className="w-5 h-5 mr-1" />
-                <span className="text-sm font-medium">Kits (0)</span>
-              </button>
-              <button className="flex items-center text-gray-600 hover:text-gray-900">
-                <User className="w-5 h-5 mr-1" />
-                <span className="text-sm font-medium">Account</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
-
+    <div className={`min-h-screen ${
+      theme === 'dark' 
+        ? 'bg-black' 
+        : 'bg-gradient-to-br from-purple-50 to-blue-50'
+    }`}>
       {/* Main Content */}
-      <main className="max-w-4xl mx-auto px-4 py-12">
-        <div className="p-8">
-          {/* Title */}
-          <h1 className="text-3xl font-bold text-gray-900 text-center mb-3">
-            Pay for Hotspot Access
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Page Header */}
+        <div className="flex items-center justify-between mb-8">
+          <h1 className={`text-4xl font-extrabold ${
+            theme === 'dark' ? 'text-white' : 'text-gray-900'
+          }`}>
+            My Hotspots
           </h1>
-          
-          {/* Subtitle */}
-          <p className="text-base text-gray-600 text-center mb-12">
-            Connect to 'The Coffee Corner' hotspot provided by 'TechConnect Solutions'. Choose a subscription plan:
-          </p>
+          <button
+            onClick={handleSubmit}
+            className="px-6 py-3 bg-black dark:bg-blue-600  text-white dark:text-black text-base font-bold rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
+          >
+            Add New Hotspot
+          </button>
+        </div>
 
-          {/* Plan Selection */}
-          <div className="flex gap-4 mb-12">
-            <button
-              onClick={() => handlePlanSelect('daily')}
-              className={`flex-1 px-6 py-2 text-base font-medium rounded-md border transition-colors ${
-                selectedPlan === 'daily'
-                  ? 'bg-gray-100 border-gray-300 text-gray-900'
-                  : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
-              }`}
-            >
-              Daily Pass - $2 for 3 hours
-            </button>
-            <button
-              onClick={() => handlePlanSelect('weekly')}
-              className={`flex-1 px-6 py-4 text-base font-medium rounded-md border transition-colors ${
-                selectedPlan === 'weekly'
-                  ? 'bg-gray-100 border-gray-300 text-gray-900'
-                  : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
-              }`}
-            >
-              Weekly Pass - $10 for 7 days
-            </button>
-            <button
-              onClick={() => handlePlanSelect('monthly')}
-              className={`flex-1 px-6 py-4 text-base font-medium rounded-md border transition-colors ${
-                selectedPlan === 'monthly'
-                  ? 'bg-gray-100 border-gray-300 text-gray-900'
-                  : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
-              }`}
-            >
-              Monthly Pass - $30 for 30 days
-            </button>
+        {/* Hotspots Display - Desktop Table, Mobile Cards */}
+        <div className="space-y-4">
+          {/* Desktop Table View */}
+          <div className={`hidden md:block rounded-lg shadow-lg border-2 overflow-hidden ${
+            theme === 'dark'
+              ? 'bg-[#333436] border-gray-700'
+              : 'bg-white border-gray-300'
+          }`}>
+            <table className="w-full">
+              <thead className={`border-b-2 ${
+                theme === 'dark'
+                  ? 'bg-[#2a2a2c] border-gray-700'
+                  : 'bg-gray-100 border-gray-300'
+              }`}>
+                <tr>
+                  <th className={`px-6 py-5 text-left text-sm font-extrabold uppercase tracking-wider ${
+                    theme === 'dark' ? 'text-white' : 'text-gray-900'
+                  }`}>
+                    Name
+                  </th>
+                  <th className={`px-6 py-5 text-left text-sm font-extrabold uppercase tracking-wider ${
+                    theme === 'dark' ? 'text-white' : 'text-gray-900'
+                  }`}>
+                    Location
+                  </th>
+                  <th className={`px-6 py-5 text-left text-sm font-extrabold uppercase tracking-wider ${
+                    theme === 'dark' ? 'text-white' : 'text-gray-900'
+                  }`}>
+                    Description
+                  </th>
+                  <th className={`px-6 py-5 text-left text-sm font-extrabold uppercase tracking-wider ${
+                    theme === 'dark' ? 'text-white' : 'text-gray-900'
+                  }`}>
+                    Pricing
+                  </th>
+                  <th className={`px-6 py-5 text-left text-sm font-extrabold uppercase tracking-wider ${
+                    theme === 'dark' ? 'text-white' : 'text-gray-900'
+                  }`}>
+                    Availability
+                  </th>
+                  <th className={`px-6 py-5 text-left text-sm font-extrabold uppercase tracking-wider ${
+                    theme === 'dark' ? 'text-white' : 'text-gray-900'
+                  }`}>
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody className={theme === 'dark' ? 'bg-[#333436]' : 'bg-white'}>
+                {hotspots.map((hotspot, index) => (
+                  <tr 
+                    key={hotspot.id} 
+                    className={`transition-colors border-b-2 ${
+                      theme === 'dark'
+                        ? 'hover:bg-[#3a3a3c] border-gray-700'
+                        : 'hover:bg-gray-50 border-gray-200'
+                    }`}
+                    style={{ borderBottom: index === hotspots.length - 1 ? 'none' : '' }}
+                  >
+                    <td className="px-6 py-6">
+                      <div className={`text-base font-extrabold ${
+                        theme === 'dark' ? 'text-white' : 'text-gray-900'
+                      }`}>
+                        {hotspot.name}
+                      </div>
+                    </td>
+                    <td className="px-6 py-6">
+                      <div className={`text-sm font-bold ${
+                        theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+                      }`}>
+                        {hotspot.location}
+                      </div>
+                    </td>
+                    <td className="px-6 py-6">
+                      <div className={`text-sm font-semibold max-w-xs ${
+                        theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+                      }`}>
+                        {hotspot.description}
+                      </div>
+                    </td>
+                    <td className="px-6 py-6 whitespace-nowrap">
+                      <div className={`text-base font-extrabold ${
+                        theme === 'dark' ? 'text-white' : 'text-gray-900'
+                      }`}>
+                        {hotspot.pricing}
+                      </div>
+                    </td>
+                    <td className="px-6 py-6 whitespace-nowrap">
+                      <span className={`px-3 py-2 inline-flex text-sm font-extrabold rounded-full ${
+                        hotspot.availability === 'Available' 
+                          ? theme === 'dark'
+                            ? 'bg-green-900 text-green-200'
+                            : 'bg-green-100 text-green-800'
+                          : theme === 'dark'
+                            ? 'bg-red-900 text-red-200'
+                            : 'bg-red-100 text-red-800'
+                      }`}>
+                        {hotspot.availability}
+                      </span>
+                    </td>
+                    <td className="px-6 py-6 whitespace-nowrap text-sm">
+                      <button
+                        onClick={() => handleEdit(hotspot.id)}
+                        className={`font-extrabold mr-3 transition-colors ${
+                          theme === 'dark'
+                            ? 'text-blue-400 hover:text-blue-300'
+                            : 'text-blue-600 hover:text-blue-800'
+                        }`}
+                      >
+                        Edit
+                      </button>
+                      <span className={`font-bold ${
+                        theme === 'dark' ? 'text-gray-600' : 'text-gray-400'
+                      }`}>
+                        |
+                      </span>
+                      <button
+                        onClick={() => handleDelete(hotspot.id)}
+                        className={`font-extrabold ml-3 transition-colors ${
+                          theme === 'dark'
+                            ? 'text-red-400 hover:text-red-300'
+                            : 'text-red-600 hover:text-red-800'
+                        }`}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
 
-          {/* Pay Button */}
-          <button
-            onClick={handlePayment}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-md transition-colors mb-2"
-          >
-            Pay & Connect
-          </button>
-
-          {/* Payment Method Info */}
-          <p className="text-sm text-gray-900 text-center">
-            Pay with KonnectX Wallet or Saved payment method
-          </p>
+          {/* Mobile Card View */}
+          <div className="md:hidden space-y-4">
+            {hotspots.map((hotspot) => (
+              <div 
+                key={hotspot.id} 
+                className={`rounded-lg shadow-lg border-2 p-6 ${
+                  theme === 'dark'
+                    ? 'bg-[#333436] border-gray-700'
+                    : 'bg-white border-gray-300'
+                }`}
+              >
+                <div className="space-y-4">
+                  <div className="flex items-start justify-between">
+                    <h3 className={`text-xl font-extrabold ${
+                      theme === 'dark' ? 'text-white' : 'text-gray-900'
+                    }`}>
+                      {hotspot.name}
+                    </h3>
+                    <span className={`px-3 py-1.5 text-xs font-extrabold rounded-full whitespace-nowrap ${
+                      hotspot.availability === 'Available' 
+                        ? theme === 'dark'
+                          ? 'bg-green-900 text-green-200'
+                          : 'bg-green-100 text-green-800'
+                        : theme === 'dark'
+                          ? 'bg-red-900 text-red-200'
+                          : 'bg-red-100 text-red-800'
+                    }`}>
+                      {hotspot.availability}
+                    </span>
+                  </div>
+                  
+                  <div>
+                    <p className={`text-xs font-extrabold uppercase mb-1.5 ${
+                      theme === 'dark' ? 'text-gray-400' : 'text-gray-500'
+                    }`}>
+                      Location
+                    </p>
+                    <p className={`text-sm font-bold ${
+                      theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+                    }`}>
+                      {hotspot.location}
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <p className={`text-xs font-extrabold uppercase mb-1.5 ${
+                      theme === 'dark' ? 'text-gray-400' : 'text-gray-500'
+                    }`}>
+                      Description
+                    </p>
+                    <p className={`text-sm font-semibold ${
+                      theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+                    }`}>
+                      {hotspot.description}
+                    </p>
+                  </div>
+                  
+                  <div>
+                    <p className={`text-xs font-extrabold uppercase mb-1.5 ${
+                      theme === 'dark' ? 'text-gray-400' : 'text-gray-500'
+                    }`}>
+                      Pricing
+                    </p>
+                    <p className={`text-base font-extrabold ${
+                      theme === 'dark' ? 'text-white' : 'text-gray-900'
+                    }`}>
+                      {hotspot.pricing}
+                    </p>
+                  </div>
+                  
+                  <div className={`flex space-x-3 pt-3 border-t-2 ${
+                    theme === 'dark' ? 'border-gray-700' : 'border-gray-200'
+                  }`}>
+                    <button
+                      onClick={() => handleEdit(hotspot.id)}
+                      className="flex-1 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white text-sm font-extrabold rounded-lg transition-all duration-200"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(hotspot.id)}
+                      className="flex-1 px-4 py-3 bg-red-600 hover:bg-red-700 text-white text-sm font-extrabold rounded-lg transition-all duration-200"
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </main>
     </div>
   );
-}   
+}
