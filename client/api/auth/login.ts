@@ -1,7 +1,7 @@
 // client/src/api/auth/login.ts
 import { apiClient } from '../client';
 
-export interface LoginRequest {
+export interface LoginRequest  {
   email: string;
   password: string;
 }

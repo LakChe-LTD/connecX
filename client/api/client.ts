@@ -52,7 +52,7 @@ apiClient.interceptors.response.use(
 
         // Call refresh token endpoint
         const response = await axios.post(
-          `${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/auth/refresh-token`,
+          `${import.meta.env.VITE_API_URL || 'https://connectxbackend-csf1.onrender.com/api'}/auth/refresh-token`,
           { refreshToken }
         );
 
