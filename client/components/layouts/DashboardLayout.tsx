@@ -194,31 +194,16 @@ export default function DashboardLayout() {
           ${isMobile ? 'top-0 left-0' : ''}
         `}
       >
-        {/* Logo/Brand Section - Mobile Only */}
-        {isMobile && (
-          <div className={`p-4 border-b ${theme === 'dark' ? 'border-gray-800' : 'border-gray-300'}`}>
-            <div className="flex items-center justify-between">
-              <h1 className={`text-xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>
-                Dashboard
-              </h1>
-              <button
-                onClick={() => setSidebarOpen(false)}
-                className={`p-2 rounded-lg ${theme === 'dark' ? 'hover:bg-gray-800' : 'hover:bg-gray-200'}`}
-              >
-                <X size={20} className={theme === 'dark' ? 'text-white' : 'text-gray-800'} />
-              </button>
-            </div>
-          </div>
-        )}
-
-         {/* Logo Section - Always Visible */}
+        {/* Logo Section - Always Visible */}
         <div className={`p-4 border-b ${theme === 'dark' ? 'border-gray-800' : 'border-gray-300'}`}>
           <div className="flex items-center justify-between">
             <div className={`flex items-center ${sidebarOpen || isMobile ? 'gap-3' : 'justify-center w-full'}`}>
               <img 
-                src="/icons/KonnecX-logo.png" 
+                src="/KonnecX-logo.png" 
+                alt="KonnecX Logo"
                 className={`${sidebarOpen || isMobile ? 'h-8 w-8' : 'h-10 w-10'} object-contain transition-all duration-300`}
               />
+              
             </div>
             {isMobile && (
               <button
@@ -409,7 +394,7 @@ export default function DashboardLayout() {
                 <button className={`flex items-center gap-2 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-lg transition ${
                   theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-gray-900'
                 }`}>
-                  <Heart className="w-4 h-4" />
+                  <Heart className="w-5 h-5" />
                   <span className="hidden sm:inline">KYC</span>
                 </button>
 
@@ -417,7 +402,7 @@ export default function DashboardLayout() {
                 <button className={`flex items-center gap-2 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-lg transition ${
                   theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-gray-900'
                 }`}>
-                  <ShoppingCart className="w-4 h-4" />
+                  <ShoppingCart className="w-5 h-5" />
                   <span className="hidden sm:inline">Kits</span>
                 </button>
 
@@ -425,7 +410,7 @@ export default function DashboardLayout() {
                 <button className={`flex items-center gap-2 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-lg transition ${
                   theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-gray-900'
                 }`}>
-                  <User className="w-4 h-4" />
+                  <User className="w-5 h-5" />
                   <span className="hidden sm:inline">Account</span>
                 </button>
               </div>
