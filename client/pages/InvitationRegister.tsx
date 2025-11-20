@@ -27,7 +27,7 @@ export default function InvitationRegister() {
   const token = searchParams.get("token");
 
   const [invitation, setInvitation] = useState<InvitationData | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false); // ✅ Changed from true to false
   const [verifying, setVerifying] = useState(true);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
