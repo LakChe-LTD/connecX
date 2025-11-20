@@ -39,6 +39,7 @@ import NotFound from "./pages/NotFound";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import ChangePassword from "./components/ChangePassword";
+import InvitationRegister from "./pages/InvitationRegister";
 
 const queryClient = new QueryClient();
 
@@ -99,6 +100,7 @@ const App = () => (
               <Route path="/dashboard/Vouchers" element={<VoucherManagement />} />
               <Route path="/dashboard/Finances" element={<FinanceDashboard />} />
               <Route path="/dashboard/Withdrawfunds" element={<WithdrawFunds />} />
+              <Route path="/invitation/register" element={<InvitationRegister />} />
               </Route>
 
               <Route element={<AdminRoute><AdminLayout /></AdminRoute>}>

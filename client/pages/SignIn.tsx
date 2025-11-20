@@ -1,3 +1,4 @@
+// client/src/pages/SignIn.tsx
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
@@ -11,7 +12,6 @@ export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [selectedRole, setSelectedRole] = useState<"user" | "operator" | "admin">("user");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
@@ -33,7 +33,6 @@ export default function SignIn() {
         return;
       }
 
-      // Check if login was successful
       if (!response.success || !response.user) {
         setError("Login failed. No user data received.");
         setLoading(false);
@@ -42,47 +41,31 @@ export default function SignIn() {
 
       const user = response.user;
 
-      // Role validation - only restrict admin login for now
-      if (selectedRole === "admin" && user.role !== "admin") {
-        setError("You don't have admin access. Please contact support.");
-        setLoading(false);
-        return;
-      }
-      
-      // Allow all users and operators to access the dashboard
-      // (User and Admin dashboards are still being designed)
-
-      // Success! Stop loading and show success alert
       setLoading(false);
       setSuccess(true);
 
       // Set user in context
       const userData = {
         id: user.id,
-       name: user.firstName && user.lastName 
-    ? `${user.firstName} ${user.lastName}` 
-    : user.firstName || user.email.split('@')[0],
+        name: user.firstName && user.lastName 
+          ? `${user.firstName} ${user.lastName}` 
+          : user.firstName || user.email.split('@')[0],
         email: user.email,
-        role: user.role as "user" | "operator" | "admin",
+        role: user.role as "admin" | "organization" | "operator" | "end-user",
         firstName: user.firstName,
-         lastName: user.lastName,
-  // Generate proper initials
-      initials: user.firstName && user.lastName
-    ? `${user.firstName.charAt(0)}${user.lastName.charAt(0)}`.toUpperCase()
-    : user.firstName
-    ? user.firstName.substring(0, 2).toUpperCase()
-    : user.email.substring(0, 2).toUpperCase()
+        lastName: user.lastName,
+        initials: user.firstName && user.lastName
+          ? `${user.firstName.charAt(0)}${user.lastName.charAt(0)}`.toUpperCase()
+          : user.firstName
+          ? user.firstName.substring(0, 2).toUpperCase()
+          : user.email.substring(0, 2).toUpperCase()
       };
-
-
 
       setUser(userData);
 
-      // Redirect after showing success message
+      // ✅ Redirect based on backend response
       setTimeout(() => {
-        // For now, everyone goes to the operator dashboard
-        // Admin and User dashboards are still being designed
-        navigate("/dashboard", { replace: true });
+        navigate(response.redirectPath || "/dashboard", { replace: true });
       }, 1500);
 
     } catch (err: any) {
@@ -93,7 +76,6 @@ export default function SignIn() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-500 via-purple-500 to-purple-600 flex items-center justify-center p-4">
-      {/* Success Alert */}
       {success && (
         <div className="fixed top-6 right-6 z-50">
           <div className="bg-green-500 text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3">
@@ -134,43 +116,9 @@ export default function SignIn() {
         </div>
 
         <div className="bg-white dark:bg-black rounded-3xl shadow-2xl p-10">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-3xl font-bold text-gray-800 dark:text-white">Sign In</h2>
-            
-            <div className="relative">
-              <select
-                value={selectedRole}
-                onChange={(e) => setSelectedRole(e.target.value as "user" | "operator" | "admin")}
-                className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition cursor-pointer appearance-none pr-10"
-                disabled={loading || success}
-              >
-                <option value="user">User Login</option>
-                <option value="operator">Operator Login</option>
-                {/* <option value="admin">Admin Login</option> */}
-              </select>
-              <svg 
-                className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-600 dark:text-gray-300" 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </div>
-          </div>
-
           <div className="mb-6">
-            <span className={`inline-block px-4 py-1.5 rounded-full text-sm font-medium ${
-              selectedRole === 'admin' 
-                ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' 
-                : selectedRole === 'operator'
-                ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
-                : 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
-            }`}>
-              {selectedRole === 'admin' && '🔐 Admin Access'}
-              {selectedRole === 'operator' && '⚙️ Operator Access'}
-              {selectedRole === 'user' && '👤 User Access'}
-            </span>
+            <h2 className="text-3xl font-bold text-gray-800 dark:text-white">Sign In</h2>
+            <p className="text-gray-600 dark:text-gray-400 mt-2">Welcome back to ConnectX</p>
           </div>
 
           {error && (
@@ -232,13 +180,13 @@ export default function SignIn() {
                 <span className="text-gray-500 dark:text-gray-400">Remember me</span>
               </label>
               <button
-  type="button"
-  onClick={() => navigate("/forgot-password")}
-  className="text-gray-800 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400 transition font-medium"
-  disabled={loading || success}
->
-  Forgot password?
-</button>
+                type="button"
+                onClick={() => navigate("/forgot-password")}
+                className="text-gray-800 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400 transition font-medium"
+                disabled={loading || success}
+              >
+                Forgot password?
+              </button>
             </div>
 
             <Button
