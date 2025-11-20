@@ -86,7 +86,12 @@ export default function DashboardLayout() {
       }
     }
   };
-
+const handleLogoutClick = () => {
+  // Show confirmation dialog
+  if (window.confirm('Are you sure you want to logout?')) {
+    logout();
+  }
+};
   const handleTouchEnd = () => {
     if (!isMobile || !isDragging) return;
     setIsDragging(false);
@@ -294,17 +299,18 @@ export default function DashboardLayout() {
               {theme === "light" ? <Moon className="w-5 h-5 flex-shrink-0" /> : <Sun className="w-5 h-5 flex-shrink-0" />}
               {(sidebarOpen || isMobile) && <span className="font-medium">{theme === "light" ? "Dark" : "Light"}</span>}
             </button>
-            <button
-              onClick={logout}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 hover:text-red-500 ${
-                theme === 'dark' 
-                  ? 'text-gray-300 hover:bg-gray-800' 
-                  : 'text-gray-700 hover:bg-gray-200'
-              } ${!sidebarOpen && !isMobile && "justify-center"}`}
-            >
-              <LogOut className="w-5 h-5 flex-shrink-0" />
-              {(sidebarOpen || isMobile) && <span className="font-medium">Logout</span>}
-            </button>
+          
+<button
+  onClick={logout}
+  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 hover:text-red-500 ${
+    theme === 'dark' 
+      ? 'text-gray-300 hover:bg-gray-800' 
+      : 'text-gray-700 hover:bg-gray-200'
+  } ${!sidebarOpen && !isMobile && "justify-center"}`}
+>
+  <LogOut className="w-5 h-5 flex-shrink-0" />
+  {(sidebarOpen || isMobile) && <span className="font-medium">Logout</span>}
+</button>
           </div>
 
           {/* User Profile */}

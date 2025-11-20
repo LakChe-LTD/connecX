@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import { logout as logoutAPI } from '@/api/auth/logout';
 
 interface User {
   initials: string;
@@ -16,7 +17,8 @@ interface AppContextType {
   user: User | null;
   setUser: (user: User | null) => void;
   isAuthenticated: boolean;
-  logout: () => void;
+  logout: () => Promise<void>;
+  isLoggingOut: boolean;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -38,6 +40,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
           name: parsedUser.username || parsedUser.name,
           email: parsedUser.email,
           role: parsedUser.role,
+          initials: parsedUser.initials || '',
+          firstName: parsedUser.firstName,
+          lastName: parsedUser.lastName,
         };
       } catch (error) {
         console.error('Error parsing user from localStorage:', error);
@@ -47,6 +52,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
     }
     return null;
   });
+
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   useEffect(() => {
     localStorage.setItem('theme', theme);
@@ -65,13 +72,32 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setTheme(prev => prev === 'light' ? 'dark' : 'light');
   };
 
-  const logout = () => {
-    setUser(null);
-    // Clear all auth-related data from localStorage
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
-    localStorage.removeItem('refreshToken');
-    localStorage.removeItem('sessionId');
+  const logout = async () => {
+    try {
+      setIsLoggingOut(true);
+      
+      // Call the logout API endpoint
+      await logoutAPI();
+      
+      console.log('Logout successful');
+    } catch (error: any) {
+      console.error('Logout API error:', error);
+      // Continue with local cleanup even if API call fails
+    } finally {
+      // Always clear local state regardless of API success/failure
+      setUser(null);
+      
+      // Clear all auth-related data from localStorage
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('sessionId');
+      
+      setIsLoggingOut(false);
+      
+      // Redirect to login page
+      navigate('/signin');
+    }
   };
 
   return (
@@ -83,6 +109,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         setUser,
         isAuthenticated: !!user,
         logout,
+        isLoggingOut,
       }}
     >
       {children}
