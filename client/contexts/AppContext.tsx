@@ -17,7 +17,7 @@ interface AppContextType {
   user: User | null;
   setUser: (user: User | null) => void;
   isAuthenticated: boolean;
-  logout: () => Promise<void>;
+  logout: () => Promise<boolean>; // Returns true if successful
   isLoggingOut: boolean;
 }
 
@@ -72,31 +72,37 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setTheme(prev => prev === 'light' ? 'dark' : 'light');
   };
 
-  const logout = async () => {
+  const logout = async (): Promise<boolean> => {
     try {
       setIsLoggingOut(true);
       
       // Call the logout API endpoint
-      await logoutAPI();
+      const response = await logoutAPI();
       
-      console.log('Logout successful');
+      // Check if logout was successful
+      if (response.success) {
+        console.log('✅ Logout successful:', response.message);
+        
+        // Clear local state
+        setUser(null);
+        
+        // Clear all auth-related data from localStorage
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('sessionId');
+        
+        return true; // Indicate success
+      } else {
+        console.error('❌ Logout failed:', response.message);
+        return false; // Indicate failure
+      }
+      
     } catch (error: any) {
-      console.error('Logout API error:', error);
-      // Continue with local cleanup even if API call fails
+      console.error('❌ Logout failed with error:', error);
+      return false; // Indicate failure
     } finally {
-      // Always clear local state regardless of API success/failure
-      setUser(null);
-      
-      // Clear all auth-related data from localStorage
-      localStorage.removeItem('user');
-      localStorage.removeItem('token');
-      localStorage.removeItem('refreshToken');
-      localStorage.removeItem('sessionId');
-      
       setIsLoggingOut(false);
-      
-      // Redirect to login page
-      navigate('/signin');
     }
   };
 

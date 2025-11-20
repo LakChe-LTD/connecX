@@ -8,8 +8,8 @@ import CreateHotspotModal from "@/components/CreateHotspotModal";
 export default function DashboardLayout() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, logout, theme, toggleTheme } = useApp();
-  const [sidebarOpen, setSidebarOpen] = useState(false); // Closed by default on mobile
+  const { user, logout, theme, toggleTheme, isLoggingOut } = useApp();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [operatorKitOpen, setOperatorKitOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -45,7 +45,6 @@ export default function DashboardLayout() {
     { label: "Token", path: "/dashboard/Token", icon: DollarSign },
   ];
 
-
   useEffect(() => {
     const checkMobile = () => {
       const mobile = window.innerWidth < 1024;
@@ -62,7 +61,6 @@ export default function DashboardLayout() {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  // Touch start handler for mobile sidebar
   const handleTouchStart = (e: React.TouchEvent) => {
     if (!isMobile) return;
     dragStartX.current = e.touches[0].clientX;
@@ -75,28 +73,32 @@ export default function DashboardLayout() {
     const diff = currentX - dragStartX.current;
     
     if (sidebarOpen) {
-      // Dragging to close (swipe left)
       if (diff < 0) {
-        setDragPosition(Math.max(diff, -256)); // 256px = sidebar width
+        setDragPosition(Math.max(diff, -256));
       }
     } else {
-      // Dragging to open (swipe right from edge)
       if (dragStartX.current < 20 && diff > 0) {
         setDragPosition(Math.min(diff - 256, 0));
       }
     }
   };
-const handleLogoutClick = () => {
-  // Show confirmation dialog
-  if (window.confirm('Are you sure you want to logout?')) {
-    logout();
-  }
-};
+
+  const handleLogoutClick = async () => {
+    const success = await logout();
+    
+    if (success) {
+      console.log('✅ Logout successful, navigating to signin...');
+      navigate('/signin');
+    } else {
+      console.log('❌ Logout failed, staying on current page');
+      // User stays on current page - no navigation
+    }
+  };
+
   const handleTouchEnd = () => {
     if (!isMobile || !isDragging) return;
     setIsDragging(false);
     
-    // Determine if sidebar should open or close based on drag distance
     if (Math.abs(dragPosition) > 128) {
       setSidebarOpen(!sidebarOpen);
     }
@@ -199,8 +201,8 @@ const handleLogoutClick = () => {
         {/* Menu Items */}
         <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
           {isRewardPage || isStorePage ? (
-            <a
-              href="/dashboard/"
+            <button
+              onClick={() => navigate('/dashboard/')}
               className={`flex items-center ${isMobile ? 'gap-4' : 'gap-8'} px-4 py-3 rounded-lg transition-all duration-200 ${
                 theme === 'dark' 
                   ? 'bg-blue-600 text-white hover:bg-blue-700' 
@@ -209,14 +211,14 @@ const handleLogoutClick = () => {
             >
               <ArrowLeft className="w-7 h-7 flex-shrink-0" />
               {(sidebarOpen || isMobile) && <span className="font-bold text-xl">Back</span>}
-            </a>
+            </button>
           ) : (
             <>
               {/* Regular menu items */}
               {menuItems.map((item) => (
-                <a
+                <button
                   key={item.path}
-                  href={item.path}
+                  onClick={() => navigate(item.path)}
                   className={`flex items-center ${isMobile ? 'gap-4' : 'gap-8'} px-4 py-3 rounded-lg transition-all duration-200 ${
                     location.pathname === item.path
                       ? 'bg-black text-white dark:bg-blue-600'
@@ -227,7 +229,7 @@ const handleLogoutClick = () => {
                 >
                   <item.icon className="w-7 h-7 flex-shrink-0" />
                   {(sidebarOpen || isMobile) && <span className="font-bold text-xl">{item.label}</span>}
-                </a>
+                </button>
               ))}
 
               {/* Operator Kit with Dropdown */}
@@ -239,14 +241,13 @@ const handleLogoutClick = () => {
                         ? 'text-gray-300 hover:bg-blue-600 hover:text-white'
                         : 'text-gray-700 hover:bg-gray-900 hover:text-white'
                   }`}>
-                  <a
-                    href="/dashboard/operatorkit"
-                    onClick={(e) => { e.preventDefault(); navigate('/dashboard/operatorkit'); }}
-                    className="flex items-center gap-4 flex-1"
+                  <button
+                    onClick={() => navigate('/dashboard/operatorkit')}
+                    className="flex items-center gap-4 flex-1 text-left"
                   >
                     <DollarSign className="w-7 h-7 flex-shrink-0" />
                     {(sidebarOpen || isMobile) && <span className="font-bold text-xl">Operator Kit</span>}
-                  </a>
+                  </button>
 
                   {(sidebarOpen || isMobile) && (
                     <button
@@ -263,9 +264,8 @@ const handleLogoutClick = () => {
                 {/* Dropdown Menu */}
                 {(sidebarOpen || isMobile) && operatorKitOpen && (
                   <div id="operator-kit-dropdown" className="ml-4 mt-1 space-y-1">
-                    <a
-                      href="/dashboard/allkits"
-                      onClick={(e) => { e.preventDefault(); navigate('/dashboard/allkits'); }}
+                    <button
+                      onClick={() => navigate('/dashboard/allkits')}
                       className={`flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 ${
                         location.pathname === "/dashboard/allkits"
                           ? 'bg-black text-white dark:bg-blue-600'
@@ -276,7 +276,7 @@ const handleLogoutClick = () => {
                     >
                       <div className="w-2 h-2 rounded-full bg-current flex-shrink-0" />
                       <span className="font-medium text-base">All Kits</span>
-                    </a>
+                    </button>
                   </div>
                 )}
               </div>
@@ -300,17 +300,18 @@ const handleLogoutClick = () => {
               {(sidebarOpen || isMobile) && <span className="font-medium">{theme === "light" ? "Dark" : "Light"}</span>}
             </button>
           
-<button
-  onClick={logout}
-  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 hover:text-red-500 ${
-    theme === 'dark' 
-      ? 'text-gray-300 hover:bg-gray-800' 
-      : 'text-gray-700 hover:bg-gray-200'
-  } ${!sidebarOpen && !isMobile && "justify-center"}`}
->
-  <LogOut className="w-5 h-5 flex-shrink-0" />
-  {(sidebarOpen || isMobile) && <span className="font-medium">Logout</span>}
-</button>
+            <button
+              onClick={handleLogoutClick}
+              disabled={isLoggingOut}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 hover:text-red-500 ${
+                theme === 'dark' 
+                  ? 'text-gray-300 hover:bg-gray-800' 
+                  : 'text-gray-700 hover:bg-gray-200'
+              } ${!sidebarOpen && !isMobile && "justify-center"} ${isLoggingOut ? 'opacity-50 cursor-not-allowed' : ''}`}
+            >
+              <LogOut className="w-5 h-5 flex-shrink-0" />
+              {(sidebarOpen || isMobile) && <span className="font-medium">{isLoggingOut ? 'Logging out...' : 'Logout'}</span>}
+            </button>
           </div>
 
           {/* User Profile */}

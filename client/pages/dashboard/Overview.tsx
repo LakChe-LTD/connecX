@@ -780,7 +780,7 @@ export default function DashboardOverview() {
                               {isOnline ? 'Active' : isOffline ? 'Offline' : currentStatus}
                             </span>
                             {isOnline && (
-                              <Activity className="w-4 h-4 text-green-500" title="Live status" />
+                              <Activity className="w-4 h-4 text-green-500" role="img" aria-label="Live status" />
                             )}
                           </div>
                         </td>
