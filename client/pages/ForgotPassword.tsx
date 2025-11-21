@@ -29,7 +29,7 @@ export default function ForgotPassword() {
         
         // Redirect after 3 seconds
         setTimeout(() => {
-          navigate("/signin");
+          navigate("/ResetPassword");
         }, 3000);
       } else {
         setError(response.data.message || "Failed to send reset link.");
@@ -157,7 +157,7 @@ export default function ForgotPassword() {
           <div className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
             Remember your password?{" "}
             <button
-              onClick={() => navigate("/signin")}
+              onClick={() => navigate("/ResetPassword")}
               className="text-blue-800 hover:text-blue-400 font-semibold transition"
               disabled={loading || success}
             >

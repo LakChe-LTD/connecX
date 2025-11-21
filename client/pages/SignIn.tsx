@@ -181,7 +181,7 @@ export default function SignIn() {
               </label>
               <button
                 type="button"
-                onClick={() => navigate("/forgot-password")}
+                onClick={() => navigate("/ForgotPassword")}
                 className="text-gray-800 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400 transition font-medium"
                 disabled={loading || success}
               >

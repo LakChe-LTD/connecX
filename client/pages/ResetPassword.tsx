@@ -138,7 +138,7 @@ export default function ResetPassword() {
                     This link is invalid or has expired. Please request a new password reset.
                   </p>
                   <button
-                    onClick={() => navigate("/forgot-password")}
+                    onClick={() => navigate("/ForgotPassword")}
                     className="mt-2 text-xs text-red-700 dark:text-red-400 underline hover:no-underline"
                   >
                     Request new reset link
