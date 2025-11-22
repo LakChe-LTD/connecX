@@ -66,18 +66,24 @@ export default function Register() {
       
       const response = await register(requestData);
 
-      if (response.success && response.token) {
-        setLoading(false);
-        setSuccess(true);
+if (response.success && response.token) {
+  setLoading(false);
+  setSuccess(true);
 
-        setTimeout(() => {
-          navigate(response.redirectPath || "/dashboard", { replace: true });
-        }, 1500);
-      } else {
-        setError(response.message || "Registration failed. Please try again.");
-        setLoading(false);
+  // ✅ Redirect to sign-in page after registration
+  setTimeout(() => {
+    navigate("/signin", { 
+      replace: true,
+      state: { 
+        email: formData.email,
+        message: "Registration successful! Please sign in with your credentials."
       }
-
+    });
+  }, 1500);
+} else {
+  setError(response.message || "Registration failed. Please try again.");
+  setLoading(false);
+}
     } catch (err: any) {
       console.error("Registration error:", err);
       setError(err.message || "Registration failed. Please try again.");

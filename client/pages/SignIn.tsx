@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useApp } from "@/contexts/AppContext";
-import { Eye, EyeOff, Mail, Lock, Moon, Sun, Loader2, CheckCircle } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, Moon, Sun, Loader2, CheckCircle, AlertCircle } from "lucide-react";
 import { login } from "@/api/auth";
 
 export default function SignIn() {
@@ -11,6 +11,7 @@ export default function SignIn() {
   const { theme, toggleTheme, setUser } = useApp();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [selectedRole, setSelectedRole] = useState<"operator" | "end-user">("end-user");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -23,7 +24,7 @@ export default function SignIn() {
     setLoading(true);
 
     try {
-      const response = await login({ email, password });
+      const response = await login({ email, password, role: selectedRole });
 
       // Handle 2FA
       if (response.requires2FA) {
@@ -40,6 +41,20 @@ export default function SignIn() {
       }
 
       const user = response.user;
+
+      // ✅ Validate role matches
+      if (user.role !== selectedRole) {
+        const roleNames = {
+          'operator': 'Operator',
+          'end-user': 'User'
+        };
+        setError(
+          `These credentials belong to a ${roleNames[user.role as keyof typeof roleNames]} account. ` +
+          `Please select "${roleNames[user.role as keyof typeof roleNames]}" to continue.`
+        );
+        setLoading(false);
+        return;
+      }
 
       setLoading(false);
       setSuccess(true);
@@ -116,13 +131,52 @@ export default function SignIn() {
         </div>
 
         <div className="bg-white dark:bg-black rounded-3xl shadow-2xl p-10">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-3xl font-bold text-gray-800 dark:text-white">Sign In</h2>
+              <p className="text-gray-600 dark:text-gray-400 mt-2">Welcome back to ConnectX</p>
+            </div>
+            
+            {/* ✅ Role Selector */}
+            <div className="relative">
+              <select
+                value={selectedRole}
+                onChange={(e) => {
+                  setSelectedRole(e.target.value as "operator" | "end-user");
+                  setError(""); // Clear error when role changes
+                }}
+                className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-600 dark:text-gray-300 
+                bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition cursor-pointer appearance-none pr-10"
+                disabled={loading || success}
+              >
+                <option value="end-user">Login as User</option>
+                <option value="operator">Login as Operator</option>
+              </select>
+              <svg 
+                className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-gray-600 dark:text-gray-300" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
+
+          {/* ✅ Role Badge */}
           <div className="mb-6">
-            <h2 className="text-3xl font-bold text-gray-800 dark:text-white">Sign In</h2>
-            <p className="text-gray-600 dark:text-gray-400 mt-2">Welcome back to ConnectX</p>
+            <span className={`inline-block px-4 py-1.5 rounded-full text-sm font-medium ${
+              selectedRole === 'operator'
+                ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
+                : 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
+            }`}>
+              {selectedRole === 'operator' ? '⚙️ Operator Login' : '👤 User Login'}
+            </span>
           </div>
 
           {error && (
-            <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+            <div className="mb-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-start gap-3">
+              <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
               <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
             </div>
           )}
