@@ -147,10 +147,21 @@ export default function DashboardOverview() {
   };
 
   const handleEditSuccess = (updatedHotspot: Hotspot) => {
-    setHotspots((prev) =>
-      prev.map((h) => (h._id === updatedHotspot._id ? updatedHotspot : h))
-    );
-  };
+  setHotspots((prev) =>
+    prev.map((h) => (h._id === updatedHotspot._id ? updatedHotspot : h))
+  );
+  
+  // Update realtime status immediately for instant UI feedback
+  setRealtimeStatuses((prev) => ({
+    ...prev,
+    [updatedHotspot._id]: updatedHotspot.status
+  }));
+  
+  // Optionally fetch fresh status after a short delay to confirm
+  setTimeout(() => {
+    fetchRealtimeStatus(updatedHotspot._id);
+  }, 500);
+};
 
   const handleSetup = (hotspot: Hotspot) => {
     setHotspotToSetup(hotspot);
