@@ -20,14 +20,18 @@ export const ENDPOINTS = {
     PROFILE: `${API_BASE}/user/profile`,
     SESSIONS: `${API_BASE}/user/sessions`,
     UPDATE: `${API_BASE}/user/update`,
+    UPDATE_PROFILE: `${API_BASE}/user/profile/update`,
     PASSWORD: `${API_BASE}/user/change-password`,
     DEVICES: `${API_BASE}/user/devices`,
     REMOVE_DEVICE: (deviceId: string) => `${API_BASE}/user/devices/${deviceId}`,
     NOTIFICATIONS: `${API_BASE}/user/notifications/preferences`,
+    UPDATE_NOTIFICATIONS: `${API_BASE}/user/notifications/update`,
+    UPLOAD_AVATAR: `${API_BASE}/user/avatar/upload`,
     TWO_FA: {
       ENABLE: `${API_BASE}/user/2fa/enable`,
       DISABLE: `${API_BASE}/user/2fa/disable`,
       VERIFY: `${API_BASE}/user/2fa/verify`,
+      STATUS: `${API_BASE}/user/2fa/status`,
     },
   },
 
@@ -79,8 +83,14 @@ export const ENDPOINTS = {
 
   // Referrals
   REFERRAL: {
-    CODE: `${API_BASE}/referrals/code`,
+    LINK: `${API_BASE}/referrals/link`,
     STATS: `${API_BASE}/referrals/stats`,
+    ACTIVITY: `${API_BASE}/referrals/activity`,
+    LEADERBOARD: `${API_BASE}/referrals/leaderboard`,
+    PROGRESS: `${API_BASE}/referrals/progress`,
+    REWARDS: `${API_BASE}/referrals/rewards`,
+    USER_RANK: `${API_BASE}/referrals/user-rank`,
+    SHARE: `${API_BASE}/referrals/share`,
   },
 };
 
