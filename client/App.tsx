@@ -6,11 +6,14 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AppProvider, useApp } from "@/contexts/AppContext";
-import { GoogleOAuthProvider } from "@react-oauth/google"; // << Add this
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 import Landing from "./pages/Landing";
 import SignIn from "./pages/SignIn";
 import Register from "./pages/Register";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
+import InvitationRegister from "./pages/InvitationRegister";
 import DashboardLayout from "./components/layouts/DashboardLayout";
 import DashboardOverview from "./pages/dashboard/Overview";
 import ManageKits from "./pages/dashboard/operatorkit";
@@ -36,10 +39,7 @@ import AdminOverview from "./pages/admin/Overview";
 import AdminUsers from "./pages/admin/Users";
 import AdminRewards from "./pages/admin/Hotspots";
 import NotFound from "./pages/NotFound";
-import ForgotPassword from "./pages/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword";
 import ChangePassword from "./components/ChangePassword";
-import InvitationRegister from "./pages/InvitationRegister";
 
 const queryClient = new QueryClient();
 
@@ -75,11 +75,19 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <Routes>
+              {/* Public Routes */}
               <Route path="/" element={<Landing />} />
               <Route path="/signin" element={<SignIn />} />
               <Route path="/register" element={<Register />} />
               
+              {/* ✅ Password Reset Routes - ADD THESE */}
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
+              
+              {/* Invitation Route */}
+              <Route path="/invitation/register" element={<InvitationRegister />} />
 
+              {/* Protected Dashboard Routes */}
               <Route element={<DashboardLayout />}>
                 <Route path="/dashboard" element={<DashboardOverview />} />
                 <Route path="/dashboard/reward" element={<DashboardReward />} />
@@ -94,21 +102,22 @@ const App = () => (
                 <Route path="/dashboard/registerKitStep2" element={<HotspotRegistrationStep2 />} />
                 <Route path="/dashboard/registerKitStep3" element={<HotspotRegistrationStep3 />} />
                 <Route path="/dashboard/Allkits" element={<KonnectXKitss />} />
-              <Route path="/dashboard/independentOperator" element={<IndependentOperators />} />
-              <Route path="/dashboard/HotspotAcess" element={<HotspotAcess />} />
-              <Route path="/dashboard/MyHotspots" element={<MyHotSpots />} />
-              <Route path="/dashboard/Vouchers" element={<VoucherManagement />} />
-              <Route path="/dashboard/Finances" element={<FinanceDashboard />} />
-              <Route path="/dashboard/Withdrawfunds" element={<WithdrawFunds />} />
-              <Route path="/invitation/register" element={<InvitationRegister />} />
+                <Route path="/dashboard/independentOperator" element={<IndependentOperators />} />
+                <Route path="/dashboard/HotspotAcess" element={<HotspotAcess />} />
+                <Route path="/dashboard/MyHotspots" element={<MyHotSpots />} />
+                <Route path="/dashboard/Vouchers" element={<VoucherManagement />} />
+                <Route path="/dashboard/Finances" element={<FinanceDashboard />} />
+                <Route path="/dashboard/Withdrawfunds" element={<WithdrawFunds />} />
               </Route>
 
+              {/* Admin Routes */}
               <Route element={<AdminRoute><AdminLayout /></AdminRoute>}>
                 <Route path="/admin/dashboard" element={<AdminOverview />} />
                 <Route path="/admin/users" element={<AdminUsers />} />
                 <Route path="/admin/rewards" element={<AdminRewards />} />
               </Route>
 
+              {/* 404 Not Found */}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
@@ -120,5 +129,3 @@ const App = () => (
 
 createRoot(document.getElementById("root")!).render(<App />);
 export default App;
-
-
