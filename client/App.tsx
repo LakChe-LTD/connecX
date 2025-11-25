@@ -6,14 +6,26 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AppProvider, useApp } from "@/contexts/AppContext";
-import { GoogleOAuthProvider } from "@react-oauth/google";
 
+// Authentication Imports
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import Landing from "./pages/Landing";
 import SignIn from "./pages/SignIn";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import InvitationRegister from "./pages/InvitationRegister";
+
+
+
+// EndUsers Dashboard Imports
+import EndUserDashboardLayout from "./components/layouts/EndUsersDashboardlayout";
+import KonnectXEndusersDashboard from "./pages/EndUsersDashboard/Dashboardoverview";
+import KonnectXEndUsersHotspots from "./pages/EndUsersDashboard/Hotspots";
+
+
+
+// Operators Dashboard Imports
 import DashboardLayout from "./components/layouts/OperatorDashboardLayout";
 import DashboardOverview from "./pages/dashboard/Overview";
 import ManageKits from "./pages/OperatorsDashboard/operatorkit";
@@ -40,6 +52,10 @@ import AdminUsers from "./pages/admin/Users";
 import AdminRewards from "./pages/admin/Hotspots";
 import NotFound from "./pages/NotFound";
 import ChangePassword from "./components/ChangePassword";
+
+
+
+
 
 const queryClient = new QueryClient();
 
@@ -87,7 +103,21 @@ const App = () => (
               {/* Invitation Route */}
               <Route path="/invitation/register" element={<InvitationRegister />} />
 
-              {/* Protected Dashboard Routes */}
+
+                 {/* Protected OPerator Dashboard Routes */}
+              <Route element={<EndUserDashboardLayout />}>
+              <Route path="/Dashboardoverview" element={< KonnectXEndusersDashboard />} />
+              <Route path="/Hotspots" element={< KonnectXEndUsersHotspots />} />
+             
+              
+              </Route>
+                
+
+
+
+
+
+              {/* Protected OPerator Dashboard Routes */}
               <Route element={<DashboardLayout />}>
                 <Route path="/dashboard" element={<DashboardOverview />} />
                 <Route path="/dashboard/reward" element={<DashboardReward />} />

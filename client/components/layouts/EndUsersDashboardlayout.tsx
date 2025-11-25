@@ -1,291 +1,525 @@
-import React, { useState } from 'react';
-import { Wifi, Home, Smartphone, Wallet, User, Bell, LogOut, MapPin, Search } from 'lucide-react';
+import { useState, useEffect, useRef } from "react";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
+import { useApp } from "@/contexts/AppContext";
+import { Menu, X, LogOut, Settings, Moon, Sun, Wifi, Users, Home, ArrowLeft, Gift, Heart, ShoppingCart, DollarSign, ChevronDown, ChevronRight, User, Search } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import CreateHotspotModal from "@/components/CreateHotspotModal";
 
-// Dashboard Layout Component (Sidebar + Header)
-function DashboardLayout({ children }) {
-  const [activeMenu, setActiveMenu] = useState('dashboard');
+export default function EndUserDashboardLayout() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { user, logout, theme, toggleTheme } = useApp();
+  const [sidebarOpen, setSidebarOpen] = useState(false); 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [operatorKitOpen, setOperatorKitOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [dragPosition, setDragPosition] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const sidebarRef = useRef<HTMLDivElement>(null);
+  const dragStartX = useRef(0);
+
+  const isRewardPage = location.pathname === "/dashboard/Reward";
+  const isReferralsPage = location.pathname === "/dashboard/Referrals";
+  const isSetupguidePage = location.pathname === "/dashboard/setupguide";
+  const isStorePage = location.pathname === "/dashboard/store";
+  const isTokenPage = location.pathname === "/dashboard/Token";
+  const isSettingsPage = location.pathname === "/dashboard/Settings";
+  const isregisterKitPage = location.pathname === "/dashboard/registerKit";
+  const isregisterKitpageStep2 = location.pathname === "/dashboard/registerKitStep3"
+  const isregisterKitpageStep3 = location.pathname === "/dashboard/registerKitStep2"
+  const Independentoperator = location.pathname === "/dashboard/independentOperator";
+  const HotspotAcess = location.pathname === "/dashboard/HotspotAcess";
+  const Vouchers = location.pathname === "/dashboard/Vouchers";
+  const Finances = location.pathname === "/dashboard/Finances";
+  const Withdrawfunds = location.pathname === "/dashboard/Withdrawfunds";
+  const isAllKitsPage = location.pathname === "/dashboard/allkits";
+  const isOperatorKitPage = location.pathname === "/dashboard/operatorkit";
+
+
+  
+
+  const menuItems = [
+    { label: "Dashboard", path: "/Dashboardoverview", icon: Wifi},
+    { label: "Hotspots", path: "/Hotspots", icon: Wifi },
+    { label: "Referrals", path: "/dashboard/Referrals", icon: Users },
+    { label: "Rewards", path: "/dashboard/Reward", icon: Gift },
+    { label: "setupguide", path: "/dashboard/setupguide", icon: Sun },
+    { label: "Store", path: "/dashboard/store", icon: Home },
+    { label: "Settings", path: "/dashboard/Settings", icon: Settings },
+    { label: "Token", path: "/dashboard/Token", icon: DollarSign },
+  ];
+
+
+  useEffect(() => {
+    const checkMobile = () => {
+      const mobile = window.innerWidth < 1024;
+      setIsMobile(mobile);
+      if (!mobile) {
+        setSidebarOpen(true); 
+      } else {
+        setSidebarOpen(false); 
+      }
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  // Touch start handler for mobile sidebar
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (!isMobile) return;
+    dragStartX.current = e.touches[0].clientX;
+    setIsDragging(true);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isMobile || !isDragging) return;
+    const currentX = e.touches[0].clientX;
+    const diff = currentX - dragStartX.current;
+    
+    if (sidebarOpen) {
+      // Dragging to close (swipe left)
+      if (diff < 0) {
+        setDragPosition(Math.max(diff, -256)); // 256px = sidebar width
+      }
+    } else {
+      // Dragging to open (swipe right from edge)
+      if (dragStartX.current < 20 && diff > 0) {
+        setDragPosition(Math.min(diff - 256, 0));
+      }
+    }
+  };
+const handleLogoutClick = () => {
+  // Show confirmation dialog
+  if (window.confirm('Are you sure you want to logout?')) {
+    logout();
+  }
+};
+  const handleTouchEnd = () => {
+    if (!isMobile || !isDragging) return;
+    setIsDragging(false);
+    
+    // Determine if sidebar should open or close based on drag distance
+    if (Math.abs(dragPosition) > 128) {
+      setSidebarOpen(!sidebarOpen);
+    }
+    
+    setDragPosition(0);
+  };
+
+  const handleHotspotCreated = (hotspot: any) => {
+    console.log("Hotspot created successfully!", hotspot);
+    window.dispatchEvent(new CustomEvent('hotspotCreated', { detail: hotspot }));
+  };
+
+  const handleOperatorKitClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (sidebarOpen && !isMobile) {
+      setOperatorKitOpen(!operatorKitOpen);
+    } else {
+      navigate("/dashboard/operatorkit");
+    }
+  };
+
+  function getInitials(name?: string, email?: string): string {
+    if (name) {
+      const parts = name.trim().split(' ');
+      if (parts.length >= 2) {
+        return `${parts[0].charAt(0)}${parts[parts.length - 1].charAt(0)}`.toUpperCase();
+      } else if (parts.length === 1) {
+        return parts[0].substring(0, 2).toUpperCase();
+      }
+    }
+    
+    if (email) {
+      const emailPrefix = email.split('@')[0];
+      const words = emailPrefix.match(/[A-Za-z]+/g) || [];
+      if (words.length >= 2) {
+        return `${words[0].charAt(0)}${words[1].charAt(0)}`.toUpperCase();
+      }
+      return emailPrefix.substring(0, 2).toUpperCase();
+    }
+    
+    return 'U';
+  }
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className={`flex h-screen overflow-hidden ${theme === 'dark' ? 'bg-black' : 'bg-background'}`}>
+      {/* Create Hotspot Modal */}
+      <CreateHotspotModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSuccess={handleHotspotCreated}
+      />
+
+      {/* Overlay for mobile */}
+      {isMobile && sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden transition-opacity"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
       {/* Sidebar */}
-      <div className="w-64 bg-white border-r border-gray-200 flex flex-col">
-        {/* Logo */}
-        <div className="p-6 border-b border-gray-200">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-              <Wifi className="w-5 h-5 text-white" />
+      <div
+        ref={sidebarRef}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        style={{
+          transform: isMobile && isDragging ? `translateX(${dragPosition}px)` : undefined,
+        }}
+        className={`
+          ${isMobile ? 'fixed' : 'relative'}
+          ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+          ${isMobile ? 'w-64' : sidebarOpen ? 'w-64' : 'w-20'}
+          ${theme === 'dark' ? 'bg-[#333436] border-[#2b2b2c]' : 'bg-gray-100 border-gray-200'}
+          border-r transition-all duration-300 flex flex-col h-full z-50
+          ${isMobile ? 'top-0 left-0' : ''}
+        `}
+      >
+        {/* Logo Section - Always Visible */}
+        <div className={`p-4 border-b ${theme === 'dark' ? 'border-gray-800' : 'border-gray-300'}`}>
+          <div className="flex items-center justify-between">
+            <div className={`flex items-center ${sidebarOpen || isMobile ? 'gap-3' : 'justify-center w-full'}`}>
+              <img 
+                src="/KonnectXLogo.png" 
+                alt="KonnecX Logo"
+                className={`${sidebarOpen || isMobile ? 'h-220 w-220' : 'h-220 w-220'} object-contain transition-all duration-300`}
+              />
             </div>
-            <div>
-              <h1 className="text-lg font-bold text-gray-900">KonnectX</h1>
-              <p className="text-xs text-gray-500">Stay connected</p>
-            </div>
+            {isMobile && (
+              <button
+                onClick={() => setSidebarOpen(false)}
+                className={`p-2 rounded-lg ${theme === 'dark' ? 'hover:bg-gray-800' : 'hover:bg-gray-200'}`}
+              >
+                <X size={20} className={theme === 'dark' ? 'text-white' : 'text-gray-800'} />
+              </button>
+            )}
           </div>
         </div>
 
-        {/* Navigation */}
-        <nav className="flex-1 p-4">
-          <NavItem icon={Home} label="Dashboard" active={activeMenu === 'dashboard'} onClick={() => setActiveMenu('dashboard')} />
-          <NavItem icon={Wifi} label="Hotspots" active={activeMenu === 'hotspots'} onClick={() => setActiveMenu('hotspots')} />
-          <NavItem icon={Smartphone} label="Plans" active={activeMenu === 'plans'} onClick={() => setActiveMenu('plans')} />
-          <NavItem icon={Smartphone} label="Subscriptions" active={activeMenu === 'subscriptions'} onClick={() => setActiveMenu('subscriptions')} />
-          <NavItem icon={Wallet} label="Wallet" active={activeMenu === 'wallet'} onClick={() => setActiveMenu('wallet')} />
-          <NavItem icon={User} label="Profile" active={activeMenu === 'profile'} onClick={() => setActiveMenu('profile')} />
-          <NavItem icon={Bell} label="Notifications" active={activeMenu === 'notifications'} onClick={() => setActiveMenu('notifications')} />
+        {/* Menu Items */}
+        <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
+          {isRewardPage || isStorePage ? (
+            <a
+              href="/dashboard/"
+              className={`flex items-center ${isMobile ? 'gap-4' : 'gap-8'} px-4 py-3 rounded-lg transition-all duration-200 ${
+                theme === 'dark' 
+                  ? 'bg-blue-600 text-white hover:bg-blue-700' 
+                  : 'bg-blue-600 text-white hover:bg-blue-700'
+              }`}
+            >
+              <ArrowLeft className="w-7 h-7 flex-shrink-0" />
+              {(sidebarOpen || isMobile) && <span className="font-bold text-xl">Back</span>}
+            </a>
+          ) : (
+            <>
+              {/* Regular menu items */}
+              {menuItems.map((item) => (
+                <a
+                  key={item.path}
+                  href={item.path}
+                  className={`flex items-center ${isMobile ? 'gap-4' : 'gap-8'} px-4 py-3 rounded-lg transition-all duration-200 ${
+                    location.pathname === item.path
+                      ? 'bg-black text-white dark:bg-blue-600'
+                      : theme === 'dark'
+                        ? 'text-gray-300 hover:bg-blue-600 hover:text-white'
+                        : 'text-gray-700 hover:bg-gray-900 hover:text-white'
+                  }`}
+                >
+                  <item.icon className="w-7 h-7 flex-shrink-0" />
+                  {(sidebarOpen || isMobile) && <span className="font-bold text-xl">{item.label}</span>}
+                </a>
+              ))}
+
+              {/* Operator Kit with Dropdown */}
+              <div>
+                <div className={`w-full flex items-center justify-between ${isMobile ? 'gap-4' : 'gap-8'} px-4 py-3 rounded-lg transition-all duration-200 ${
+                    location.pathname === "/dashboard/operatorkit" || location.pathname === "/dashboard/allkits"
+                      ? 'bg-black text-white dark:bg-blue-600'
+                      : theme === 'dark'
+                        ? 'text-gray-300 hover:bg-blue-600 hover:text-white'
+                        : 'text-gray-700 hover:bg-gray-900 hover:text-white'
+                  }`}>
+                  <a
+                    href="/dashboard/operatorkit"
+                    onClick={(e) => { e.preventDefault(); navigate('/dashboard/operatorkit'); }}
+                    className="flex items-center gap-4 flex-1"
+                  >
+                    <DollarSign className="w-7 h-7 flex-shrink-0" />
+                    {(sidebarOpen || isMobile) && <span className="font-bold text-xl">Operator Kit</span>}
+                  </a>
+
+                  {(sidebarOpen || isMobile) && (
+                    <button
+                      onClick={(e) => { e.stopPropagation(); setOperatorKitOpen((s) => !s); }}
+                      aria-expanded={operatorKitOpen}
+                      aria-controls="operator-kit-dropdown"
+                      className="p-1 rounded focus:outline-none"
+                    >
+                      {operatorKitOpen ? <ChevronDown className="w-5 h-5 flex-shrink-0" /> : <ChevronRight className="w-5 h-5 flex-shrink-0" />}
+                    </button>
+                  )}
+                </div>
+
+                {/* Dropdown Menu */}
+                {(sidebarOpen || isMobile) && operatorKitOpen && (
+                  <div id="operator-kit-dropdown" className="ml-4 mt-1 space-y-1">
+                    <a
+                      href="/dashboard/allkits"
+                      onClick={(e) => { e.preventDefault(); navigate('/dashboard/allkits'); }}
+                      className={`flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 ${
+                        location.pathname === "/dashboard/allkits"
+                          ? 'bg-black text-white dark:bg-blue-600'
+                          : theme === 'dark'
+                            ? 'text-gray-400 hover:bg-blue-600 hover:text-white'
+                            : 'text-gray-600 hover:bg-gray-900 hover:text-white'
+                      }`}
+                    >
+                      <div className="w-2 h-2 rounded-full bg-current flex-shrink-0" />
+                      <span className="font-medium text-base">All Kits</span>
+                    </a>
+                  </div>
+                )}
+              </div>
+            </>
+          )}
         </nav>
 
-        {/* User Profile */}
-        <div className="p-4 border-t border-gray-200">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold">
-              C
-            </div>
-            <div className="flex-1">
-              <p className="text-sm font-semibold text-gray-900">Chizurummarvelous14</p>
-              <p className="text-xs text-gray-500">chizurummarvelous14@g...</p>
-            </div>
-          </div>
-          <button className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 w-full">
-            <LogOut className="w-4 h-4" />
-            Logout
-          </button>
-        </div>
-      </div>
-
-      {/* Main Content Area */}
-      <div className="flex-1 overflow-auto">
-        {children}
-      </div>
-    </div>
-  );
-}
-
-function NavItem({ icon: Icon, label, active, onClick }) {
-  return (
-    <button
-      onClick={onClick}
-      className={`flex items-center gap-3 w-full px-4 py-3 rounded-lg mb-1 transition-colors ${
-        active 
-          ? 'bg-blue-50 text-blue-600' 
-          : 'text-gray-600 hover:bg-gray-50'
-      }`}
-    >
-      <Icon className="w-5 h-5" />
-      <span className="font-medium text-sm">{label}</span>
-    </button>
-  );
-}
-
-// Dashboard Content Component (Main Dashboard Page)
-function DashboardContent() {
-  return (
-    <div className="p-8">
-      {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center gap-2 text-sm text-gray-600 mb-4">
-          <Wifi className="w-4 h-4" />
-          <span className="text-blue-600 font-medium">Dashboard</span>
-        </div>
-        <div className="bg-gradient-to-r from-blue-600 to-blue-500 rounded-2xl p-8 text-white">
-          <h1 className="text-3xl font-bold mb-2">Welcome back, Chizurummarvelous14!</h1>
-          <p className="text-blue-100">Here's your connectivity overview</p>
-        </div>
-      </div>
-
-      {/* Stats Grid */}
-      <div className="grid grid-cols-4 gap-6 mb-8">
-        {/* Active Plan */}
-        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-          <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-              <Smartphone className="w-6 h-6 text-blue-600" />
-            </div>
-            <span className="text-blue-600 font-semibold text-sm">Active</span>
-          </div>
-          <p className="text-gray-600 text-sm mb-1">Active Plan</p>
-          <h3 className="text-xl font-bold text-gray-900">Monthly Premium</h3>
-          <p className="text-gray-500 text-xs mt-1">Expires on 17/12/2025</p>
-        </div>
-
-        {/* Data Usage */}
-        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-          <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
-              <Smartphone className="w-6 h-6 text-purple-600" />
-            </div>
-            <span className="text-purple-600 font-semibold text-sm">32%</span>
-          </div>
-          <p className="text-gray-600 text-sm mb-1">Data Usage</p>
-          <h3 className="text-xl font-bold text-gray-900">3.2 / 10 GB</h3>
-          <div className="w-full bg-gray-200 rounded-full h-2 mt-3">
-            <div className="bg-purple-600 h-2 rounded-full" style={{ width: '32%' }}></div>
-          </div>
-        </div>
-
-        {/* Total Connections */}
-        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-          <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-              <Wifi className="w-6 h-6 text-green-600" />
-            </div>
-            <span className="text-green-600 font-semibold text-sm">+12%</span>
-          </div>
-          <p className="text-gray-600 text-sm mb-1">Total Connections</p>
-          <h3 className="text-xl font-bold text-gray-900">3</h3>
-          <p className="text-gray-500 text-xs mt-1">This month</p>
-        </div>
-
-        {/* Active Devices */}
-        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-          <div className="flex items-center justify-between mb-4">
-            <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
-              <Smartphone className="w-6 h-6 text-orange-600" />
-            </div>
-            <span className="text-orange-600 font-semibold text-sm">2</span>
-          </div>
-          <p className="text-gray-600 text-sm mb-1">Active Devices</p>
-          <h3 className="text-xl font-bold text-gray-900">2</h3>
-          <p className="text-gray-500 text-xs mt-1">Linked devices</p>
-        </div>
-      </div>
-
-      {/* Bottom Grid */}
-      <div className="grid grid-cols-3 gap-6">
-        {/* Active Subscription */}
-        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h3 className="text-lg font-bold text-gray-900 mb-1">Active Subscription</h3>
-              <p className="text-sm text-gray-500">Your current plan details</p>
-            </div>
-            <span className="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-xs font-semibold">Plan expires in 7</span>
-          </div>
-
-          <div className="mb-6">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                <Smartphone className="w-5 h-5 text-blue-600" />
-              </div>
-              <div>
-                <h4 className="font-semibold text-gray-900">Monthly Premium</h4>
-                <p className="text-xs text-gray-500">Started 07/11/2025</p>
-              </div>
-            </div>
-
-            <div className="mb-2">
-              <div className="flex justify-between text-sm mb-1">
-                <span className="text-gray-600">Data Usage</span>
-                <span className="font-semibold text-gray-900">3.2 GB / 10 GB</span>
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div className="bg-blue-600 h-2 rounded-full" style={{ width: '32%' }}></div>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex gap-3">
-            <button className="flex-1 bg-blue-600 text-white py-2.5 rounded-lg font-medium hover:bg-blue-700 transition-colors">
-              Upgrade Plan
+        {/* Bottom Section */}
+        <div className={`border-t ${theme === 'dark' ? 'border-gray-800' : 'border-gray-300'}`}>
+          {/* Dark Mode & Logout */}
+          <div className="p-4 space-y-2">
+            <button
+              onClick={toggleTheme}
+              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
+                theme === 'dark' 
+                  ? 'text-gray-300 hover:bg-gray-800' 
+                  : 'text-gray-700 hover:bg-gray-200'
+              } ${!sidebarOpen && !isMobile && "justify-center"}`}
+            >
+              {theme === "light" ? <Moon className="w-5 h-5 flex-shrink-0" /> : <Sun className="w-5 h-5 flex-shrink-0" />}
+              {(sidebarOpen || isMobile) && <span className="font-medium">{theme === "light" ? "Dark" : "Light"}</span>}
             </button>
-            <button className="px-6 bg-gray-100 text-gray-700 py-2.5 rounded-lg font-medium hover:bg-gray-200 transition-colors">
-              Manage
-            </button>
+          
+<button
+  onClick={logout}
+  className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 hover:text-red-500 ${
+    theme === 'dark' 
+      ? 'text-gray-300 hover:bg-gray-800' 
+      : 'text-gray-700 hover:bg-gray-200'
+  } ${!sidebarOpen && !isMobile && "justify-center"}`}
+>
+  <LogOut className="w-5 h-5 flex-shrink-0" />
+  {(sidebarOpen || isMobile) && <span className="font-medium">Logout</span>}
+</button>
           </div>
-        </div>
 
-        {/* Quick Connect */}
-        <div className="col-span-2 bg-gradient-to-br from-blue-600 to-blue-500 rounded-xl p-6 shadow-sm text-white">
-          <div className="mb-6">
-            <h3 className="text-xl font-bold mb-2">Quick Connect</h3>
-            <p className="text-blue-100 text-sm">Connect to a nearby hotspot instantly</p>
-          </div>
-
-          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 mb-4">
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                <MapPin className="w-6 h-6 text-white" />
-              </div>
-              <div className="flex-1">
-                <h4 className="font-semibold text-lg mb-1">Find Hotspots</h4>
-                <p className="text-blue-100 text-sm mb-4">Discover nearby locations</p>
-                
-                <div className="relative">
-                  <input 
-                    type="text" 
-                    placeholder="Find Nearby Hotspots"
-                    className="w-full bg-white text-gray-900 px-4 py-3 rounded-lg pr-10 focus:outline-none focus:ring-2 focus:ring-blue-300"
-                  />
-                  <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+          {/* User Profile */}
+          {(sidebarOpen || isMobile) && user && (
+            <div className={`p-4 border-t ${theme === 'dark' ? 'border-gray-800' : 'border-gray-300'}`}>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
+                  {user.initials || getInitials(user.name, user.email)}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className={`text-sm font-semibold truncate ${theme === 'dark' ? 'text-white' : 'text-gray-800'}`}>
+                    {user.name || 'User'}
+                  </p>
+                  <p className={`text-xs truncate ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {user.email}
+                  </p>
                 </div>
               </div>
             </div>
-          </div>
-
-          <div className="text-center">
-            <p className="text-blue-100 text-sm">Or scan QR code at any KonnectX location</p>
-          </div>
-        </div>
-
-        {/* Recent Connections */}
-        <div className="col-span-3 bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h3 className="text-lg font-bold text-gray-900 mb-1">Recent Connections</h3>
-              <p className="text-sm text-gray-500">Your latest WiFi sessions</p>
-            </div>
-            <button className="text-blue-600 text-sm font-semibold hover:text-blue-700">View All</button>
-          </div>
-
-          <div className="space-y-4">
-            <ConnectionItem 
-              name="Downtown Hub"
-              date="12/11/2025"
-              duration="157 min"
-              data="250 MB"
-            />
-            <ConnectionItem 
-              name="City Plaza WiFi"
-              date="11/11/2025"
-              duration="65 min"
-              data="480 MB"
-            />
-          </div>
+          )}
         </div>
       </div>
 
-      {/* Mobile View Button */}
-      <button className="fixed bottom-6 right-6 bg-blue-600 text-white px-6 py-3 rounded-full shadow-lg flex items-center gap-2 hover:bg-blue-700 transition-colors">
-        <Smartphone className="w-5 h-5" />
-        Mobile View
-      </button>
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col overflow-hidden w-full">
+        <header className={`px-3 sm:px-6 py-3 sm:py-4 flex items-center justify-between relative ${theme === 'dark' ? 'bg-black border-b border-gray-800' : 'bg-gray-50'}`}>
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            className={`lg:hidden p-2 rounded-lg transition mr-2 ${
+              theme === 'dark' ? 'hover:bg-gray-900 text-white' : 'hover:bg-accent text-foreground'
+            }`}
+          >
+            <Menu size={24} />
+          </button>
+
+          {/* Desktop Collapse Button */}
+          {!isMobile && (
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className={`hidden lg:block p-2 rounded-lg transition mr-4 ${
+                theme === 'dark' ? 'hover:bg-gray-900 text-white' : 'hover:bg-accent text-foreground'
+              }`}
+            >
+              {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          )}
+
+          {(isOperatorKitPage || isregisterKitPage || isregisterKitpageStep2 || isregisterKitpageStep3 || Independentoperator || HotspotAcess || Vouchers || Finances || Withdrawfunds) ? (
+            <>
+              <h2 className={`text-lg sm:text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-foreground'}`}>
+                {isOperatorKitPage ? "Manage Kit" : isregisterKitpageStep2 ? "Register Kit": isregisterKitpageStep3 ? "Register Kit": ""}
+              </h2>
+
+              {/* Centered Wide Search Button */}
+              <div className="flex-1 flex justify-center items-center px-4 sm:px-8 max-w-md mx-auto">
+                <button className={`flex items-center justify-center gap-3 px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base font-medium rounded-lg transition w-full ${
+                  theme === 'dark'
+                    ? 'text-gray-300 bg-gray-900 border border-gray-700 hover:bg-gray-800'
+                    : 'text-gray-700 bg-white border border-gray-300 hover:bg-gray-50'
+                }`}>
+                  <Search className="w-5 h-5" />
+                  <span>Search Kits</span>
+                </button>
+              </div>
+
+              {/* Right Side Buttons */}
+              <div className="flex items-center gap-2 sm:gap-3">
+                {/* KYC Button */}
+                <button className={`flex items-center gap-2 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-lg transition ${
+                  theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-gray-900'
+                }`}>
+                  <Heart className="w-5 h-5" />
+                  <span className="hidden sm:inline">KYC</span>
+                </button>
+
+                {/* Kits Cart Button */}
+                <button className={`flex items-center gap-2 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-lg transition ${
+                  theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-gray-900'
+                }`}>
+                  <ShoppingCart className="w-5 h-5" />
+                  <span className="hidden sm:inline">Kits</span>
+                </button>
+
+                {/* Account Button */}
+                <button className={`flex items-center gap-2 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-lg transition ${
+                  theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-gray-900'
+                }`}>
+                  <User className="w-5 h-5" />
+                  <span className="hidden sm:inline">Account</span>
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <h2 className={`text-lg sm:text-2xl font-bold truncate ${
+                isReferralsPage || isSetupguidePage 
+                  ? `flex-1 text-center ${theme === 'dark' ? 'text-white' : 'text-foreground'}` 
+                  : theme === 'dark' ? 'text-white' : 'text-foreground'
+              }`}>
+                {isAllKitsPage ? "All Kits" : isRewardPage ? "Rewards Dashboard" : isReferralsPage ? "Referrals Program" : isSetupguidePage ? "Setup Guide" : isStorePage ? "Store" : isTokenPage ? "Claim & Withdraw" : isSettingsPage ? "Account Settings" : "Dashboard Overview"}
+              </h2>
+
+              <div className="flex items-center gap-2 sm:gap-3 ml-auto">
+                {isRewardPage ? (
+                  <>
+                    <button className={`hidden sm:flex px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-lg transition ${
+                      theme === 'dark'
+                        ? 'text-blue-500 bg-gray-900 border border-blue-500 hover:bg-gray-800'
+                        : 'text-gray-700 bg-white border border-gray-300 hover:bg-gray-50'
+                    }`}>
+                      Join Smith
+                    </button>
+                    <button className={`px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-lg transition ${
+                      theme === 'dark'
+                        ? 'text-black bg-blue-500 hover:bg-gray-200'
+                        : 'text-white bg-gray-900 hover:bg-gray-800'
+                    }`}>
+                      <span className="hidden sm:inline">Connect Wallet</span>
+                      <span className="sm:hidden">Connect</span>
+                    </button>
+                  </>
+                ) : isSetupguidePage ? (
+                  <button className={`px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-lg transition flex items-center gap-2 ${
+                    theme === 'dark'
+                      ? 'text-blue-700 bg-gray-900 border border-blue-700 hover:bg-gray-800'
+                      : 'text-gray-700 bg-white border border-black hover:bg-gray-50'
+                  }`}>
+                    English
+                    <span className="ml-1">▼</span>
+                  </button>
+                ) : isSettingsPage ? (
+                  <button className={`px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-lg transition flex items-center gap-2 ${
+                    theme === 'dark'
+                      ? 'text-black bg-blue-700 border border-blue-700 hover:bg-gray-800'
+                      : 'text-white bg-black border border-black hover:bg-gray-50'
+                  }`}>
+                    <span className="hidden sm:inline">John Doe</span>
+                    <User className="sm:hidden w-4 h-4" />
+                  </button>
+                ) : isStorePage ? (
+                  <>
+                    <button className={`hidden sm:flex items-center gap-2 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-lg transition ${
+                      theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+                    }`}>
+                      <Heart className="w-3 h-3" />
+                      KYC
+                    </button>
+                    <button className={`flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-lg transition ${
+                      theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+                    }`}>
+                      <ShoppingCart className="w-4 h-4" />
+                      <span className="hidden sm:inline">Cart</span>
+                      {0}
+                    </button>
+                    <button className={`flex items-center gap-2 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-lg transition ${
+                      theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
+                    }`}>
+                      <User className="w-4 h-4" />
+                      <span className="hidden sm:inline">Account</span>
+                    </button>
+                  </>
+                ) : isReferralsPage ? (
+                  <button className={`flex items-center gap-2 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-lg transition ${
+                    theme === 'dark'
+                      ? 'text-black bg-blue-700 border border-gray-700'
+                      : 'text-white bg-black border border-gray-300'
+                  }`}>
+                    <User className="w-4 h-4" />
+                    <span className="hidden sm:inline">My Account</span>
+                  </button>
+                ) : (
+                  <>
+                    <button className={`hidden sm:flex px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-lg transition ${
+                      theme === 'dark'
+                        ? 'text-blue-500 bg-gray-900 border border-blue-500 hover:bg-gray-800'
+                        : 'text-gray-700 bg-white border border-gray-300 hover:bg-gray-50'
+                    }`}>
+                      ↑ Export
+                    </button>
+                    <button
+                      onClick={() => setIsModalOpen(true)}
+                      className={`px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-lg transition whitespace-nowrap ${
+                        theme === 'dark'
+                          ? 'text-black bg-blue-500 hover:bg-blue-600'
+                          : 'text-white bg-gray-900 hover:bg-gray-800'
+                      }`}
+                    >
+                      <span className="hidden sm:inline">+ Add Hotspot</span>
+                      <span className="sm:hidden">+ Add</span>
+                    </button>
+                  </>
+                )}
+              </div>
+            </>
+          )}
+        </header>
+
+        {/* Page Content */}
+        <main className={`flex-1 overflow-auto ${theme === 'dark' ? 'bg-black' : 'bg-gray-50'}`}>
+          <div className="p-3 sm:p-6">
+            <Outlet />
+          </div>
+        </main>
+      </div>
     </div>
-  );
-}
-
-function ConnectionItem({ name, date, duration, data }) {
-  return (
-    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-      <div className="flex items-center gap-4">
-        <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-          <Wifi className="w-5 h-5 text-blue-600" />
-        </div>
-        <div>
-          <h4 className="font-semibold text-gray-900">{name}</h4>
-          <p className="text-sm text-gray-500">{date} • {duration}</p>
-        </div>
-      </div>
-      <div className="text-right">
-        <p className="font-semibold text-gray-900">{data}</p>
-        <p className="text-xs text-green-600 font-medium">Completed</p>
-      </div>
-    </div>
-  );
-}
-
-// Main App Component
-export default function KonnectXDashboard() {
-  return (
-    <DashboardLayout>
-      <DashboardContent />
-    </DashboardLayout>
   );
 }
