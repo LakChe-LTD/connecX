@@ -22,6 +22,7 @@ import InvitationRegister from "./pages/InvitationRegister";
 import EndUserDashboardLayout from "./components/layouts/EndUsersDashboardlayout";
 import KonnectXEndusersDashboard from "./pages/EndUsersDashboard/Dashboardoverview";
 import KonnectXEndUsersHotspots from "./pages/EndUsersDashboard/Hotspots";
+import SubscriptionsPage from "./pages/EndUsersDashboard/Subscription";
 
 
 
@@ -108,6 +109,7 @@ const App = () => (
               <Route element={<EndUserDashboardLayout />}>
               <Route path="/Dashboardoverview" element={< KonnectXEndusersDashboard />} />
               <Route path="/Hotspots" element={< KonnectXEndUsersHotspots />} />
+               <Route path="/Subscription" element={<SubscriptionsPage/>} />
              
               
               </Route>

@@ -36,13 +36,13 @@ export default function EndUserDashboardLayout() {
   const isOperatorKitPage = location.pathname === "/dashboard/operatorkit";
 
 
-  
+
 
   const menuItems = [
     { label: "Dashboard", path: "/Dashboardoverview", icon: Wifi},
     { label: "Hotspots", path: "/Hotspots", icon: Wifi },
-    { label: "Referrals", path: "/dashboard/Referrals", icon: Users },
-    { label: "Rewards", path: "/dashboard/Reward", icon: Gift },
+    { label: "Plans", path: "/dashboard/Referrals", icon: Users },
+    { label: "Subcriptions", path: "/Subscription", icon: Gift },
     { label: "setupguide", path: "/dashboard/setupguide", icon: Sun },
     { label: "Store", path: "/dashboard/store", icon: Home },
     { label: "Settings", path: "/dashboard/Settings", icon: Settings },
