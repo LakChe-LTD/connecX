@@ -1,14 +1,20 @@
 import React from 'react';
 import { Wifi, Smartphone, MapPin, Search } from 'lucide-react';
+import { useApp } from "@/contexts/AppContext";
 
-export default function KonnectXEndusersDashboard({ theme = 'light' }) {
+export default function KonnectXEndusersDashboard(){
+
+  const { theme } = useApp();
+
+
+
   return (
     <div className="p-8">
       {/* Header */}
       <div className="mb-8">
-        <div className="bg-gradient-to-r from-blue-600 to-blue-500 rounded-2xl p-8 text-white">
-          <h1 className="text-3xl font-bold mb-2">Welcome back, Marvelous!</h1>
-          <p className="text-blue-100 font-medium">Here's your connectivity overview</p>
+        <div className={`${theme === 'dark' ? 'bg-[#333436]' : 'bg-white'} rounded-xl p-6 shadow-sm border ${theme === 'dark' ? 'border-gray-800' : 'border-gray-100'}`}>
+          <h1 className="text-3xl font-bold mb-2">Welcome back, Marvelous! 🤚</h1>
+          <p className="text-black font-medium  dark:text-white ">Here's your connectivity overview</p>
         </div>
       </div>
 
@@ -38,7 +44,7 @@ export default function KonnectXEndusersDashboard({ theme = 'light' }) {
           <p className={`text-sm mb-1 font-semibold ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Data Usage</p>
           <h3 className={`text-xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>3.2 / 10 GB</h3>
           <div className={`w-full rounded-full h-2 mt-3 ${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-200'}`}>
-            <div className="bg-purple-600 h-2 rounded-full" style={{ width: '32%' }}></div>
+            <div className="bg-black dark:bg-blue-600 h-2 rounded-full" style={{ width: '32%' }}></div>
           </div>
         </div>
 
@@ -98,13 +104,13 @@ export default function KonnectXEndusersDashboard({ theme = 'light' }) {
                 <span className={`font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>3.2 GB / 10 GB</span>
               </div>
               <div className={`w-full rounded-full h-2 ${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-200'}`}>
-                <div className="bg-blue-600 h-2 rounded-full" style={{ width: '32%' }}></div>
+                <div className="bg-black dark:bg-blue-600 h-2 rounded-full" style={{ width: '32%' }}></div>
               </div>
             </div>
           </div>
 
           <div className="flex gap-3">
-            <button className="flex-1 bg-blue-600 text-white py-2.5 rounded-lg font-bold hover:bg-blue-700 transition-colors">
+            <button className="flex-1 bg-black dark:bg-blue-600  text-white py-2.5 rounded-lg font-bold hover:bg-blue-700 transition-colors">
               Upgrade Plan
             </button>
             <button className={`px-6 py-2.5 rounded-lg font-bold transition-colors ${theme === 'dark' ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}>
@@ -113,38 +119,52 @@ export default function KonnectXEndusersDashboard({ theme = 'light' }) {
           </div>
         </div>
 
-        {/* Quick Connect */}
-        <div className="col-span-1 lg:col-span-2 bg-gradient-to-br from-blue-600 to-blue-500 rounded-xl p-6 shadow-sm text-white">
-          <div className="mb-6">
-            <h3 className="text-xl font-bold mb-2">Quick Connect</h3>
-            <p className="text-blue-100 text-sm font-medium">Connect to a nearby hotspot instantly</p>
-          </div>
+       {/* Quick Connect */}
+<div
+  className={`col-span-1 lg:col-span-2 ${
+    theme === 'dark'
+      ? 'bg-[#333436] border-gray-800'
+      : 'bg-white border-gray-100'
+  } rounded-xl p-6 shadow-sm border`}
+>
+  <div className="mb-6">
+    <h3 className="text-xl font-bold mb-2">Quick Connect</h3>
+    <p className="text-black text-sm font-medium dark:text-white ">
+      Connect to a nearby hotspot instantly
+    </p>
+  </div>
 
-          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 mb-4">
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center flex-shrink-0">
-                <MapPin className="w-6 h-6 text-white" />
-              </div>
-              <div className="flex-1">
-                <h4 className="font-bold text-lg mb-1">Find Hotspots</h4>
-                <p className="text-blue-100 text-sm font-medium mb-4">Discover nearby locations</p>
-                
-                <div className="relative">
-                  <input 
-                    type="text" 
-                    placeholder="Find Nearby Hotspots"
-                    className="w-full bg-white text-gray-900 px-4 py-3 rounded-lg pr-10 focus:outline-none focus:ring-2 focus:ring-blue-300 font-medium"
-                  />
-                  <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                </div>
-              </div>
-            </div>
-          </div>
+  <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 mb-4">
+    <div className="flex items-start gap-4">
+      <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center flex-shrink-0">
+        <MapPin className="w-6 h-6 text-white" />
+      </div>
 
-          <div className="text-center">
-            <p className="text-blue-100 text-sm font-medium">Or scan QR code at any KonnectX location</p>
-          </div>
+      <div className="flex-1">
+        <h4 className="font-bold text-lg mb-1">Find Hotspots</h4>
+        <p className="text-black text-sm font-medium mb-4 dark:text-white ">
+          Discover nearby locations
+        </p>
+
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Find Nearby Hotspots"
+            className="w-full bg-gray-50 text-gray-900  dark:bg-[#2a2b2d]  border border-gray-200 dark:border-gray-600 px-4 py-3 rounded-lg pr-10 focus:outline-none focus:ring-2 focus:ring-blue-300 font-medium"
+          />
+          <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div className="text-center">
+    <p className="text-black text-sm font-medium dark:text-white ">
+      Or scan QR code at any KonnectX location
+    </p>
+  </div>
+   </div>
+
 
         {/* Recent Connections */}
         <div className={`col-span-1 lg:col-span-3 ${theme === 'dark' ? 'bg-[#333436]' : 'bg-white'} rounded-xl p-6 shadow-sm border ${theme === 'dark' ? 'border-gray-800' : 'border-gray-100'}`}>
@@ -180,7 +200,7 @@ export default function KonnectXEndusersDashboard({ theme = 'light' }) {
 
 function ConnectionItem({ name, date, duration, data, theme }) {
   return (
-    <div className={`flex items-center justify-between p-4 rounded-lg transition-colors ${theme === 'dark' ? 'bg-gray-800 hover:bg-gray-700' : 'bg-gray-50 hover:bg-gray-100'}`}>
+    <div className={`flex items-center justify-between p-4 rounded-lg transition-colors ${theme === 'dark' ? 'bg-[#2a2b2d] hover:bg-gray-700' : 'bg-gray-50 hover:bg-gray-100'}`}>
       <div className="flex items-center gap-4">
         <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
           <Wifi className="w-5 h-5 text-blue-600" />

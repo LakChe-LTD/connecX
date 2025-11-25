@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { Wifi, Calendar, Database } from 'lucide-react';
+import { useApp } from "@/contexts/AppContext";
 
-export default function SubscriptionsPage({ theme = 'light' }) {
+
+
+export default function SubscriptionsPage() {
+  const { theme } = useApp();
   const [activeTab, setActiveTab] = useState('connection-history');
 
   return (
@@ -38,7 +42,7 @@ export default function SubscriptionsPage({ theme = 'light' }) {
                 Started 07/11/2025
               </p>
             </div>
-            <span className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-bold">
+            <span className="px-4 py-2 bg-black dark:bg-blue-600 text-white rounded-lg text-sm font-bold">
               Auto-renew On
             </span>
           </div>
@@ -54,7 +58,7 @@ export default function SubscriptionsPage({ theme = 'light' }) {
               </span>
             </div>
             <div className={`w-full rounded-full h-2 ${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-200'}`}>
-              <div className="bg-blue-600 h-2 rounded-full" style={{ width: '32%' }}></div>
+              <div className="bg-black dark:bg-blue-600 h-2 rounded-full" style={{ width: '32%' }}></div>
             </div>
           </div>
 
@@ -64,7 +68,7 @@ export default function SubscriptionsPage({ theme = 'light' }) {
               <p className={`text-sm font-semibold mb-1 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
                 Status
               </p>
-              <span className="inline-block px-3 py-1 bg-blue-600 text-white rounded text-sm font-bold">
+              <span className="inline-block px-3 py-1 bg-black dark:bg-blue-600 text-white rounded text-sm font-bold">
                 Active
               </span>
             </div>
@@ -80,7 +84,7 @@ export default function SubscriptionsPage({ theme = 'light' }) {
 
           {/* Action Buttons */}
           <div className="flex gap-4">
-            <button className="px-6 py-2.5 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 transition-colors">
+            <button className="px-6 py-2.5 bg-black dark:bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 transition-colors">
               Upgrade Plan
             </button>
             <button className={`px-6 py-2.5 rounded-lg font-bold transition-colors ${theme === 'dark' ? 'bg-gray-700 text-gray-300 hover:bg-gray-600 border border-gray-600' : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'}`}>
@@ -196,7 +200,7 @@ export default function SubscriptionsPage({ theme = 'light' }) {
 
 function ConnectionItem({ name, duration, data, date, time, theme }) {
   return (
-    <div className={`flex items-center justify-between p-5 rounded-lg transition-colors ${theme === 'dark' ? 'bg-gray-800 hover:bg-gray-700' : 'bg-gray-50 hover:bg-gray-100'}`}>
+    <div className={`flex items-center justify-between p-5 rounded-lg transition-colors ${theme === 'dark' ? 'bg-[#2a2b2d]  hover:bg-gray-700' : 'bg-gray-50 hover:bg-gray-100'}`}>
       <div className="flex items-center gap-4">
         <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
           <Wifi className="w-6 h-6 text-blue-600" />

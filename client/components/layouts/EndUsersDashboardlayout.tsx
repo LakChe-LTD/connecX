@@ -43,10 +43,9 @@ export default function EndUserDashboardLayout() {
     { label: "Hotspots", path: "/Hotspots", icon: Wifi },
     { label: "Plans", path: "/dashboard/Referrals", icon: Users },
     { label: "Subcriptions", path: "/Subscription", icon: Gift },
-    { label: "setupguide", path: "/dashboard/setupguide", icon: Sun },
+    { label: "Wallet", path: "/dashboard/setupguide", icon: Sun },
     { label: "Store", path: "/dashboard/store", icon: Home },
     { label: "Settings", path: "/dashboard/Settings", icon: Settings },
-    { label: "Token", path: "/dashboard/Token", icon: DollarSign },
   ];
 
 
