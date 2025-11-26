@@ -8,7 +8,9 @@ export const ENDPOINTS = {
     REGISTER: `${API_BASE}/auth/register`,
     LOGOUT: `${API_BASE}/auth/logout`,
     ME: `${API_BASE}/auth/me`,
-    REFRESH_TOKEN: `${API_BASE}/auth/refresh-token`,
+    
+    // REFRESH_TOKEN: `${API_BASE}/auth/refresh-token`,
+    REFRESH_TOKEN: `${API_BASE}/auth/refresh`,
     VERIFY_2FA: `${API_BASE}/auth/2fa/verify`,
     FORGOT_PASSWORD: `${API_BASE}/auth/forgot-password`,
     RESET_PASSWORD: `${API_BASE}/auth/reset-password`,  
