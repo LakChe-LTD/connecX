@@ -23,6 +23,7 @@ import EndUserDashboardLayout from "./components/layouts/EndUsersDashboardlayout
 import KonnectXEndusersDashboard from "./pages/EndUsersDashboard/Dashboardoverview";
 import KonnectXEndUsersHotspots from "./pages/EndUsersDashboard/Hotspots";
 import SubscriptionsPage from "./pages/EndUsersDashboard/Subscription";
+import WalletDashboard from "./pages/EndUsersDashboard/Wallet";
 
 
 
@@ -110,6 +111,7 @@ const App = () => (
               <Route path="/Dashboardoverview" element={< KonnectXEndusersDashboard />} />
               <Route path="/Hotspots" element={< KonnectXEndUsersHotspots />} />
                <Route path="/Subscription" element={<SubscriptionsPage/>} />
+               <Route path="/Wallet" element={<WalletDashboard/>} />
              
               
               </Route>

@@ -203,7 +203,7 @@ function ConnectionItem({ name, duration, data, date, time, theme }) {
     <div className={`flex items-center justify-between p-5 rounded-lg transition-colors ${theme === 'dark' ? 'bg-[#2a2b2d]  hover:bg-gray-700' : 'bg-gray-50 hover:bg-gray-100'}`}>
       <div className="flex items-center gap-4">
         <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-          <Wifi className="w-6 h-6 text-blue-600" />
+          <Wifi className="w-6 h-6 text-black dark:text-blue-600" />
         </div>
         <div>
           <h4 className={`font-bold text-base mb-1 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
