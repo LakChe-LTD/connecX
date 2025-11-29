@@ -1,5 +1,5 @@
 // client/src/api/endpoints.ts
-const API_BASE = import.meta.env.VITE_API_URL || 'https://connectxbackend-csf1.onrender.com/api';
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 export const ENDPOINTS = {
   // Auth endpoints
@@ -9,7 +9,10 @@ export const ENDPOINTS = {
     LOGOUT: `${API_BASE}/auth/logout`,
     ME: `${API_BASE}/auth/me`,
     
-    // REFRESH_TOKEN: `${API_BASE}/auth/refresh-token`,
+    // ✅ ADD THESE TWO LINES
+    VERIFY_EMAIL: `${API_BASE}/auth/verify-email`,
+    RESEND_VERIFICATION: `${API_BASE}/auth/resend-verification`,
+    
     REFRESH_TOKEN: `${API_BASE}/auth/refresh`,
     VERIFY_2FA: `${API_BASE}/auth/2fa/verify`,
     FORGOT_PASSWORD: `${API_BASE}/auth/forgot-password`,

@@ -40,6 +40,7 @@ import AdminUsers from "./pages/admin/Users";
 import AdminRewards from "./pages/admin/Hotspots";
 import NotFound from "./pages/NotFound";
 import ChangePassword from "./components/ChangePassword";
+import VerifyEmail from "./pages/VerifyEmail";
 
 const queryClient = new QueryClient();
 
@@ -83,6 +84,7 @@ const App = () => (
               {/* ✅ Password Reset Routes - ADD THESE */}
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/reset-password" element={<ResetPassword />} />
+               <Route path="/verify-email" element={<VerifyEmail />} />
               
               {/* Invitation Route */}
               <Route path="/invitation/register" element={<InvitationRegister />} />

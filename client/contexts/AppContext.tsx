@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { logout as logoutAPI } from '@/api/auth/logout';
 
 interface User {
@@ -6,9 +7,10 @@ interface User {
   id: string;
   name: string;
   email: string;
-  role: 'user' | 'operator' | 'admin';
+  role: 'admin' | 'organization' | 'operator' | 'end-user';
   firstName?: string;
   lastName?: string;
+  emailVerified?: boolean; // ✅ ADD THIS
 }
 
 interface AppContextType {
@@ -31,25 +33,55 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   const [user, setUser] = useState<User | null>(() => {
     const saved = localStorage.getItem('user');
-    if (saved) {
+    const token = localStorage.getItem('token');
+    
+    // ✅ CRITICAL: Must have both user data AND token
+    if (saved && token) {
       try {
         const parsedUser = JSON.parse(saved);
+        
+        // ✅ CRITICAL: Check if email is verified
+        if (parsedUser.emailVerified === false) {
+          console.log('⚠️ User email not verified, clearing session');
+          localStorage.removeItem('user');
+          localStorage.removeItem('token');
+          localStorage.removeItem('refreshToken');
+          localStorage.removeItem('sessionId');
+          return null;
+        }
+        
         // Handle both formats (from API and from localStorage)
         return {
           id: parsedUser._id || parsedUser.id,
-          name: parsedUser.username || parsedUser.name,
+          name: parsedUser.username || parsedUser.name || 
+                `${parsedUser.firstName} ${parsedUser.lastName}`.trim(),
           email: parsedUser.email,
           role: parsedUser.role,
-          initials: parsedUser.initials || '',
+          initials: parsedUser.initials || 
+                   (parsedUser.firstName && parsedUser.lastName 
+                     ? `${parsedUser.firstName.charAt(0)}${parsedUser.lastName.charAt(0)}`.toUpperCase()
+                     : parsedUser.firstName?.substring(0, 2).toUpperCase() || 'U'),
           firstName: parsedUser.firstName,
           lastName: parsedUser.lastName,
+          emailVerified: parsedUser.emailVerified, // ✅ ADD THIS
         };
       } catch (error) {
         console.error('Error parsing user from localStorage:', error);
         localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('sessionId');
         return null;
       }
     }
+    
+    // ✅ If no token, clear everything
+    if (!token) {
+      localStorage.removeItem('user');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('sessionId');
+    }
+    
     return null;
   });
 
@@ -62,7 +94,10 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (user) {
-      localStorage.setItem('user', JSON.stringify(user));
+      // ✅ Only store user if email is verified
+      if (user.emailVerified !== false) {
+        localStorage.setItem('user', JSON.stringify(user));
+      }
     } else {
       localStorage.removeItem('user');
     }
@@ -95,8 +130,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
       
       setIsLoggingOut(false);
       
-      // Redirect to login page
-      navigate('/signin');
+      // Redirect handled by route guards
+      window.location.href = '/signin';
     }
   };
 
@@ -107,7 +142,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         toggleTheme,
         user,
         setUser,
-        isAuthenticated: !!user,
+        isAuthenticated: !!user && !!localStorage.getItem('token'), // ✅ CHECK BOTH
         logout,
         isLoggingOut,
       }}
