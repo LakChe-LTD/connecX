@@ -60,7 +60,7 @@ export default function WalletDashboard() {
                 TON BALANCE
               </span>
               <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${theme === 'dark' ? 'bg-[#2a2b2d]' : 'bg-blue-50'}`}>
-                <Bitcoin className="w-5 h-5 text-blue-500" />
+                <Bitcoin className="w-5 h-5 text-black dark:text-blue-600" />
               </div>
             </div>
             <div className={`text-4xl font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
@@ -78,7 +78,7 @@ export default function WalletDashboard() {
                 ICT BALANCE
               </span>
               <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${theme === 'dark' ? 'bg-[#2a2b2d]' : 'bg-blue-50'}`}>
-                <Bitcoin className="w-5 h-5 text-blue-500" />
+                <Bitcoin className="w-5 h-5 text-black dark:text-blue-600" />
               </div>
             </div>
             <div className={`text-4xl font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
@@ -96,7 +96,7 @@ export default function WalletDashboard() {
                 FIAT BALANCE
               </span>
               <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${theme === 'dark' ? 'bg-[#2a2b2d]' : 'bg-blue-50'}`}>
-                <CreditCard className="w-5 h-5 text-blue-500" />
+                <CreditCard className="w-5 h-5 text-black dark:text-blue-500" />
               </div>
             </div>
             <div className={`text-4xl font-bold mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
@@ -142,7 +142,7 @@ export default function WalletDashboard() {
                   onClick={() => setPaymentMethod('card')}
                   className={`flex-1 px-5 py-4 rounded-xl border-2 flex items-center justify-center gap-2 text-base font-bold transition-colors ${
                     paymentMethod === 'card'
-                      ? 'border-blue-500 bg-blue-50 text-blue-600'
+                      ? 'border-black dark:border-blue-500 bg-blue-50 dark:bg-[#2a2b2d] text-black dark:text-blue-600'
                       : theme === 'dark'
                       ? 'border-gray-700 bg-[#2a2b2d] text-gray-400'
                       : 'border-gray-300 bg-white text-gray-600'
@@ -155,7 +155,7 @@ export default function WalletDashboard() {
                   onClick={() => setPaymentMethod('crypto')}
                   className={`flex-1 px-5 py-4 rounded-xl border-2 flex items-center justify-center gap-2 text-base font-bold transition-colors ${
                     paymentMethod === 'crypto'
-                      ? 'border-blue-500 bg-blue-50 text-blue-600'
+                      ? 'border-black dark:border-blue-500 bg-blue-50 dark:bg-[#2a2b2d] text-black dark:text-blue-600'
                       : theme === 'dark'
                       ? 'border-gray-700 bg-[#2a2b2d] text-gray-400'
                       : 'border-gray-300 bg-white text-gray-600'
@@ -167,7 +167,7 @@ export default function WalletDashboard() {
               </div>
             </div>
 
-            <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-xl transition-colors text-base shadow-lg">
+            <button className="w-full bg-black dark:bg-blue-600 hover:bg-black dark:hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-xl transition-colors text-base shadow-lg">
               Add Funds
             </button>
           </div>
@@ -206,7 +206,7 @@ export default function WalletDashboard() {
               />
             </div>
 
-            <button className="w-full bg-white hover:bg-gray-50 text-gray-900 font-bold py-4 px-6 rounded-xl transition-colors text-base border-2 border-gray-300 shadow-lg">
+            <button className="w-full bg-black dark:bg-blue-600  text-white  hover:bg-black dark:hover:bg-blue-700 font-bold py-4 px-6 rounded-xl text-base  shadow-lg">
               Withdraw Funds
             </button>
           </div>
@@ -241,7 +241,7 @@ export default function WalletDashboard() {
               >
                 {tab}
                 {activeTab === tab && (
-                  <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-600 rounded-t" />
+                  <div className="absolute bottom-0 left-0 right-0 h-1 dark:bg-blue-600 bg-black rounded-t" />
                 )}
               </button>
             ))}
@@ -274,7 +274,7 @@ export default function WalletDashboard() {
                     <div className={`text-base font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
                       {transaction.amount}
                     </div>
-                    <span className="bg-blue-600 text-white text-sm font-bold px-4 py-2 rounded-full">
+                    <span className="dark:bg-blue-600 bg-black text-white text-sm font-bold px-4 py-2 rounded-full">
                       completed
                     </span>
                   </div>
