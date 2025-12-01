@@ -1,40 +1,85 @@
+// client/src/pages/DashboardReward.tsx
+import { useState } from 'react';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Filter } from "lucide-react";
+import { Filter, Loader2 } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart } from "recharts";
 import { useApp } from "@/contexts/AppContext";
+import { useWallet } from "@/hooks/useWallet";
+import { ErrorModal, SuccessModal, WithdrawModal } from '@/components/walletmodals';
+
 
 export default function DashboardReward() {
   const { theme } = useApp();
+  const {
+    balance,
+    transactions,
+    summary,
+    monthlyEarnings,
+    trendData,
+    loading,
+    claiming,
+    withdrawing,
+    error,
+    claimRewards,
+    withdraw,
+    clearError
+  } = useWallet();
 
-  const monthlyData = [
-    { month: "Jan", amount: 400 },
-    { month: "Feb", amount: 600 },
-    { month: "Mar", amount: 550 },
-    { month: "Apr", amount: 650 },
-    { month: "May", amount: 500 },
-    { month: "Jun", amount: 700 }
-  ];
+  // Modal states
+  const [withdrawModalOpen, setWithdrawModalOpen] = useState(false);
+  const [successModalOpen, setSuccessModalOpen] = useState(false);
+  const [successMessage, setSuccessMessage] = useState({ title: '', message: '' });
 
-  const trendData = [
-    { month: "1", value: 100 },
-    { month: "2", value: 150 },
-    { month: "3", value: 200 },
-    { month: "4", value: 180 },
-    { month: "5", value: 250 },
-    { month: "6", value: 300 },
-    { month: "7", value: 320 },
-    { month: "8", value: 350 },
-    { month: "9", value: 400 }
-  ];
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
-  const hotspots = [
-    { date: "Mar 16, 2024", desc: "Staking Reward", type: "Referral", amount: "+2,490KXT", color: "text-green-600" },
-    { date: "Mar 16, 2024", desc: "Staking Reward", type: "Storage", amount: "+2,490KXT", color: "text-blue-600" },
-    { date: "Mar 15, 2024", desc: "Staking Reward", type: "Referral", amount: "+2,490KXT", color: "text-purple-600" },
-    { date: "Mar 15, 2024", desc: "Staking Reward", type: "Storage", amount: "+2,490KXT", color: "text-yellow-600" },
-    { date: "Mar 15, 2024", desc: "Staking Reward", type: "Referral", amount: "+2,490KXT", color: "text-green-600" }
-  ];
+  // Handle claim rewards
+  const handleClaim = async () => {
+    try {
+      await claimRewards();
+      setSuccessMessage({
+        title: 'Success!',
+        message: 'Rewards claimed successfully!'
+      });
+      setSuccessModalOpen(true);
+    } catch (err) {
+      // Error handled by hook
+    }
+  };
+
+  // Handle withdraw
+  const handleWithdraw = async (amount: number, address: string) => {
+    try {
+      await withdraw({ amount, externalAddress: address });
+      setWithdrawModalOpen(false);
+      setSuccessMessage({
+        title: 'Withdrawal Successful!',
+        message: `${amount} KXT has been withdrawn to ${address.substring(0, 10)}...`
+      });
+      setSuccessModalOpen(true);
+    } catch (err) {
+      setWithdrawModalOpen(false);
+      // Error handled by hook
+    }
+  };
+
+  // Loading state
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+      </div>
+    );
+  }
+
+  // Pagination calculations
+  const totalPages = Math.ceil((transactions?.length || 0) / itemsPerPage);
+  const paginatedTransactions = transactions?.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  ) || [];
 
   return (
     <div className="space-y-6">
@@ -50,12 +95,11 @@ export default function DashboardReward() {
           }`}>Total KXT Earned</p>
           <h3 className={`text-3xl font-bold ${
             theme === 'dark' ? 'text-white' : 'text-gray-900'
-          }`}>458.61</h3>
+          }`}>{summary?.totalEarned?.toFixed(2) || '0.00'}</h3>
           <p className="text-sm mt-2">
-  <span className="text-green-600 font-semibold">1.12.8%</span>{' '}
-  <span className="text-gray-300">vs last month</span>
-</p>
-          
+            <span className="text-green-600 font-semibold">{summary?.totalEarnedChange || '0%'}</span>{' '}
+            <span className="text-gray-300">vs last month</span>
+          </p>
         </Card>
 
         <Card className={`p-6 ${
@@ -68,12 +112,11 @@ export default function DashboardReward() {
           }`}>Monthly Rewards</p>
           <h3 className={`text-3xl font-bold ${
             theme === 'dark' ? 'text-white' : 'text-gray-900'
-          }`}>38,190.95</h3>
+          }`}>{summary?.monthlyRewards?.toFixed(2) || '0.00'}</h3>
           <p className="text-sm mt-2">
-  <span className="text-green-600 font-semibold">3.6.5% </span>{' '}
-  <span className="text-gray-300">vs previous average</span>
-</p>
-
+            <span className="text-green-600 font-semibold">{summary?.monthlyRewardsChange || '0%'}</span>{' '}
+            <span className="text-gray-300">vs previous average</span>
+          </p>
         </Card>
 
         <Card className={`p-6 ${
@@ -83,18 +126,69 @@ export default function DashboardReward() {
         }`}>
           <p className={`text-sm mb-1 ${
             theme === 'dark' ? 'text-gray-400' : 'text-gray-500'
-          }`}>Pending Rewards</p>
+          }`}>Available Balance</p>
           <h3 className={`text-3xl font-bold ${
             theme === 'dark' ? 'text-white' : 'text-gray-900'
-          }`}>1,284</h3>
+          }`}>{balance?.available?.toFixed(2) || '0.00'}</h3>
           <p className="text-sm mt-2">
-  <span className="text-green-600 font-semibold">1.02.2%</span>{' '}
-  <span className="text-gray-300">vs last month</span>
-</p>
+            <span className="text-green-600 font-semibold">{summary?.pendingRewardsChange || '0%'}</span>{' '}
+            <span className="text-gray-300">vs last month</span>
+          </p>
+        </Card>
+      </div>
 
+      {/* Action Buttons */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Card className={`p-6 ${
+          theme === 'dark' 
+            ? 'bg-[#333436] border-[#2b2b2c]'
+            : 'bg-white border-gray-200'
+        }`}>
+          <h3 className={`text-lg font-semibold mb-2 ${
+            theme === 'dark' ? 'text-white' : 'text-gray-900'
+          }`}>Claim Rewards</h3>
+          <p className={`text-sm mb-4 ${
+            theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+          }`}>
+            Pending: {balance?.wallet?.toFixed(2) || '0.00'} KXT
+          </p>
+          <Button
+            onClick={handleClaim}
+            disabled={claiming || !balance?.wallet || balance.wallet === 0}
+            className="w-full bg-green-600 hover:bg-green-700 text-white disabled:bg-gray-700"
+          >
+            {claiming ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                Claiming...
+              </>
+            ) : (
+              'Claim Rewards'
+            )}
+          </Button>
         </Card>
 
-        
+        <Card className={`p-6 ${
+          theme === 'dark' 
+            ? 'bg-[#333436] border-[#2b2b2c]'
+            : 'bg-white border-gray-200'
+        }`}>
+          <h3 className={`text-lg font-semibold mb-2 ${
+            theme === 'dark' ? 'text-white' : 'text-gray-900'
+          }`}>Withdraw Funds</h3>
+          <p className={`text-sm mb-4 ${
+            theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+          }`}>
+            Available: {balance?.available?.toFixed(2) || '0.00'} KXT
+          </p>
+          <Button
+            onClick={() => setWithdrawModalOpen(true)}
+            disabled={!balance?.available || balance.available === 0}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white disabled:bg-gray-700"
+          >
+            Withdraw
+          </Button>
+        </Card>
       </div>
 
       {/* Charts Section */}
@@ -119,7 +213,7 @@ export default function DashboardReward() {
             </select>
           </div>
           <ResponsiveContainer width="100%" height={250}>
-            <BarChart data={monthlyData}>
+            <BarChart data={monthlyEarnings}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={theme === 'dark' ? '#FFFFFF' : '#A9A9A9'} />
               <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fill: theme === 'dark' ? '#9ca3af' : '#6b7280' }} />
               <YAxis axisLine={false} tickLine={false} tick={{ fill: theme === 'dark' ? '#9ca3af' : '#6b7280' }} />
@@ -180,77 +274,64 @@ export default function DashboardReward() {
       </div>
 
       {/* Hotspots List */}
-<Card
-  className={`p-6 ${
-    theme === 'dark'
-      ? 'bg-black border-black'
-      : 'bg-white border-gray-200'
-  }`}
->
-  <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
-    {/* Title */}
-    <h3
-      className={`text-xl font-bold ${
-        theme === 'dark' ? 'text-white' : 'text-gray-900'
-      }`}
-    >
-      Hotspots List
-    </h3>
+      <Card className={`p-6 ${
+        theme === 'dark'
+          ? 'bg-black border-black'
+          : 'bg-white border-gray-200'
+      }`}>
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
+          <h3 className={`text-xl font-bold ${
+            theme === 'dark' ? 'text-white' : 'text-gray-900'
+          }`}>
+            Transaction History
+          </h3>
 
-    {/* Search + Filter Section */}
-    <div className="flex items-center justify-center gap-3 w-full md:w-auto">
-      {/* Search Input */}
-      <div className="flex justify-center my-4">
-      <div className="relative w-full md:w-96">
-        <input
-          type="text"
-          placeholder="Search products..."
-          className={`border rounded-md pl-10 pr-4 py-2 text-sm w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-            theme === 'dark'
-              ? 'bg-black border-gray-800 text-white placeholder-gray-500'
-              : 'border-gray-300'
-          }`}
-        />
-        <svg
-          className="w-4 h-4 absolute left-3 top-3 text-gray-400"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-          />
-        </svg>
-        </div>
-      </div>
+          <div className="flex items-center justify-center gap-3 w-full md:w-auto">
+            <div className="flex justify-center my-4">
+              <div className="relative w-full md:w-96">
+                <input
+                  type="text"
+                  placeholder="Search transactions..."
+                  className={`border rounded-md pl-10 pr-4 py-2 text-sm w-full focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                    theme === 'dark'
+                      ? 'bg-black border-gray-800 text-white placeholder-gray-500'
+                      : 'border-gray-300'
+                  }`}
+                />
+                <svg
+                  className="w-4 h-4 absolute left-3 top-3 text-gray-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  />
+                </svg>
+              </div>
+            </div>
 
-      {/* Filter Dropdown */}
-      <select
-        className={`border rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-          theme === 'dark'
-            ? 'bg-gray-900 border-gray-800 text-blue-500'
-            : 'border-gray-300'
-        }`}
-      >
-        <option>All Status</option>
-        <option>Active</option>
-        <option>Inactive</option>
-      </select>
+            <select className={`border rounded-md px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              theme === 'dark'
+                ? 'bg-gray-900 border-gray-800 text-blue-500'
+                : 'border-gray-300'
+            }`}>
+              <option>All Status</option>
+              <option>Referral</option>
+              <option>Storage</option>
+            </select>
 
-      {/* Filter Button */}
-      <Button
-        className={`px-4 py-2 flex items-center ${
-          theme === 'dark'
-            ? 'bg-blue-500 text-black text-xl hover:bg-gray-200'
-            : 'bg-gray-900 text-white hover:bg-gray-800'
-        }`}
-      >
-        <Filter className="w-4 h-4 mr-2" />
-        Filter
-      </Button>
+            <Button className={`px-4 py-2 flex items-center ${
+              theme === 'dark'
+                ? 'bg-blue-500 text-black text-xl hover:bg-gray-200'
+                : 'bg-gray-900 text-white hover:bg-gray-800'
+            }`}>
+              <Filter className="w-4 h-4 mr-2" />
+              Filter
+            </Button>
           </div>
         </div>
 
@@ -277,73 +358,129 @@ export default function DashboardReward() {
               </tr>
             </thead>
             <tbody>
-              {hotspots.map((item, idx) => (
-                <tr key={idx} className={`border-b transition-colors ${
-                  theme === 'dark'
-                    ? 'border-gray-900 hover:bg-gray-900'
-                    : 'border-gray-100 hover:bg-gray-50'
-                }`}>
-                  <td className={`py-4 px-4 text-sm ${
-                    theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
-                  }`}>{item.date}</td>
-                  <td className={`py-4 px-4 text-sm font-medium ${
-                    theme === 'dark' ? 'text-white' : 'text-gray-900'
-                  }`}>{item.desc}</td>
-                  <td className="py-4 px-4">
-                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
-                      item.type === 'Referral' && idx === 0 ? 'bg-green-100 text-green-700' :
-                      item.type === 'Storage' && idx === 1 ? 'bg-blue-100 text-blue-700' :
-                      item.type === 'Referral' && idx === 2 ? 'bg-purple-100 text-purple-700' :
-                      item.type === 'Storage' && idx === 3 ? 'bg-yellow-100 text-yellow-700' :
-                      'bg-green-100 text-green-700'
-                    }`}>
-                      {item.type}
-                    </span>
+              {paginatedTransactions.length > 0 ? (
+                paginatedTransactions.map((item, idx) => (
+                  <tr key={idx} className={`border-b transition-colors ${
+                    theme === 'dark'
+                      ? 'border-gray-900 hover:bg-gray-900'
+                      : 'border-gray-100 hover:bg-gray-50'
+                  }`}>
+                    <td className={`py-4 px-4 text-sm ${
+                      theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+                    }`}>{item.date}</td>
+                    <td className={`py-4 px-4 text-sm font-medium ${
+                      theme === 'dark' ? 'text-white' : 'text-gray-900'
+                    }`}>{item.description}</td>
+                    <td className="py-4 px-4">
+                      <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
+                        item.type === 'Referral' ? 'bg-green-100 text-green-700' :
+                        item.type === 'Storage' ? 'bg-blue-100 text-blue-700' :
+                        'bg-purple-100 text-purple-700'
+                      }`}>
+                        {item.type}
+                      </span>
+                    </td>
+                    <td className={`py-4 px-4 text-sm font-semibold ${
+                      theme === 'dark' ? 'text-white' : 'text-gray-900'
+                    }`}>{item.amount}</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={4} className="py-8 text-center text-gray-500">
+                    No transactions found
                   </td>
-                  <td className={`py-4 px-4 text-sm font-semibold ${
-                    theme === 'dark' ? 'text-white' : 'text-gray-900'
-                  }`}>{item.amount}</td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
 
-        <div className={`flex items-center justify-between mt-6 pt-4 border-t ${
-          theme === 'dark' ? 'border-gray-800' : 'border-gray-200'
-        }`}>
-          <p className={`text-sm ${
-            theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
-          }`}>Showing <span className="font-medium">1 to 5</span> of results</p>
-          <div className="flex gap-1">
-            <Button variant="outline" size="sm" className={`px-3 py-1.5 ${
-              theme === 'dark'
-                ? 'border-gray-800 hover:bg-gray-900 text-white'
-                : 'border-gray-300 hover:bg-gray-50'
-            }`}>‹</Button>
-            <Button variant="outline" size="sm" className={`px-3 py-1.5 ${
-              theme === 'dark'
-                ? 'bg-white text-black hover:bg-gray-200 border-white'
-                : 'bg-gray-900 text-white hover:bg-gray-800 border-gray-900'
-            }`}>1</Button>
-            <Button variant="outline" size="sm" className={`px-3 py-1.5 ${
-              theme === 'dark'
-                ? 'border-gray-800 hover:bg-gray-900 text-white'
-                : 'border-gray-300 hover:bg-gray-50'
-            }`}>2</Button>
-            <Button variant="outline" size="sm" className={`px-3 py-1.5 ${
-              theme === 'dark'
-                ? 'border-gray-800 hover:bg-gray-900 text-white'
-                : 'border-gray-300 hover:bg-gray-50'
-            }`}>3</Button>
-            <Button variant="outline" size="sm" className={`px-3 py-1.5 ${
-              theme === 'dark'
-                ? 'border-gray-800 hover:bg-gray-900 text-white'
-                : 'border-gray-300 hover:bg-gray-50'
-            }`}>›</Button>
+        {transactions.length > 0 && (
+          <div className={`flex items-center justify-between mt-6 pt-4 border-t ${
+            theme === 'dark' ? 'border-gray-800' : 'border-gray-200'
+          }`}>
+            <p className={`text-sm ${
+              theme === 'dark' ? 'text-gray-400' : 'text-gray-600'
+            }`}>
+              Showing <span className="font-medium">{(currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, transactions.length)}</span> of {transactions.length} results
+            </p>
+            <div className="flex gap-1">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
+                className={`px-3 py-1.5 ${
+                  theme === 'dark'
+                    ? 'border-gray-800 hover:bg-gray-900 text-white'
+                    : 'border-gray-300 hover:bg-gray-50'
+                }`}
+              >
+                ‹
+              </Button>
+              {[...Array(totalPages)].map((_, i) => (
+                <Button 
+                  key={i}
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => setCurrentPage(i + 1)}
+                  className={`px-3 py-1.5 ${
+                    currentPage === i + 1
+                      ? theme === 'dark'
+                        ? 'bg-white text-black hover:bg-gray-200 border-white'
+                        : 'bg-gray-900 text-white hover:bg-gray-800 border-gray-900'
+                      : theme === 'dark'
+                        ? 'border-gray-800 hover:bg-gray-900 text-white'
+                        : 'border-gray-300 hover:bg-gray-50'
+                  }`}
+                >
+                  {i + 1}
+                </Button>
+              ))}
+              <Button 
+                variant="outline" 
+                size="sm"
+                onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                disabled={currentPage === totalPages}
+                className={`px-3 py-1.5 ${
+                  theme === 'dark'
+                    ? 'border-gray-800 hover:bg-gray-900 text-white'
+                    : 'border-gray-300 hover:bg-gray-50'
+                }`}
+              >
+                ›
+              </Button>
+            </div>
           </div>
-        </div>
+        )}
       </Card>
+
+      {/* Modals */}
+      <WithdrawModal
+        isOpen={withdrawModalOpen}
+        onClose={() => setWithdrawModalOpen(false)}
+        onConfirm={handleWithdraw}
+        loading={withdrawing}
+        availableBalance={balance?.available || 0}
+        theme={theme}
+      />
+
+      <ErrorModal
+        isOpen={!!error}
+        onClose={clearError}
+        title="Error"
+        message={error || ''}
+        theme={theme}
+      />
+
+      <SuccessModal
+        isOpen={successModalOpen}
+        onClose={() => setSuccessModalOpen(false)}
+        title={successMessage.title}
+        message={successMessage.message}
+        theme={theme}
+      />
     </div>
   );        
 }

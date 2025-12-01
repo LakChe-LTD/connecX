@@ -8,11 +8,8 @@ export const ENDPOINTS = {
     REGISTER: `${API_BASE}/auth/register`,
     LOGOUT: `${API_BASE}/auth/logout`,
     ME: `${API_BASE}/auth/me`,
-    
-    // ✅ ADD THESE TWO LINES
     VERIFY_EMAIL: `${API_BASE}/auth/verify-email`,
     RESEND_VERIFICATION: `${API_BASE}/auth/resend-verification`,
-    
     REFRESH_TOKEN: `${API_BASE}/auth/refresh`,
     VERIFY_2FA: `${API_BASE}/auth/2fa/verify`,
     FORGOT_PASSWORD: `${API_BASE}/auth/forgot-password`,
@@ -49,8 +46,13 @@ export const ENDPOINTS = {
   WALLET: {
     BALANCE: `${API_BASE}/wallet/balance`,
     TRANSACTIONS: `${API_BASE}/wallet/transactions`,
-    DEPOSIT: `${API_BASE}/wallet/deposit`,
+    CLAIM: `${API_BASE}/wallet/claim`,
     WITHDRAW: `${API_BASE}/wallet/withdraw`,
+    EARNINGS: {
+      SUMMARY: `${API_BASE}/wallet/earnings/summary`,
+      MONTHLY: `${API_BASE}/wallet/earnings/monthly`,
+      TREND: `${API_BASE}/wallet/earnings/trend`,
+    }
   },
 
   // Store endpoints
