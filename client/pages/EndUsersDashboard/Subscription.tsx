@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Wifi, Calendar, Database } from 'lucide-react';
 import { useApp } from "@/contexts/AppContext";
+import { Helmet } from "react-helmet-async";
 
 
 
@@ -9,6 +10,27 @@ export default function SubscriptionsPage() {
   const [activeTab, setActiveTab] = useState('connection-history');
 
   return (
+    <>
+      <Helmet>
+        <title>Subscriptions | KonnectX</title>
+        <meta
+          name="description"
+          content="Manage your subscriptions within the KonnectX network. View active subscriptions, billing details, and upgrade or cancel your plans easily."
+        />
+        <meta
+          name="keywords"
+          content="KonnectX, subscriptions, billing, plans, KXT token, hotspot services, decentralized network"
+        />
+        <meta property="og:title" content="Subscriptions - KonnectX" />
+        <meta
+          property="og:description"
+          content="Manage your subscriptions within the KonnectX network. View active subscriptions, billing details, and upgrade or cancel your plans easily."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="/images/og-image.png" />
+        <link rel="icon" href="/images/favicon.png" />
+      </Helmet>
+
     <div className="p-8">
       {/* Header */}
       <div className="mb-8">
@@ -195,11 +217,13 @@ export default function SubscriptionsPage() {
         </div>
       )}
     </div>
+    </>
   );
 }
 
 function ConnectionItem({ name, duration, data, date, time, theme }) {
   return (
+    
     <div className={`flex items-center justify-between p-5 rounded-lg transition-colors ${theme === 'dark' ? 'bg-[#2a2b2d]  hover:bg-gray-700' : 'bg-gray-50 hover:bg-gray-100'}`}>
       <div className="flex items-center gap-4">
         <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">

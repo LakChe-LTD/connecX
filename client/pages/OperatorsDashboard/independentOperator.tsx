@@ -58,19 +58,19 @@ export default function IndependentOperators() {
 
     <>
       <Helmet>
-        <title>Independent Operators | ConnectX</title>
+        <title>Independent Operators | KonnectX</title>
         <meta
           name="description"
-          content="Manage and monitor independent operators on the ConnectX decentralized network. View their hotspots, activity, and contributions to the $KXT ecosystem."
+          content="Manage and monitor independent operators on the KonnectX decentralized network. View their hotspots, activity, and contributions to the $KXT ecosystem."
         />
         <meta
           name="keywords"
-          content="ConnectX, independent operators, decentralized network, hotspots, KXT token, operator management"
+          content="KonnectX, independent operators, decentralized network, hotspots, KXT token, operator management"
         />
-        <meta property="og:title" content="Independent Operators - ConnectX" />
+        <meta property="og:title" content="Independent Operators - KonnectX" />
         <meta
           property="og:description"
-          content="Manage and monitor independent operators on the ConnectX decentralized network. View their hotspots, activity, and contributions to the $KXT ecosystem."
+          content="Manage and monitor independent operators on the KonnectX decentralized network. View their hotspots, activity, and contributions to the $KXT ecosystem."
         />
         <meta property="og:type" content="website" />
         <meta property="og:image" content="/images/og-image.png" />

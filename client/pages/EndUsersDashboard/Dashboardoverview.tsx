@@ -1,6 +1,7 @@
 import React from 'react';
 import { Wifi, Smartphone, MapPin, Search } from 'lucide-react';
 import { useApp } from "@/contexts/AppContext";
+import { Helmet } from "react-helmet-async";
 
 export default function KonnectXEndusersDashboard(){
 
@@ -9,6 +10,29 @@ export default function KonnectXEndusersDashboard(){
 
 
   return (
+
+
+    <>
+          <Helmet>
+            <title>Dashboard Overview | KonnectX</title>
+            <meta
+              name="description"
+              content="Get a comprehensive overview of your KonnectX dashboard. Track hotspots, manage rewards, referrals, and monitor your KXT token activities."
+            />
+            <meta
+              name="keywords"
+              content="KonnectX, dashboard overview, hotspots, rewards, referrals, KXT token, decentralized network"
+            />
+            <meta property="og:title" content="Dashboard Overview - KonnectX" />
+            <meta
+              property="og:description"
+              content="Get a comprehensive overview of your KonnectX dashboard. Track hotspots, manage rewards, referrals, and monitor your KXT token activities."
+            />
+            <meta property="og:type" content="website" />
+            <meta property="og:image" content="/images/og-image.png" />
+            <link rel="icon" href="/images/favicon.png" />
+          </Helmet>
+
     <div className="p-8">
       {/* Header */}
       <div className="mb-8">
@@ -195,6 +219,7 @@ export default function KonnectXEndusersDashboard(){
         </div>
       </div>
     </div>
+    </>
   );
 }
 
