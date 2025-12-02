@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Wifi, Heart, ShoppingCart, User, ArrowLeft } from 'lucide-react';
+import { Helmet } from "react-helmet-async";
 
 export default function PayHotspots() {
   const [formData, setFormData] = useState({
@@ -28,6 +29,28 @@ export default function PayHotspots() {
   };
 
   return (
+     <>
+      <Helmet>
+        <title>Pay Hotspots | KonnectX</title>
+        <meta
+          name="description"
+          content="Pay for your KonnectX hotspots easily and securely. Manage your decentralized network devices and transactions with $KXT tokens."
+        />
+        <meta
+          name="keywords"
+          content="KonnectX, pay hotspots, hotspot payment, KXT token, decentralized network, dashboard"
+        />
+        <meta property="og:title" content="Pay Hotspots - KonnectX" />
+        <meta
+          property="og:description"
+          content="Pay for your KonnectX hotspots easily and securely. Manage your decentralized network devices and transactions with $KXT tokens."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="/images/og-image.png" />
+        <link rel="icon" href="/images/favicon.png" />
+      </Helmet>
+
+
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="bg-white shadow-sm">
@@ -140,5 +163,6 @@ export default function PayHotspots() {
         </div>
       </main>
     </div>
+    </>
   );
 }

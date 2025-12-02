@@ -5,6 +5,11 @@ import { useNavigate } from "react-router-dom";
 import { useApp } from "@/contexts/AppContext";
 import { Eye, EyeOff, Mail, Lock, Moon, Sun, Loader2, CheckCircle, AlertCircle } from "lucide-react";
 import { login } from "@/api/auth";
+import { Helmet } from "react-helmet-async";
+
+
+
+
 
 export default function SignIn() {
   const navigate = useNavigate();
@@ -90,6 +95,13 @@ export default function SignIn() {
   };
 
   return (
+    <>
+    <Helmet>
+      <title>Sign In – KonnectX</title>
+      <meta name="description" content="Login to your KonnectX account to access your dashboard, communities, and features." />
+      <meta name="keywords" content="Konnectx login, sign in, user login, operator login" />
+      <link rel="icon" href="/images/favicon.png" />
+    </Helmet>
     <div className="min-h-screen bg-gradient-to-br from-blue-500 via-purple-500 to-purple-600 flex items-center justify-center p-4">
       {success && (
         <div className="fixed top-6 right-6 z-50">
@@ -134,7 +146,7 @@ export default function SignIn() {
           <div className="flex items-center justify-between mb-6">
             <div>
               <h2 className="text-3xl font-bold text-gray-800 dark:text-white">Sign In</h2>
-              <p className="text-gray-600 dark:text-gray-400 mt-2">Welcome back to ConnectX</p>
+              <p className="text-gray-600 dark:text-gray-400 mt-2">Welcome back to KonnectX</p>
             </div>
             
             {/* ✅ Role Selector */}
@@ -310,5 +322,6 @@ export default function SignIn() {
         </div>
       </div>
     </div>
+    </>
   );
 }

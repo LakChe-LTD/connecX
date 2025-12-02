@@ -10,6 +10,10 @@ import type {
   Reward 
 } from '@/api/services/referralService';
 import referralService from '@/api/services/referralService';
+import { Helmet } from "react-helmet-async";
+
+
+
 
 export default function ReferralProgram() {
   const [copied, setCopied] = useState(false);
@@ -169,6 +173,27 @@ export default function ReferralProgram() {
   ];
 
   return (
+    <>
+      <Helmet>
+        <title>Referral Program | KonnectX</title>
+        <meta
+          name="description"
+          content="Invite friends to KonnectX and earn rewards with the Referral Program. Share your referral code and grow the decentralized network."
+        />
+        <meta
+          name="keywords"
+          content="KonnectX, referral program, invite friends, KXT token, rewards, decentralized network"
+        />
+        <meta property="og:title" content="Referral Program - KonnectX" />
+        <meta
+          property="og:description"
+          content="Invite friends to KonnectX and earn rewards with the Referral Program. Share your referral code and grow the decentralized network."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="/images/og-image.png" />
+        <link rel="icon" href="/images/favicon.png" />
+      </Helmet>
+
     <div className="w-full">
       {/* Title and Description */}
       <div className="text-center mb-6">
@@ -415,5 +440,6 @@ export default function ReferralProgram() {
         </div>
       </div>
     </div>
+    </>
   );
 }

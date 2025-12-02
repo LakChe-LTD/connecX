@@ -3,6 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Filter } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart } from "recharts";
 import { useApp } from "@/contexts/AppContext";
+import { Helmet } from "react-helmet-async";
+
+
 
 export default function DashboardReward() {
   const { theme } = useApp();
@@ -37,6 +40,28 @@ export default function DashboardReward() {
   ];
 
   return (
+     <>
+      <Helmet>
+        <title>Rewards Dashboard | KonnectX</title>
+        <meta
+          name="description"
+          content="View and manage your rewards on KonnectX. Track earned rewards, claim bonuses, and monitor your reward history securely."
+        />
+        <meta
+          name="keywords"
+          content="KonnectX, rewards, dashboard, claim rewards, bonuses, KXT token rewards"
+        />
+        <meta property="og:title" content="Rewards Dashboard - KonnectX" />
+        <meta
+          property="og:description"
+          content="View and manage your rewards on KonnectX. Track earned rewards, claim bonuses, and monitor your reward history securely."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="/images/og-image.png" />
+        <link rel="icon" href="/images/favicon.png" />
+      </Helmet>
+
+
     <div className="space-y-6">
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -345,5 +370,6 @@ export default function DashboardReward() {
         </div>
       </Card>
     </div>
+    </>
   );        
 }

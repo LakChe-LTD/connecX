@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Search, Wifi } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
 import { useApp } from "@/contexts/AppContext";
+import { Helmet } from "react-helmet-async";
+
 
 export default function VoucherManagement() {
   const navigate = useNavigate();
@@ -37,6 +39,27 @@ export default function VoucherManagement() {
   };
 
   return (
+
+    <>
+      <Helmet>
+        <title>Voucher Management | KonnectX</title>
+        <meta
+          name="description"
+          content="Manage and track all your KonnectX vouchers. Redeem, assign, and monitor $KXT token vouchers efficiently."
+        />
+        <meta
+          name="keywords"
+          content="KonnectX, voucher management, KXT token, redeem vouchers, dashboard"
+        />
+        <meta property="og:title" content="Voucher Management - KonnectX" />
+        <meta
+          property="og:description"
+          content="Manage and track all your KonnectX vouchers. Redeem, assign, and monitor $KXT token vouchers efficiently."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="/images/og-image.png" />
+        <link rel="icon" href="/images/favicon.png" />
+      </Helmet>
     <div>
       <div className="max-w-6xl mx-auto">
         
@@ -386,5 +409,6 @@ export default function VoucherManagement() {
         </div>
       </div>
     </div>
+    </>  
   );
 }

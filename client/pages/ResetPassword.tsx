@@ -5,6 +5,10 @@ import { useApp } from "@/contexts/AppContext";
 import { Lock, Eye, EyeOff, Moon, Sun, Loader2, CheckCircle, AlertCircle } from "lucide-react";
 import { apiClient } from "@/api/client";
 import { ENDPOINTS } from "@/api/endpoints";
+import { Helmet } from "react-helmet-async";
+
+
+
 
 export default function ResetPassword() {
   const navigate = useNavigate();
@@ -82,6 +86,23 @@ export default function ResetPassword() {
   };
 
   return (
+    <>
+      <Helmet>
+        <title>Reset Password | KonnectX</title>
+        <meta
+          name="description"
+          content="Recover access to your KonnectX account by resetting your password securely."
+        />
+        <meta property="og:title" content="Reset Password - KonnectX" />
+        <meta
+          property="og:description"
+          content="Recover access to your KonnectX account by resetting your password securely."
+        />
+        <meta property="og:type" content="website" />
+      </Helmet>
+
+
+
     <div className="min-h-screen bg-gradient-to-br from-blue-500 via-purple-500 to-purple-600 flex items-center justify-center p-4">
       {/* Success Alert */}
       {success && (
@@ -274,5 +295,6 @@ export default function ResetPassword() {
         </div>
       </div>
     </div>
+    </>
   );
 }

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { User, Heart, ShoppingCart } from "lucide-react";
 import { useApp } from "@/contexts/AppContext";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+
 
 export default function HotspotRegistrationStep3() {
   const [paymentMethod, setPaymentMethod] = useState('stripe');
@@ -13,6 +15,27 @@ export default function HotspotRegistrationStep3() {
   };
 
   return (
+    <>
+      <Helmet>
+        <title>Hotspot Registration Step 3 | KonnectX</title>
+        <meta
+          name="description"
+          content="Complete the final step of your KonnectX hotspot registration. Confirm your hotspot setup and activate your device on the decentralized network."
+        />
+        <meta
+          name="keywords"
+          content="KonnectX, hotspot registration, KXT token, step 3, device activation, decentralized network"
+        />
+        <meta property="og:title" content="Hotspot Registration Step 3 - KonnectX" />
+        <meta
+          property="og:description"
+          content="Complete the final step of your KonnectX hotspot registration. Confirm your hotspot setup and activate your device on the decentralized network."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="/images/og-image.png" />
+        <link rel="icon" href="/images/favicon.png" />
+      </Helmet>
+
     <div className={`min-h-screen ${theme === 'dark' ? 'bg-black' : 'bg-white'}`}>
 
       {/* Main Content */}
@@ -188,5 +211,6 @@ export default function HotspotRegistrationStep3() {
         </div>
       </div>
     </div>
+     </>    
   );
 }

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { ChevronLeft, ShoppingCart, User, Heart, Grid, List, ChevronDown, ChevronUp, Search, Menu } from 'lucide-react';
+import { Helmet } from "react-helmet-async";
+
 
 const HotspotStorePage = () => {
   const [priceRange, setPriceRange] = useState([0, 3000]);
@@ -48,6 +50,27 @@ const HotspotStorePage = () => {
   };
 
   return (
+    <>
+      <Helmet>
+        <title>Hotspot Store | KonnectX</title>
+        <meta
+          name="description"
+          content="Explore and purchase KonnectX hotspots and devices in our secure $KXT token store. Enhance your decentralized network."
+        />
+        <meta
+          name="keywords"
+          content="KonnectX, hotspot store, KXT token, buy hotspots, devices, decentralized network"
+        />
+        <meta property="og:title" content="Hotspot Store - KonnectX" />
+        <meta
+          property="og:description"
+          content="Explore and purchase KonnectX hotspots and devices in our secure $KXT token store. Enhance your decentralized network."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="/images/og-image.png" />
+        <link rel="icon" href="/images/favicon.png" />
+      </Helmet>
+
     <div className="min-h-20 bg-gray-50 dark:bg-black"> 
       {/* Breadcrumb */}
       <div className="max-w-20xl mx-auto px-4 py-4">
@@ -278,6 +301,7 @@ const HotspotStorePage = () => {
         </div>
       </footer>
     </div>
+    </>
   );
 };
 

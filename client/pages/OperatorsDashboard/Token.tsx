@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import { Gift, ArrowLeft, Search, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Helmet } from "react-helmet-async";
+
+
+
 
 const KonnectXToken = () => {
   const [withdrawAmount, setWithdrawAmount] = useState('');
@@ -31,6 +35,28 @@ const KonnectXToken = () => {
   };
 
   return (
+     <>
+      <Helmet>
+        <title>Token Dashboard | KonnectX</title>
+        <meta
+          name="description"
+          content="View and manage your $KXT tokens on KonnectX. Track balances, transactions, and token activity securely."
+        />
+        <meta
+          name="keywords"
+          content="KonnectX, KXT token, token dashboard, wallet, transactions, crypto"
+        />
+        <meta property="og:title" content="Token Dashboard - KonnectX" />
+        <meta
+          property="og:description"
+          content="View and manage your $KXT tokens on KonnectX. Track balances, transactions, and token activity securely."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="/images/og-image.png" />
+        <link rel="icon" href="/images/favicon.png" />
+      </Helmet>
+
+
     <div className="min-h-screen bg-gray-50 dark:bg-black">
 
       <div className="max-w-[1600px] mx-auto px-8 py-8">
@@ -170,6 +196,7 @@ const KonnectXToken = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

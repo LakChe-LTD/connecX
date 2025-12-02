@@ -5,6 +5,7 @@ import { useApp } from "@/contexts/AppContext";
 import { Mail, Moon, Sun, Loader2, CheckCircle, ArrowLeft } from "lucide-react";
 import { apiClient } from "@/api/client";
 import { ENDPOINTS } from "@/api/endpoints";
+import { Helmet } from "react-helmet-async";
 
 export default function ForgotPassword() {
   const navigate = useNavigate();
@@ -45,6 +46,28 @@ export default function ForgotPassword() {
   };
 
   return (
+    <>
+      <Helmet>
+        <title>Forgot Password | KonnectX</title>
+        <meta
+          name="description"
+          content="Reset your KonnectX account password. Enter your email to receive password reset instructions."
+        />
+        <meta
+          name="keywords"
+          content="KonnectX, forgot password, reset password, account recovery"
+        />
+        <meta property="og:title" content="Forgot Password - KonnectX" />
+        <meta
+          property="og:description"
+          content="Reset your KonnectX account password. Enter your email to receive password reset instructions."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="/images/og-image.png" />
+        <link rel="icon" href="/images/favicon.png" />
+      </Helmet>
+
+
     <div className="min-h-screen bg-gradient-to-br from-blue-500 via-purple-500 to-purple-600 flex items-center justify-center p-4">
       {/* Success Alert */}
       {success && (
@@ -167,5 +190,6 @@ export default function ForgotPassword() {
         </div>
       </div>
     </div>
+    </>
   );
 }

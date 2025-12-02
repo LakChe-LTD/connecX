@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useApp } from "@/contexts/AppContext";
 import {  User, Heart, ShoppingCart,} from "lucide-react";
+import { Helmet } from "react-helmet-async";
+
 
 const HotspotRegistrationStep2 = () => {
   const { theme } = useApp();
@@ -44,6 +46,8 @@ const HotspotRegistrationStep2 = () => {
   };
 
   return (
+    
+    
     <div className={`min-h-screen ${theme === 'dark' ? 'bg-black' : 'bg-gradient-to-br from-purple-50 via-white to-purple-50'}`}>
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-8 py-12">
@@ -220,6 +224,27 @@ const FileUploadBox: React.FC<{
   };
 
   return (
+
+    <>
+      <Helmet>
+        <title>Hotspot Registration Step 2 | KonnectX</title>
+        <meta
+          name="description"
+          content="Proceed with Step 2 of your KonnectX hotspot registration. Configure your device and network settings before activating on the decentralized network."
+        />
+        <meta
+          name="keywords"
+          content="KonnectX, hotspot registration, KXT token, step 2, device configuration, decentralized network"
+        />
+        <meta property="og:title" content="Hotspot Registration Step 2 - KonnectX" />
+        <meta
+          property="og:description"
+          content="Proceed with Step 2 of your KonnectX hotspot registration. Configure your device and network settings before activating on the decentralized network."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="/images/og-image.png" />
+        <link rel="icon" href="/images/favicon.png" />
+      </Helmet>
     <div 
       className={`border-3 border-dashed rounded-xl p-10 text-center transition-all cursor-pointer ${
         theme === 'dark'
@@ -259,6 +284,7 @@ const FileUploadBox: React.FC<{
         Upload Document
       </button>
     </div>
+    </>
   );
 };
 
