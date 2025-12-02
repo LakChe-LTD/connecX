@@ -53,9 +53,6 @@ const FinanceDashboard = () => {
           property="og:description"
           content="Manage your finances within the KonnectX decentralized network. View transactions, earnings, and financial reports for your hotspots and operations."
         />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="/images/og-image.png" />
-        <link rel="icon" href="/images/favicon.png" />
       </Helmet>
 
     <div>

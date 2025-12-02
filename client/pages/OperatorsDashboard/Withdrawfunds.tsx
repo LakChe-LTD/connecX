@@ -36,9 +36,6 @@ export default function WithdrawFunds() {
           property="og:description"
           content="Withdraw your earnings securely from your KonnectX wallet. Manage your $KXT token funds efficiently."
         />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="/images/og-image.png" />
-        <link rel="icon" href="/images/favicon.png" />
       </Helmet>
     <div>
 

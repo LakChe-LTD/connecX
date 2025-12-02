@@ -31,9 +31,6 @@ export default function HotspotRegistrationStep3() {
           property="og:description"
           content="Complete the final step of your KonnectX hotspot registration. Confirm your hotspot setup and activate your device on the decentralized network."
         />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="/images/og-image.png" />
-        <link rel="icon" href="/images/favicon.png" />
       </Helmet>
 
     <div className={`min-h-screen ${theme === 'dark' ? 'bg-black' : 'bg-white'}`}>

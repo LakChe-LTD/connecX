@@ -80,9 +80,6 @@ export default function KonnectXKitss() {
           property="og:description"
           content="View and manage all hotspot kits available in the KonnectX decentralized network. Monitor kit status, assignments, and operator activities."
         />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="/images/og-image.png" />
-        <link rel="icon" href="/images/favicon.png" />
       </Helmet>
 
     <div className={`min-h-screen ${theme === 'dark' ? 'bg-black' : 'bg-gray-50'}`}>

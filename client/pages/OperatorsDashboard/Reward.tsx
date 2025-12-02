@@ -56,9 +56,6 @@ export default function DashboardReward() {
           property="og:description"
           content="View and manage your rewards on KonnectX. Track earned rewards, claim bonuses, and monitor your reward history securely."
         />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="/images/og-image.png" />
-        <link rel="icon" href="/images/favicon.png" />
       </Helmet>
 
 

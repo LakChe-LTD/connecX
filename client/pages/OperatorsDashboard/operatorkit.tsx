@@ -82,9 +82,6 @@ const ManageKits = () => {
           property="og:description"
           content="Manage your KonnectX kits efficiently. Add, update, and organize your decentralized hotspots and devices in the network."
         />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="/images/og-image.png" />
-        <link rel="icon" href="/images/favicon.png" />
       </Helmet>
     <>
       {/* Stats Grid */}

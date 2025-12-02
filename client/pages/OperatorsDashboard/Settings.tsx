@@ -237,9 +237,6 @@ export default function AccountSettings() {
           property="og:description"
           content="Manage your KonnectX account settings. Update your profile, security preferences, and notification settings securely."
         />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="/images/og-image.png" />
-        <link rel="icon" href="/images/favicon.png" />
       </Helmet>
 
     <div className="min-h-screen bg-gray-50 dark:bg-black">

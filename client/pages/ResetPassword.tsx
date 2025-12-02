@@ -98,7 +98,7 @@ export default function ResetPassword() {
           property="og:description"
           content="Recover access to your KonnectX account by resetting your password securely."
         />
-        <meta property="og:type" content="website" />
+
       </Helmet>
 
 

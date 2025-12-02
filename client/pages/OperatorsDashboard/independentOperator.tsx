@@ -72,9 +72,6 @@ export default function IndependentOperators() {
           property="og:description"
           content="Manage and monitor independent operators on the KonnectX decentralized network. View their hotspots, activity, and contributions to the $KXT ecosystem."
         />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="/images/og-image.png" />
-        <link rel="icon" href="/images/favicon.png" />
       </Helmet>
 
     <div className={`min-h-screen ${theme === 'dark' ? 'bg-black' : 'bg-gradient-to-br from-purple-50 via-white to-purple-50'}`}>

@@ -171,9 +171,6 @@ export default function InvitationRegister() {
           property="og:description"
           content="Register on KonnectX via invitation and join the decentralized hotspots network with $KXT token."
         />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="/images/og-image.png" />
-        <link rel="icon" href="/images/favicon.png" />
       </Helmet>
 
 

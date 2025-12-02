@@ -87,9 +87,6 @@ export default function MyHotSpots() {
           property="og:description"
           content="View and manage all your KonnectX hotspots. Monitor activity, status, and performance of your decentralized network devices."
         />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="/images/og-image.png" />
-        <link rel="icon" href="/images/favicon.png" />
       </Helmet>
 
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50">

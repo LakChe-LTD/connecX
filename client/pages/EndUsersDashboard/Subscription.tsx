@@ -26,9 +26,6 @@ export default function SubscriptionsPage() {
           property="og:description"
           content="Manage your subscriptions within the KonnectX network. View active subscriptions, billing details, and upgrade or cancel your plans easily."
         />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="/images/og-image.png" />
-        <link rel="icon" href="/images/favicon.png" />
       </Helmet>
 
     <div className="p-8">

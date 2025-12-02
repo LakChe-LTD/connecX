@@ -640,9 +640,6 @@ export default function KonnectXSetupGuide() {
           property="og:description"
           content="Follow the KonnectX Setup Guide to easily configure your hotspots and devices. Step-by-step instructions for operators and users."
         />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="/images/og-image.png" />
-        <link rel="icon" href="/images/favicon.png" />
       </Helmet>
 
     <div className="min-h-screen bg-white dark:bg-black flex flex-col">

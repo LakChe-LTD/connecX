@@ -310,9 +310,6 @@ export default function DashboardOverview() {
           property="og:description"
           content="Get a comprehensive overview of your KonnectX dashboard. Track hotspots, manage rewards, referrals, and monitor your KXT token activities."
         />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="/images/og-image.png" />
-        <link rel="icon" href="/images/favicon.png" />
       </Helmet>
 
 

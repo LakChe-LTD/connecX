@@ -45,9 +45,6 @@ export default function PayHotspots() {
           property="og:description"
           content="Pay for your KonnectX hotspots easily and securely. Manage your decentralized network devices and transactions with $KXT tokens."
         />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="/images/og-image.png" />
-        <link rel="icon" href="/images/favicon.png" />
       </Helmet>
 
 

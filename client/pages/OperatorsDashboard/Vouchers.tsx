@@ -56,9 +56,6 @@ export default function VoucherManagement() {
           property="og:description"
           content="Manage and track all your KonnectX vouchers. Redeem, assign, and monitor $KXT token vouchers efficiently."
         />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="/images/og-image.png" />
-        <link rel="icon" href="/images/favicon.png" />
       </Helmet>
     <div>
       <div className="max-w-6xl mx-auto">

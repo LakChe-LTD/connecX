@@ -54,9 +54,6 @@ export default function WalletDashboard() {
           property="og:description"
           content="Manage your KonnectX wallet. View your $KXT token balance, transaction history, and send or receive tokens within the decentralized network."
         />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="/images/og-image.png" />
-        <link rel="icon" href="/images/favicon.png" />
       </Helmet>
 
     <div className={`min-h-screen ${theme === 'dark' ? 'bg-black' : 'bg-gray-50'}`}>

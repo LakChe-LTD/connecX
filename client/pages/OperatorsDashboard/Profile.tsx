@@ -51,9 +51,6 @@ export default function DashboardProfile() {
           property="og:description"
           content="View and manage your KonnectX user profile. Update personal information, settings, and account preferences securely."
         />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="/images/og-image.png" />
-        <link rel="icon" href="/images/favicon.png" />
       </Helmet>
 
     <div className="space-y-6 max-w-4xl">

@@ -189,9 +189,6 @@ export default function ReferralProgram() {
           property="og:description"
           content="Invite friends to KonnectX and earn rewards with the Referral Program. Share your referral code and grow the decentralized network."
         />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="/images/og-image.png" />
-        <link rel="icon" href="/images/favicon.png" />
       </Helmet>
 
     <div className="w-full">

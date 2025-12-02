@@ -51,9 +51,6 @@ const KonnectXToken = () => {
           property="og:description"
           content="View and manage your $KXT tokens on KonnectX. Track balances, transactions, and token activity securely."
         />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="/images/og-image.png" />
-        <link rel="icon" href="/images/favicon.png" />
       </Helmet>
 
 

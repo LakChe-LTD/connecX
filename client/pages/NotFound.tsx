@@ -32,8 +32,6 @@ const NotFound = () => {
           property="og:description"
           content="Oops! The page you are looking for does not exist. Return to the KonnectX homepage."
         />
-        <meta property="og:type" content="website" />
-        <link rel="icon" href="/images/favicon.png" />
       </Helmet>
 
 

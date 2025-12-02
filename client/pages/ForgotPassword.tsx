@@ -62,9 +62,6 @@ export default function ForgotPassword() {
           property="og:description"
           content="Reset your KonnectX account password. Enter your email to receive password reset instructions."
         />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="/images/og-image.png" />
-        <link rel="icon" href="/images/favicon.png" />
       </Helmet>
 
 

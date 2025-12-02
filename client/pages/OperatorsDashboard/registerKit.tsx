@@ -47,9 +47,6 @@ export default function HotspotRegistration() {
           property="og:description"
           content="Start your KonnectX hotspot registration process. Begin setting up your device to join the decentralized network and earn $KXT tokens."
         />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="/images/og-image.png" />
-        <link rel="icon" href="/images/favicon.png" />
       </Helmet>
 
     <div className={`min-h-screen ${theme === 'dark' ? 'bg-black' : 'bg-gradient-to-br from-purple-50 via-white to-purple-50'}`}>

@@ -29,10 +29,6 @@ export default function Landing() {
           property="og:description"
           content="KonnectX is a decentralized hotspots network using $KXT token. Join the network to connect with communities and manage your hotspots seamlessly."
         />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="/images/og-image.png" />
-        <meta property="og:url" content="https://connectx.com" />
-        <link rel="icon" href="/images/favicon.png" />
       </Helmet>
 
 

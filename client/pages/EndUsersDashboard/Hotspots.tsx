@@ -72,9 +72,6 @@ export default function KonnectXHotspots() {
           property="og:description"
           content="Explore and manage your hotspots within the KonnectX decentralized network. View active hotspots, performance, and coverage of your KXT token-enabled devices."
         />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="/images/og-image.png" />
-        <link rel="icon" href="/images/favicon.png" />
       </Helmet>
 
     <div className={`min-hrrcreen p-8 ${theme === 'dark' ? 'bg-black' : 'bg-gray-50'}`}>

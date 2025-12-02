@@ -100,7 +100,6 @@ export default function SignIn() {
       <title>Sign In – KonnectX</title>
       <meta name="description" content="Login to your KonnectX account to access your dashboard, communities, and features." />
       <meta name="keywords" content="Konnectx login, sign in, user login, operator login" />
-      <link rel="icon" href="/images/favicon.png" />
     </Helmet>
     <div className="min-h-screen bg-gradient-to-br from-blue-500 via-purple-500 to-purple-600 flex items-center justify-center p-4">
       {success && (

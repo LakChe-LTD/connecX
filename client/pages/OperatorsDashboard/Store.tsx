@@ -66,9 +66,6 @@ const HotspotStorePage = () => {
           property="og:description"
           content="Explore and purchase KonnectX hotspots and devices in our secure $KXT token store. Enhance your decentralized network."
         />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="/images/og-image.png" />
-        <link rel="icon" href="/images/favicon.png" />
       </Helmet>
 
     <div className="min-h-20 bg-gray-50 dark:bg-black"> 
