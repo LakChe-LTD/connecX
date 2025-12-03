@@ -24,6 +24,7 @@ import KonnectXEndusersDashboard from "./pages/EndUsersDashboard/Dashboardovervi
 import KonnectXEndUsersHotspots from "./pages/EndUsersDashboard/Hotspots";
 import SubscriptionsPage from "./pages/EndUsersDashboard/Subscription";
 import WalletDashboard from "./pages/EndUsersDashboard/Wallet";
+import ProfileSettings from "./pages/EndUsersDashboard/Profile";
 
 
 
@@ -112,6 +113,7 @@ const App = () => (
               <Route path="/Hotspots" element={< KonnectXEndUsersHotspots />} />
                <Route path="/Subscription" element={<SubscriptionsPage/>} />
                <Route path="/Wallet" element={<WalletDashboard/>} />
+                <Route path="/Profile" element={<ProfileSettings/>} />
              
               
               </Route>

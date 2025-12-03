@@ -18,22 +18,7 @@ export default function EndUserDashboardLayout() {
   const sidebarRef = useRef<HTMLDivElement>(null);
   const dragStartX = useRef(0);
 
-  const isRewardPage = location.pathname === "/dashboard/Reward";
-  const isReferralsPage = location.pathname === "/dashboard/Referrals";
-  const isSetupguidePage = location.pathname === "/dashboard/setupguide";
-  const isStorePage = location.pathname === "/dashboard/store";
-  const isTokenPage = location.pathname === "/dashboard/Token";
-  const isSettingsPage = location.pathname === "/dashboard/Settings";
-  const isregisterKitPage = location.pathname === "/dashboard/registerKit";
-  const isregisterKitpageStep2 = location.pathname === "/dashboard/registerKitStep3"
-  const isregisterKitpageStep3 = location.pathname === "/dashboard/registerKitStep2"
-  const Independentoperator = location.pathname === "/dashboard/independentOperator";
-  const HotspotAcess = location.pathname === "/dashboard/HotspotAcess";
-  const Vouchers = location.pathname === "/dashboard/Vouchers";
-  const Finances = location.pathname === "/dashboard/Finances";
-  const Withdrawfunds = location.pathname === "/dashboard/Withdrawfunds";
-  const isAllKitsPage = location.pathname === "/dashboard/allkits";
-  const isOperatorKitPage = location.pathname === "/dashboard/operatorkit";
+
 
 
 
@@ -44,7 +29,7 @@ export default function EndUserDashboardLayout() {
     { label: "Plans", path: "/dashboard/Referrals", icon: Users },
     { label: "Subcriptions", path: "/Subscription", icon: Gift },
     { label: "Wallet", path: "/Wallet", icon: Sun },
-    { label: "Profile", path: "/dashboard/store", icon: Home },
+    { label: "Profile", path: "/Profile", icon: User},
     { label: "Notification", path: "/dashboard/Settings", icon: Settings },
   ];
 
@@ -201,19 +186,6 @@ const handleLogoutClick = () => {
 
         {/* Menu Items */}
         <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
-          {isRewardPage || isStorePage ? (
-            <a
-              href="/dashboard/"
-              className={`flex items-center ${isMobile ? 'gap-4' : 'gap-8'} px-4 py-3 rounded-lg transition-all duration-200 ${
-                theme === 'dark' 
-                  ? 'bg-blue-600 text-white hover:bg-blue-700' 
-                  : 'bg-blue-600 text-white hover:bg-blue-700'
-              }`}
-            >
-              <ArrowLeft className="w-7 h-7 flex-shrink-0" />
-              {(sidebarOpen || isMobile) && <span className="font-bold text-xl">Back</span>}
-            </a>
-          ) : (
             <>
               {/* Regular menu items */}
               {menuItems.map((item) => (
@@ -232,59 +204,8 @@ const handleLogoutClick = () => {
                   {(sidebarOpen || isMobile) && <span className="font-bold text-xl">{item.label}</span>}
                 </a>
               ))}
-
-              {/* Operator Kit with Dropdown */}
-              <div>
-                <div className={`w-full flex items-center justify-between ${isMobile ? 'gap-4' : 'gap-8'} px-4 py-3 rounded-lg transition-all duration-200 ${
-                    location.pathname === "/dashboard/operatorkit" || location.pathname === "/dashboard/allkits"
-                      ? 'bg-black text-white dark:bg-blue-600'
-                      : theme === 'dark'
-                        ? 'text-gray-300 hover:bg-blue-600 hover:text-white'
-                        : 'text-gray-700 hover:bg-gray-900 hover:text-white'
-                  }`}>
-                  <a
-                    href="/dashboard/operatorkit"
-                    onClick={(e) => { e.preventDefault(); navigate('/dashboard/operatorkit'); }}
-                    className="flex items-center gap-4 flex-1"
-                  >
-                    <DollarSign className="w-7 h-7 flex-shrink-0" />
-                    {(sidebarOpen || isMobile) && <span className="font-bold text-xl">Operator Kit</span>}
-                  </a>
-
-                  {(sidebarOpen || isMobile) && (
-                    <button
-                      onClick={(e) => { e.stopPropagation(); setOperatorKitOpen((s) => !s); }}
-                      aria-expanded={operatorKitOpen}
-                      aria-controls="operator-kit-dropdown"
-                      className="p-1 rounded focus:outline-none"
-                    >
-                      {operatorKitOpen ? <ChevronDown className="w-5 h-5 flex-shrink-0" /> : <ChevronRight className="w-5 h-5 flex-shrink-0" />}
-                    </button>
-                  )}
-                </div>
-
-                {/* Dropdown Menu */}
-                {(sidebarOpen || isMobile) && operatorKitOpen && (
-                  <div id="operator-kit-dropdown" className="ml-4 mt-1 space-y-1">
-                    <a
-                      href="/dashboard/allkits"
-                      onClick={(e) => { e.preventDefault(); navigate('/dashboard/allkits'); }}
-                      className={`flex items-center gap-3 px-4 py-2 rounded-lg transition-all duration-200 ${
-                        location.pathname === "/dashboard/allkits"
-                          ? 'bg-black text-white dark:bg-blue-600'
-                          : theme === 'dark'
-                            ? 'text-gray-400 hover:bg-blue-600 hover:text-white'
-                            : 'text-gray-600 hover:bg-gray-900 hover:text-white'
-                      }`}
-                    >
-                      <div className="w-2 h-2 rounded-full bg-current flex-shrink-0" />
-                      <span className="font-medium text-base">All Kits</span>
-                    </a>
-                  </div>
-                )}
-              </div>
             </>
-          )}
+          
         </nav>
 
         {/* Bottom Section */}
@@ -360,155 +281,6 @@ const handleLogoutClick = () => {
             >
               {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
-          )}
-
-          {(isOperatorKitPage || isregisterKitPage || isregisterKitpageStep2 || isregisterKitpageStep3 || Independentoperator || HotspotAcess || Vouchers || Finances || Withdrawfunds) ? (
-            <>
-              <h2 className={`text-lg sm:text-2xl font-bold ${theme === 'dark' ? 'text-white' : 'text-foreground'}`}>
-                {isOperatorKitPage ? "Manage Kit" : isregisterKitpageStep2 ? "Register Kit": isregisterKitpageStep3 ? "Register Kit": ""}
-              </h2>
-
-              {/* Centered Wide Search Button */}
-              <div className="flex-1 flex justify-center items-center px-4 sm:px-8 max-w-md mx-auto">
-                <button className={`flex items-center justify-center gap-3 px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base font-medium rounded-lg transition w-full ${
-                  theme === 'dark'
-                    ? 'text-gray-300 bg-gray-900 border border-gray-700 hover:bg-gray-800'
-                    : 'text-gray-700 bg-white border border-gray-300 hover:bg-gray-50'
-                }`}>
-                  <Search className="w-5 h-5" />
-                  <span>Search Kits</span>
-                </button>
-              </div>
-
-              {/* Right Side Buttons */}
-              <div className="flex items-center gap-2 sm:gap-3">
-                {/* KYC Button */}
-                <button className={`flex items-center gap-2 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-lg transition ${
-                  theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-gray-900'
-                }`}>
-                  <Heart className="w-5 h-5" />
-                  <span className="hidden sm:inline">KYC</span>
-                </button>
-
-                {/* Kits Cart Button */}
-                <button className={`flex items-center gap-2 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-lg transition ${
-                  theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-gray-900'
-                }`}>
-                  <ShoppingCart className="w-5 h-5" />
-                  <span className="hidden sm:inline">Kits</span>
-                </button>
-
-                {/* Account Button */}
-                <button className={`flex items-center gap-2 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-lg transition ${
-                  theme === 'dark' ? 'text-gray-300 hover:text-white' : 'text-gray-700 hover:text-gray-900'
-                }`}>
-                  <User className="w-5 h-5" />
-                  <span className="hidden sm:inline">Account</span>
-                </button>
-              </div>
-            </>
-          ) : (
-            <>
-              <h2 className={`text-lg sm:text-2xl font-bold truncate ${
-                isReferralsPage || isSetupguidePage 
-                  ? `flex-1 text-center ${theme === 'dark' ? 'text-white' : 'text-foreground'}` 
-                  : theme === 'dark' ? 'text-white' : 'text-foreground'
-              }`}>
-                {isAllKitsPage ? "All Kits" : isRewardPage ? "Rewards Dashboard" : isReferralsPage ? "Referrals Program" : isSetupguidePage ? "Setup Guide" : isStorePage ? "Store" : isTokenPage ? "Claim & Withdraw" : isSettingsPage ? "Account Settings" : "Dashboard Overview"}
-              </h2>
-
-              <div className="flex items-center gap-2 sm:gap-3 ml-auto">
-                {isRewardPage ? (
-                  <>
-                    <button className={`hidden sm:flex px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-lg transition ${
-                      theme === 'dark'
-                        ? 'text-blue-500 bg-gray-900 border border-blue-500 hover:bg-gray-800'
-                        : 'text-gray-700 bg-white border border-gray-300 hover:bg-gray-50'
-                    }`}>
-                      Join Smith
-                    </button>
-                    <button className={`px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-lg transition ${
-                      theme === 'dark'
-                        ? 'text-black bg-blue-500 hover:bg-gray-200'
-                        : 'text-white bg-gray-900 hover:bg-gray-800'
-                    }`}>
-                      <span className="hidden sm:inline">Connect Wallet</span>
-                      <span className="sm:hidden">Connect</span>
-                    </button>
-                  </>
-                ) : isSetupguidePage ? (
-                  <button className={`px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-lg transition flex items-center gap-2 ${
-                    theme === 'dark'
-                      ? 'text-blue-700 bg-gray-900 border border-blue-700 hover:bg-gray-800'
-                      : 'text-gray-700 bg-white border border-black hover:bg-gray-50'
-                  }`}>
-                    English
-                    <span className="ml-1">▼</span>
-                  </button>
-                ) : isSettingsPage ? (
-                  <button className={`px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-lg transition flex items-center gap-2 ${
-                    theme === 'dark'
-                      ? 'text-black bg-blue-700 border border-blue-700 hover:bg-gray-800'
-                      : 'text-white bg-black border border-black hover:bg-gray-50'
-                  }`}>
-                    <span className="hidden sm:inline">John Doe</span>
-                    <User className="sm:hidden w-4 h-4" />
-                  </button>
-                ) : isStorePage ? (
-                  <>
-                    <button className={`hidden sm:flex items-center gap-2 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-lg transition ${
-                      theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
-                    }`}>
-                      <Heart className="w-3 h-3" />
-                      KYC
-                    </button>
-                    <button className={`flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-lg transition ${
-                      theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
-                    }`}>
-                      <ShoppingCart className="w-4 h-4" />
-                      <span className="hidden sm:inline">Cart</span>
-                      {0}
-                    </button>
-                    <button className={`flex items-center gap-2 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-lg transition ${
-                      theme === 'dark' ? 'text-gray-300' : 'text-gray-700'
-                    }`}>
-                      <User className="w-4 h-4" />
-                      <span className="hidden sm:inline">Account</span>
-                    </button>
-                  </>
-                ) : isReferralsPage ? (
-                  <button className={`flex items-center gap-2 px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-lg transition ${
-                    theme === 'dark'
-                      ? 'text-black bg-blue-700 border border-gray-700'
-                      : 'text-white bg-black border border-gray-300'
-                  }`}>
-                    <User className="w-4 h-4" />
-                    <span className="hidden sm:inline">My Account</span>
-                  </button>
-                ) : (
-                  <>
-                    <button className={`hidden sm:flex px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-lg transition ${
-                      theme === 'dark'
-                        ? 'text-blue-500 bg-gray-900 border border-blue-500 hover:bg-gray-800'
-                        : 'text-gray-700 bg-white border border-gray-300 hover:bg-gray-50'
-                    }`}>
-                      ↑ Export
-                    </button>
-                    <button
-                      onClick={() => setIsModalOpen(true)}
-                      className={`px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-lg transition whitespace-nowrap ${
-                        theme === 'dark'
-                          ? 'text-black bg-blue-500 hover:bg-blue-600'
-                          : 'text-white bg-gray-900 hover:bg-gray-800'
-                      }`}
-                    >
-                      <span className="hidden sm:inline">+ Add Hotspot</span>
-                      <span className="sm:hidden">+ Add</span>
-                    </button>
-                  </>
-                )}
-              </div>
-            </>
           )}
         </header>
 
