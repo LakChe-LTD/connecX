@@ -32,65 +32,93 @@ export default function Register() {
     });
   };
 
-  const handleRegister = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setSuccess(false);
+const handleRegister = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setError("");
+  setSuccess(false);
 
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match");
-      return;
-    }
+  // Validation
+  if (formData.password !== formData.confirmPassword) {
+    setError("Passwords do not match");
+    return;
+  }
 
-    if (formData.password.length < 8) {
-      setError("Password must be at least 8 characters long");
-      return;
-    }
+  if (formData.password.length < 8) {
+    setError("Password must be at least 8 characters long");
+    return;
+  }
 
-    if (!agreedToTerms) {
-      setError("Please agree to the terms and conditions");
-      return;
-    }
+  if (!agreedToTerms) {
+    setError("Please agree to the terms and conditions");
+    return;
+  }
 
-    setLoading(true);
+  // ✅ CLEAR ANY EXISTING SESSION BEFORE REGISTERING
+  localStorage.removeItem('token');
+  localStorage.removeItem('refreshToken');
+  localStorage.removeItem('user');
+  localStorage.removeItem('sessionId');
 
-    try {
-      const requestData = {
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        email: formData.email,
-        password: formData.password,
-        role: selectedRole, // ✅ Send selected role
-        referralCode: formData.referralCode || undefined,
-      };
+  setLoading(true);
+
+  try {
+    const requestData = {
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      email: formData.email,
+      password: formData.password,
+      role: selectedRole,
+      referralCode: formData.referralCode || undefined,
+    };
+    
+    console.log("📝 Submitting registration:", requestData);
+    const response = await register(requestData);
+    console.log("📧 Full registration response:", response);
+    console.log("📧 needsVerification:", response.needsVerification);
+    console.log("📧 token:", response.token ? "EXISTS" : "NOT PRESENT");
+
+    // ✅ CASE 1: User needs email verification (operator/end-user)
+    if (response.needsVerification === true) {
+      console.log("✅ Needs verification - redirecting to /verify-email");
+      console.log("✅ Email to pass:", formData.email);
       
-      const response = await register(requestData);
-
-if (response.success && response.token) {
-  setLoading(false);
-  setSuccess(true);
-
-  // ✅ Redirect to sign-in page after registration
-  setTimeout(() => {
-    navigate("/signin", { 
-      replace: true,
-      state: { 
-        email: formData.email,
-        message: "Registration successful! Please sign in with your credentials."
-      }
-    });
-  }, 1500);
-} else {
-  setError(response.message || "Registration failed. Please try again.");
-  setLoading(false);
-}
-    } catch (err: any) {
-      console.error("Registration error:", err);
-      setError(err.message || "Registration failed. Please try again.");
       setLoading(false);
-    }
-  };
+      setSuccess(true);
 
+      setTimeout(() => {
+        navigate("/verify-email", { 
+          replace: true,
+          state: { 
+            email: formData.email
+          }
+        });
+      }, 1500);
+      return;
+    }
+
+    // ✅ CASE 2: Admin user (already verified)
+    if (response.token && !response.needsVerification) {
+      console.log("✅ Admin user - has token, no verification needed");
+      setLoading(false);
+      setSuccess(true);
+
+      setTimeout(() => {
+        window.location.href = response.redirectPath || "/dashboard";
+      }, 1500);
+      return;
+    }
+
+    // ❌ CASE 3: Unexpected response
+    console.error("⚠️ Unexpected registration response:", response);
+    setError("Registration completed but verification status unclear.");
+    setLoading(false);
+
+  } catch (err: any) {
+    console.error("❌ Registration error:", err);
+    setError(err.message || "Registration failed. Please try again.");
+    setLoading(false);
+  }
+};
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-500 via-purple-500 to-purple-600 flex items-center justify-center p-4">
       {success && (
