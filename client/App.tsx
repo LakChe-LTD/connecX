@@ -6,34 +6,53 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AppProvider, useApp } from "@/contexts/AppContext";
-import { GoogleOAuthProvider } from "@react-oauth/google";
 
+// Authentication Imports
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import Landing from "./pages/Landing";
 import SignIn from "./pages/SignIn";
 import Register from "./pages/Register";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import InvitationRegister from "./pages/InvitationRegister";
-import DashboardLayout from "./components/layouts/DashboardLayout";
+
+
+
+// EndUsers Dashboard Imports
+import EndUserDashboardLayout from "./components/layouts/EndUsersDashboardlayout";
+import KonnectXEndusersDashboard from "./pages/EndUsersDashboard/Dashboardoverview";
+import KonnectXEndUsersHotspots from "./pages/EndUsersDashboard/Hotspots";
+import PricingPlans from "./pages/EndUsersDashboard/PricingPlan";
+import SubscriptionsPage from "./pages/EndUsersDashboard/Subscription";
+import WalletDashboard from "./pages/EndUsersDashboard/Wallet";
+import ProfileSettings from "./pages/EndUsersDashboard/Profile";
+import NotificationPanel from "./pages/EndUsersDashboard/Notification";
+
+
+
+
+
+// Operators Dashboard Imports
+import DashboardLayout from "./components/layouts/OperatorDashboardLayout";
 import DashboardOverview from "./pages/dashboard/Overview";
-import ManageKits from "./pages/dashboard/operatorkit";
-import DashboardReferral from "./pages/dashboard/Referrals";
-import DashboardReward from "./pages/dashboard/Reward";
-import HotspotRegistration from "./pages/dashboard/registerKit";
-import KonnectXSetupGuide from "./pages/dashboard/setupguide";
-import HotspotStorePage from "./pages/dashboard/Store";
-import KonnectXToken from "./pages/dashboard/Token";
-import AccountSettings from "./pages/dashboard/Settings";
-import DashboardProfile from "./pages/dashboard/Profile";
-import HotspotRegistrationStep2 from "./pages/dashboard/registerKitStep2";
-import HotspotRegistrationStep3 from "./pages/dashboard/registerKitStep3";
-import KonnectXKitss from "./pages/dashboard/AllKits";
-import IndependentOperators from "./pages/dashboard/independentOperator";
-import HotspotAcess from "./pages/dashboard/HotspotAcess";
-import MyHotSpots from "./pages/dashboard/MyHotspots";
-import VoucherManagement from "./pages/dashboard/Vouchers";
-import FinanceDashboard from "./pages/dashboard/Finances";
-import WithdrawFunds from "./pages/dashboard/Withdrawfunds";
+import ManageKits from "./pages/OperatorsDashboard/operatorkit";
+import DashboardReferral from "./pages/OperatorsDashboard/Referrals";
+import DashboardReward from "./pages/OperatorsDashboard/Reward";
+import HotspotRegistration from "./pages/OperatorsDashboard/registerKit";
+import KonnectXSetupGuide from "./pages/OperatorsDashboard/setupguide";
+import HotspotStorePage from "./pages/OperatorsDashboard/Store";
+import KonnectXToken from "./pages/OperatorsDashboard/Token";
+import AccountSettings from "./pages/OperatorsDashboard/Settings";
+import DashboardProfile from "./pages/OperatorsDashboard/Profile";
+import HotspotRegistrationStep2 from "./pages/OperatorsDashboard/registerKitStep2";
+import HotspotRegistrationStep3 from "./pages/OperatorsDashboard/registerKitStep3";
+import KonnectXKitss from "./pages/OperatorsDashboard/AllKits";
+import IndependentOperators from "./pages/OperatorsDashboard/independentOperator";
+import HotspotAcess from "./pages/OperatorsDashboard/HotspotAcess";
+import MyHotSpots from "./pages/OperatorsDashboard/MyHotspots";
+import VoucherManagement from "./pages/OperatorsDashboard/Vouchers";
+import FinanceDashboard from "./pages/OperatorsDashboard/Finances";
+import WithdrawFunds from "./pages/OperatorsDashboard/Withdrawfunds";
 import AdminLayout from "./components/layouts/AdminLayout";
 import AdminOverview from "./pages/admin/Overview";
 import AdminUsers from "./pages/admin/Users";
@@ -41,6 +60,10 @@ import AdminRewards from "./pages/admin/Hotspots";
 import NotFound from "./pages/NotFound";
 import ChangePassword from "./components/ChangePassword";
 import VerifyEmail from "./pages/VerifyEmail";
+
+
+
+
 
 const queryClient = new QueryClient();
 
@@ -89,7 +112,26 @@ const App = () => (
               {/* Invitation Route */}
               <Route path="/invitation/register" element={<InvitationRegister />} />
 
-              {/* Protected Dashboard Routes */}
+
+                 {/* Protected EndUsers Dashboard Routes */}
+              <Route element={<EndUserDashboardLayout />}>
+              <Route path="/Dashboardoverview" element={< KonnectXEndusersDashboard />} />
+              <Route path="/Hotspots" element={< KonnectXEndUsersHotspots />} />
+               <Route path="/PricingPlan" element={<PricingPlans/>} />
+               <Route path="/Subscription" element={<SubscriptionsPage/>} />
+               <Route path="/Wallet" element={<WalletDashboard/>} />
+                <Route path="/Profile" element={<ProfileSettings/>} />
+                <Route path="/Notification" element={<NotificationPanel/>} />
+             
+              
+              </Route>
+                
+
+
+
+
+
+              {/* Protected OPerator Dashboard Routes */}
               <Route element={<DashboardLayout />}>
                 <Route path="/dashboard" element={<DashboardOverview />} />
                 <Route path="/dashboard/reward" element={<DashboardReward />} />
