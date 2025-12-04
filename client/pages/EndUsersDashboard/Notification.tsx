@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Bell, AlertCircle, CreditCard, Trash2, Check } from 'lucide-react';
+import { useApp } from "@/contexts/AppContext";
 
 export default function NotificationPanel() {
+    const { theme } = useApp();
   const [notifications, setNotifications] = useState([
     {
       id: 1,
@@ -70,43 +72,51 @@ export default function NotificationPanel() {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-5xl mx-auto">
-        <div className="bg-white rounded-xl shadow-sm">
+    <div className={`min-h-screen w-full ${theme === 'dark' ? 'bg-black' : 'bg-gray-50'}`}>
+      <div className="w-full h-full">
+        <div className={`${theme === 'dark' ? 'bg-black' : 'bg-white'} rounded-xl shadow-sm w-full`}>
           {/* Header */}
-          <div className="p-8 border-b border-gray-200">
+          <div className={`p-8 border-b ${theme === 'dark' ? 'border-gray-800' : 'border-gray-200'}`}>
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-4xl font-bold text-gray-900">Notifications</h1>
-                <p className="text-base text-gray-600 mt-2 font-medium">
+                <h1 className={`text-4xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>Notifications</h1>
+                <p className={`text-base mt-2 font-medium ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
                   You have {unreadCount} unread notification{unreadCount !== 1 ? 's' : ''}
                 </p>
               </div>
-              <button
-                onClick={markAllAsRead}
-                className="flex items-center gap-2 px-5 py-2.5 text-base font-semibold text-gray-700 border-2 border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-              >
-                <Check className="w-5 h-5" />
-                Mark All Read
-              </button>
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={markAllAsRead}
+                  className={`flex items-center gap-2 px-5 py-2.5 text-base font-semibold rounded-lg transition-colors ${
+                    theme === 'dark'
+                      ? 'text-gray-300 border-2 border-gray-600 hover:bg-gray-700'
+                      : 'text-gray-700 border-2 border-gray-300 hover:bg-gray-50'
+                  }`}
+                >
+                  <Check className="w-5 h-5" />
+                  Mark All Read
+                </button>
+              </div>
             </div>
           </div>
 
           {/* Tabs */}
-          <div className="flex items-center gap-8 px-8 pt-6 border-b border-gray-200">
+          <div className={`flex items-center gap-8 px-8 pt-6 border-b ${theme === 'dark' ? 'border-gray-800' : 'border-gray-200'}`}>
             <button
               onClick={() => setActiveTab('all')}
               className={`pb-4 px-2 text-base font-bold transition-colors relative ${
                 activeTab === 'all'
-                  ? 'text-gray-900'
-                  : 'text-gray-500 hover:text-gray-700'
+                  ? theme === 'dark' ? 'text-white' : 'text-gray-900'
+                  : theme === 'dark' ? 'text-gray-500 hover:text-gray-300' : 'text-gray-500 hover:text-gray-700'
               }`}
             >
               All
               {activeTab === 'all' && (
-                <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-600 rounded-t-full" />
+                <div className="absolute bottom-0 left-0 right-0 h-1 dark:bg-blue-600 bg-black rounded-t-full" />
               )}
-              <span className="ml-2 px-2.5 py-1 text-sm font-bold bg-gray-100 text-gray-700 rounded-full">
+              <span className={`ml-2 px-2.5 py-1 text-sm font-bold rounded-full ${
+                theme === 'dark' ? 'bg-gray-700 text-gray-300' : 'bg-gray-100 text-gray-700'
+              }`}>
                 {notifications.length}
               </span>
             </button>
@@ -114,26 +124,26 @@ export default function NotificationPanel() {
               onClick={() => setActiveTab('unread')}
               className={`pb-4 px-2 text-base font-bold transition-colors relative ${
                 activeTab === 'unread'
-                  ? 'text-gray-900'
-                  : 'text-gray-500 hover:text-gray-700'
+                  ? theme === 'dark' ? 'text-white' : 'text-gray-900'
+                  : theme === 'dark' ? 'text-gray-500 hover:text-gray-300' : 'text-gray-500 hover:text-gray-700'
               }`}
             >
               Unread
               {activeTab === 'unread' && (
-                <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-600 rounded-t-full" />
+                <div className="absolute bottom-0 left-0 right-0 h-1 dark:bg-blue-600 bg-black rounded-t-full" />
               )}
             </button>
             <button
               onClick={() => setActiveTab('read')}
               className={`pb-4 px-2 text-base font-bold transition-colors relative ${
                 activeTab === 'read'
-                  ? 'text-gray-900'
-                  : 'text-gray-500 hover:text-gray-700'
+                  ? theme === 'dark' ? 'text-white' : 'text-gray-900'
+                  : theme === 'dark' ? 'text-gray-500 hover:text-gray-300' : 'text-gray-500 hover:text-gray-700'
               }`}
             >
               Read
               {activeTab === 'read' && (
-                <div className="absolute bottom-0 left-0 right-0 h-1 bg-blue-600 rounded-t-full" />
+                <div className="absolute bottom-0 left-0 right-0 h-1 dark:bg-blue-600 bg-black rounded-t-full" />
               )}
             </button>
           </div>
@@ -144,7 +154,9 @@ export default function NotificationPanel() {
               <div
                 key={notification.id}
                 className={`p-8 transition-colors ${
-                  !notification.read ? 'bg-blue-50/40' : 'bg-white hover:bg-gray-50'
+                  !notification.read 
+                    ? theme === 'dark' ? 'bg-[#333436]' : 'bg-blue-50/40'
+                    : theme === 'dark' ? 'bg-[#333436]' : 'bg-white hover:bg-gray-50'
                 }`}
               >
                 <div className="flex items-start gap-5">
@@ -152,33 +164,37 @@ export default function NotificationPanel() {
                   
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-3 mb-2">
-                      <h3 className="text-lg font-bold text-gray-900">
+                      <h3 className={`text-lg font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
                         {notification.title}
                       </h3>
                       {notification.isNew && (
-                        <span className="px-3 py-1 text-sm font-bold text-blue-700 bg-blue-100 rounded-md">
+                        <span className="px-3 py-1 text-sm font-bold dark:text-blue-700 text-white bg-black rounded-md">
                           New
                         </span>
                       )}
                     </div>
-                    <p className="text-base text-gray-700 mb-3 font-medium leading-relaxed">
+                    <p className={`text-base mb-3 font-medium leading-relaxed ${theme === 'dark' ? 'text-gray-400' : 'text-gray-700'}`}>
                       {notification.message}
                     </p>
-                    <p className="text-sm text-gray-500 font-medium">{notification.date}</p>
+                    <p className={`text-sm font-medium ${theme === 'dark' ? 'text-gray-500' : 'text-gray-500'}`}>{notification.date}</p>
                   </div>
 
                   <div className="flex items-center gap-3">
                     {!notification.read && (
                       <button
                         onClick={() => markAsRead(notification.id)}
-                        className="text-base font-semibold text-gray-700 hover:text-gray-900 transition-colors"
+                        className={`text-base font-semibold transition-colors ${
+                          theme === 'dark' ? 'text-gray-400 hover:text-white' : 'text-gray-700 hover:text-gray-900'
+                        }`}
                       >
                         Mark as read
                       </button>
                     )}
                     <button
                       onClick={() => deleteNotification(notification.id)}
-                      className="p-2 text-gray-400 hover:text-red-500 transition-colors"
+                      className={`p-2 transition-colors ${
+                        theme === 'dark' ? ' dark:text-blue-600 hover:text-red-400' : 'text-black hover:text-red-500'
+                      }`}
                     >
                       <Trash2 className="w-5 h-5" />
                     </button>
@@ -189,19 +205,15 @@ export default function NotificationPanel() {
           </div>
 
           {filteredNotifications.length === 0 && (
-            <div className="p-16 text-center text-gray-500">
-              <Bell className="w-16 h-16 mx-auto mb-4 text-gray-300" />
-              <p className="text-lg font-semibold">No {activeTab !== 'all' ? activeTab : ''} notifications</p>
+            <div className="p-16 text-center">
+              <Bell className={`w-16 h-16 mx-auto mb-4 ${theme === 'dark' ? 'text-gray-600' : 'text-gray-300'}`} />
+              <p className={`text-lg font-semibold ${theme === 'dark' ? 'text-gray-400' : 'text-gray-500'}`}>
+                No {activeTab !== 'all' ? activeTab : ''} notifications
+              </p>
             </div>
           )}
         </div>
       </div>
-
-      {/* Mobile View Button */}
-      <button className="fixed bottom-8 right-8 px-7 py-3.5 bg-blue-600 text-white text-base font-bold rounded-xl shadow-lg hover:bg-blue-700 transition-colors flex items-center gap-2.5">
-        <span className="w-2.5 h-2.5 bg-white rounded-full"></span>
-        Mobile View
-      </button>
     </div>
   );
 }

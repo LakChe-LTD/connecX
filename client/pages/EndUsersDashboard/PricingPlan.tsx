@@ -21,33 +21,33 @@ export default function PricingPlans() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
+    <div className="min-h-screen bg-black p-8">
       <div className="max-w-6xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Choose a Plan</h1>
+        <h1 className="text-3xl font-bold text-white mb-8">Choose a Plan</h1>
         
         {/* Daily Plans */}
         <div className="mb-12">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">Daily Plans</h2>
+          <h2 className="text-xl font-semibold text-white mb-4">Daily Plans</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {plans.daily.map((plan, idx) => (
-              <div key={idx} className="bg-white rounded-lg border border-gray-200 p-6">
+              <div key={idx} className="bg-[#333436] rounded-lg border border-gray-700 p-6">
                 <div className="mb-4">
-                  <h3 className="text-sm font-semibold text-gray-900 mb-2">{plan.name}</h3>
+                  <h3 className="text-sm font-semibold text-white mb-2">{plan.name}</h3>
                   <div className="flex items-baseline">
-                    <span className="text-4xl font-bold text-gray-900">${plan.price}</span>
-                    <span className="text-gray-600 ml-1">/{plan.period}</span>
+                    <span className="text-4xl font-bold text-white">${plan.price}</span>
+                    <span className="text-gray-400 ml-1">/{plan.period}</span>
                   </div>
                 </div>
                 <button className="w-full bg-slate-800 text-white py-2.5 rounded font-medium hover:bg-slate-700 transition-colors mb-4">
                   Subscribe
                 </button>
                 <div className="space-y-2">
-                  <div className="flex items-center text-sm text-gray-700">
-                    <Check className="w-4 h-4 mr-2 text-gray-700" />
+                  <div className="flex items-center text-sm text-gray-300">
+                    <Check className="w-4 h-4 mr-2 text-gray-300" />
                     <span>{plan.data}</span>
                   </div>
-                  <div className="flex items-center text-sm text-gray-700">
-                    <Check className="w-4 h-4 mr-2 text-gray-700" />
+                  <div className="flex items-center text-sm text-gray-300">
+                    <Check className="w-4 h-4 mr-2 text-gray-300" />
                     <span>{plan.access}</span>
                   </div>
                 </div>
@@ -58,27 +58,27 @@ export default function PricingPlans() {
 
         {/* Weekly Plans */}
         <div className="mb-12">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">Weekly Plans</h2>
+          <h2 className="text-xl font-semibold text-white mb-4">Weekly Plans</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {plans.weekly.map((plan, idx) => (
-              <div key={idx} className="bg-white rounded-lg border border-gray-200 p-6">
+              <div key={idx} className="bg-[#333436] rounded-lg border border-gray-700 p-6">
                 <div className="mb-4">
-                  <h3 className="text-sm font-semibold text-gray-900 mb-2">{plan.name}</h3>
+                  <h3 className="text-sm font-semibold text-white mb-2">{plan.name}</h3>
                   <div className="flex items-baseline">
-                    <span className="text-4xl font-bold text-gray-900">${plan.price}</span>
-                    <span className="text-gray-600 ml-1">/{plan.period}</span>
+                    <span className="text-4xl font-bold text-white">${plan.price}</span>
+                    <span className="text-gray-400 ml-1">/{plan.period}</span>
                   </div>
                 </div>
                 <button className="w-full bg-slate-800 text-white py-2.5 rounded font-medium hover:bg-slate-700 transition-colors mb-4">
                   Subscribe
                 </button>
                 <div className="space-y-2">
-                  <div className="flex items-center text-sm text-gray-700">
-                    <Check className="w-4 h-4 mr-2 text-gray-700" />
+                  <div className="flex items-center text-sm text-gray-300">
+                    <Check className="w-4 h-4 mr-2 text-gray-300" />
                     <span>{plan.data}</span>
                   </div>
-                  <div className="flex items-center text-sm text-gray-700">
-                    <Check className="w-4 h-4 mr-2 text-gray-700" />
+                  <div className="flex items-center text-sm text-gray-300">
+                    <Check className="w-4 h-4 mr-2 text-gray-300" />
                     <span>{plan.access}</span>
                   </div>
                 </div>
@@ -89,27 +89,27 @@ export default function PricingPlans() {
 
         {/* Monthly Plans */}
         <div>
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">Monthly Plans</h2>
+          <h2 className="text-xl font-semibold text-white mb-4">Monthly Plans</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {plans.monthly.map((plan, idx) => (
-              <div key={idx} className="bg-white rounded-lg border border-gray-200 p-6">
+              <div key={idx} className="bg-[#333436] rounded-lg border border-gray-700 p-6">
                 <div className="mb-4">
-                  <h3 className="text-sm font-semibold text-gray-900 mb-2">{plan.name}</h3>
+                  <h3 className="text-sm font-semibold text-white mb-2">{plan.name}</h3>
                   <div className="flex items-baseline">
-                    <span className="text-4xl font-bold text-gray-900">${plan.price}</span>
-                    <span className="text-gray-600 ml-1">/{plan.period}</span>
+                    <span className="text-4xl font-bold text-white">${plan.price}</span>
+                    <span className="text-gray-400 ml-1">/{plan.period}</span>
                   </div>
                 </div>
                 <button className="w-full bg-slate-800 text-white py-2.5 rounded font-medium hover:bg-slate-700 transition-colors mb-4">
                   Subscribe
                 </button>
                 <div className="space-y-2">
-                  <div className="flex items-center text-sm text-gray-700">
-                    <Check className="w-4 h-4 mr-2 text-gray-700" />
+                  <div className="flex items-center text-sm text-gray-300">
+                    <Check className="w-4 h-4 mr-2 text-gray-300" />
                     <span>{plan.data}</span>
                   </div>
-                  <div className="flex items-center text-sm text-gray-700">
-                    <Check className="w-4 h-4 mr-2 text-gray-700" />
+                  <div className="flex items-center text-sm text-gray-300">
+                    <Check className="w-4 h-4 mr-2 text-gray-300" />
                     <span>{plan.access}</span>
                   </div>
                 </div>

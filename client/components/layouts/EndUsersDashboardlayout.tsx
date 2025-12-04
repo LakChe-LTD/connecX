@@ -26,7 +26,7 @@ export default function EndUserDashboardLayout() {
   const menuItems = [
     { label: "Dashboard", path: "/Dashboardoverview", icon: Wifi},
     { label: "Hotspots", path: "/Hotspots", icon: Wifi },
-    { label: "Plans", path: "/dashboard/Referrals", icon: Users },
+    { label: "Plans", path: "/PricingPlan", icon: Users },
     { label: "Subcriptions", path: "/Subscription", icon: Gift },
     { label: "Wallet", path: "/Wallet", icon: Sun },
     { label: "Profile", path: "/Profile", icon: User},
