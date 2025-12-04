@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useApp } from "@/contexts/AppContext";
-import { Menu, X, LogOut, Settings, Moon, Sun, Wifi, Users, Home, ArrowLeft, Gift, Heart, ShoppingCart, DollarSign, ChevronDown, ChevronRight, User, Search } from "lucide-react";
+import { Menu, X, LogOut, Bell, Moon, Sun, Wifi, Users, Home, ArrowLeft, Gift, Heart, ShoppingCart, DollarSign, ChevronDown, ChevronRight, User, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import CreateHotspotModal from "@/components/CreateHotspotModal";
 
@@ -30,7 +30,7 @@ export default function EndUserDashboardLayout() {
     { label: "Subcriptions", path: "/Subscription", icon: Gift },
     { label: "Wallet", path: "/Wallet", icon: Sun },
     { label: "Profile", path: "/Profile", icon: User},
-    { label: "Notification", path: "/dashboard/Settings", icon: Settings },
+    { label: "Notification", path: "/Notification", icon: Bell},
   ];
 
 

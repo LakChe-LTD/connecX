@@ -25,6 +25,9 @@ import KonnectXEndUsersHotspots from "./pages/EndUsersDashboard/Hotspots";
 import SubscriptionsPage from "./pages/EndUsersDashboard/Subscription";
 import WalletDashboard from "./pages/EndUsersDashboard/Wallet";
 import ProfileSettings from "./pages/EndUsersDashboard/Profile";
+import NotificationPanel from "./pages/EndUsersDashboard/Notification";
+
+
 
 
 
@@ -107,13 +110,14 @@ const App = () => (
               <Route path="/invitation/register" element={<InvitationRegister />} />
 
 
-                 {/* Protected OPerator Dashboard Routes */}
+                 {/* Protected EndUsers Dashboard Routes */}
               <Route element={<EndUserDashboardLayout />}>
               <Route path="/Dashboardoverview" element={< KonnectXEndusersDashboard />} />
               <Route path="/Hotspots" element={< KonnectXEndUsersHotspots />} />
                <Route path="/Subscription" element={<SubscriptionsPage/>} />
                <Route path="/Wallet" element={<WalletDashboard/>} />
                 <Route path="/Profile" element={<ProfileSettings/>} />
+                <Route path="/Notification" element={<NotificationPanel/>} />
              
               
               </Route>
