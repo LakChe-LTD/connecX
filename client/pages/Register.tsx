@@ -5,6 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { useApp } from "@/contexts/AppContext";
 import { Eye, EyeOff, Moon, Sun, User, Mail, Lock, Loader2, CheckCircle } from "lucide-react";
 import { register } from "@/api/auth";
+import { Helmet } from "react-helmet-async";
+
+
+
 
 export default function Register() {
   const navigate = useNavigate();
@@ -120,6 +124,25 @@ const handleRegister = async (e: React.FormEvent) => {
   }
 };
   return (
+     <>
+      <Helmet>
+        <title>Register | KonnectX</title>
+        <meta
+          name="description"
+          content="Create a new KonnectX account to join communities, access hotspots, and interact with your network."
+        />
+        <meta
+          name="keywords"
+          content="Konnectx register, sign up, create account"
+        />
+        <meta property="og:title" content="Register - KonnectX" />
+        <meta
+          property="og:description"
+          content="Create a new KonnectX account to join communities, access hotspots, and interact with your network."
+        />
+      </Helmet>
+
+
     <div className="min-h-screen bg-gradient-to-br from-blue-500 via-purple-500 to-purple-600 flex items-center justify-center p-4">
       {success && (
         <div className="fixed top-6 right-6 z-50">
@@ -414,5 +437,6 @@ const handleRegister = async (e: React.FormEvent) => {
         </div>
       </div>
     </div>
+    </>
   );
 }

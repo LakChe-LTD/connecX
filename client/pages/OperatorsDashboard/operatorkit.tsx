@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { MapPin, Users, Activity, Package } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
-
+import { Helmet } from "react-helmet-async";
 
 
 
@@ -65,6 +65,24 @@ const ManageKits = () => {
   };
 
   return (
+
+    <>
+      <Helmet>
+        <title>Manage Kits | KonnectX</title>
+        <meta
+          name="description"
+          content="Manage your KonnectX kits efficiently. Add, update, and organize your decentralized hotspots and devices in the network."
+        />
+        <meta
+          name="keywords"
+          content="KonnectX, manage kits, hotspots, devices, decentralized network, KXT token"
+        />
+        <meta property="og:title" content="Manage Kits - KonnectX" />
+        <meta
+          property="og:description"
+          content="Manage your KonnectX kits efficiently. Add, update, and organize your decentralized hotspots and devices in the network."
+        />
+      </Helmet>
     <>
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -254,6 +272,7 @@ const ManageKits = () => {
           </div>
         </div>
       </div>
+    </>
     </>
   );
 };

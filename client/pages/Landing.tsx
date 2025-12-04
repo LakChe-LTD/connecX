@@ -2,12 +2,36 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { useApp } from "@/contexts/AppContext";
 import { Moon, Sun, ArrowRight, Check, Users, Gift, TrendingUp, Wifi } from "lucide-react";
+import { Helmet } from "react-helmet-async";
+
+
+
+
 
 export default function Landing() {
   const navigate = useNavigate();
   const { theme, toggleTheme } = useApp();
 
   return (
+    <>
+      <Helmet>
+        <title>KonnectX — Decentralized Hotspots Network</title>
+        <meta
+          name="description"
+          content="KonnectX is a decentralized hotspots network using $KXT token. Join the network to connect with communities and manage your hotspots seamlessly."
+        />
+        <meta
+          name="keywords"
+          content="KonnectX, decentralized hotspots, KXT token, blockchain, community network"
+        />
+        <meta property="og:title" content="KonnectX — Decentralized Hotspots Network" />
+        <meta
+          property="og:description"
+          content="KonnectX is a decentralized hotspots network using $KXT token. Join the network to connect with communities and manage your hotspots seamlessly."
+        />
+      </Helmet>
+
+
     <div className="min-h-screen bg-white">
       {/* Hero Section with Image Background */}
       <div className="relative bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-black dark:via-black dark:to-black">
@@ -524,5 +548,6 @@ export default function Landing() {
         </div>
       </footer>
     </div>
+    </>
   );
 }

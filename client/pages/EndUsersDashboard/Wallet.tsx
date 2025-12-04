@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Wallet, Plus, ArrowDownLeft, CreditCard, Bitcoin, ChevronDown } from 'lucide-react';
 import { useApp } from "@/contexts/AppContext";
+import { Helmet } from "react-helmet-async";
 
 
 
@@ -37,6 +38,24 @@ export default function WalletDashboard() {
   ];
 
   return (
+     <>
+      <Helmet>
+        <title>Wallet Dashboard | KonnectX</title>
+        <meta
+          name="description"
+          content="Manage your KonnectX wallet. View your $KXT token balance, transaction history, and send or receive tokens within the decentralized network."
+        />
+        <meta
+          name="keywords"
+          content="KonnectX, wallet dashboard, KXT token, transactions, send receive tokens, decentralized network"
+        />
+        <meta property="og:title" content="Wallet Dashboard - KonnectX" />
+        <meta
+          property="og:description"
+          content="Manage your KonnectX wallet. View your $KXT token balance, transaction history, and send or receive tokens within the decentralized network."
+        />
+      </Helmet>
+
     <div className={`min-h-screen ${theme === 'dark' ? 'bg-black' : 'bg-gray-50'}`}>
 
       {/* Main Content */}
@@ -285,5 +304,6 @@ export default function WalletDashboard() {
         </div>
       </div>
     </div>
+    </>
   );
 }

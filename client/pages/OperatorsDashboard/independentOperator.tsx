@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Heart, ShoppingCart, User, ArrowLeft } from 'lucide-react';
 import { useApp } from "@/contexts/AppContext";
 import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+
 
 
 
@@ -53,6 +55,25 @@ export default function IndependentOperators() {
   };
 
   return (
+
+    <>
+      <Helmet>
+        <title>Independent Operators | KonnectX</title>
+        <meta
+          name="description"
+          content="Manage and monitor independent operators on the KonnectX decentralized network. View their hotspots, activity, and contributions to the $KXT ecosystem."
+        />
+        <meta
+          name="keywords"
+          content="KonnectX, independent operators, decentralized network, hotspots, KXT token, operator management"
+        />
+        <meta property="og:title" content="Independent Operators - KonnectX" />
+        <meta
+          property="og:description"
+          content="Manage and monitor independent operators on the KonnectX decentralized network. View their hotspots, activity, and contributions to the $KXT ecosystem."
+        />
+      </Helmet>
+
     <div className={`min-h-screen ${theme === 'dark' ? 'bg-black' : 'bg-gradient-to-br from-purple-50 via-white to-purple-50'}`}>
 
       {/* Main Content */}
@@ -252,5 +273,6 @@ export default function IndependentOperators() {
         </div>
       </main>
     </div>
+    </>
   );
 }
