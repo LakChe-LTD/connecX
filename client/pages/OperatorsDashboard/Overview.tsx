@@ -16,6 +16,10 @@ import DeleteConfirmationDialog from "@/components/DeleteConfirmationDialog";
 import HotspotSetupModal from "@/components/HotspotSetupModal";
 import DeviceDiscoveryModal from "@/components/DeviceDiscoveryModal";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, AreaChart } from 'recharts';
+import { Helmet } from "react-helmet-async";
+
+
+
 
 export default function DashboardOverview() {
   const [activeTab, setActiveTab] = useState<'daily' | 'weekly' | 'monthly'>('monthly');
@@ -289,6 +293,27 @@ export default function DashboardOverview() {
   }));
 
   return (
+
+    <>
+      <Helmet>
+        <title>Dashboard Overview | KonnectX</title>
+        <meta
+          name="description"
+          content="Get a comprehensive overview of your KonnectX dashboard. Track hotspots, manage rewards, referrals, and monitor your KXT token activities."
+        />
+        <meta
+          name="keywords"
+          content="KonnectX, dashboard overview, hotspots, rewards, referrals, KXT token, decentralized network"
+        />
+        <meta property="og:title" content="Dashboard Overview - KonnectX" />
+        <meta
+          property="og:description"
+          content="Get a comprehensive overview of your KonnectX dashboard. Track hotspots, manage rewards, referrals, and monitor your KXT token activities."
+        />
+      </Helmet>
+
+
+
     <div className={`min-h-screen ${theme === 'dark' ? 'bg-black' : 'bg-gray-50'}`}>
       {/* Modals */}
       <DeviceDiscoveryModal
@@ -856,5 +881,6 @@ export default function DashboardOverview() {
         </Card>
       </div>
     </div>
+    </>
   );
 }

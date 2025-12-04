@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Search, Heart, ShoppingCart, User, ArrowLeft } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
 import { useApp } from "@/contexts/AppContext";
+import { Helmet } from "react-helmet-async";
 
 export default function KonnectXKitss() {
   const navigate = useNavigate();
@@ -62,6 +63,25 @@ export default function KonnectXKitss() {
   });
 
   return (
+
+     <>
+      <Helmet>
+        <title>All Kits | KonnectX</title>
+        <meta
+          name="description"
+          content="View and manage all hotspot kits available in the KonnectX decentralized network. Monitor kit status, assignments, and operator activities."
+        />
+        <meta
+          name="keywords"
+          content="KonnectX, hotspot kits, All Kits, decentralized network, KXT token, kit management, operator kits"
+        />
+        <meta property="og:title" content="All Kits - KonnectX" />
+        <meta
+          property="og:description"
+          content="View and manage all hotspot kits available in the KonnectX decentralized network. Monitor kit status, assignments, and operator activities."
+        />
+      </Helmet>
+
     <div className={`min-h-screen ${theme === 'dark' ? 'bg-black' : 'bg-gray-50'}`}>
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-6 py-8">
@@ -248,5 +268,6 @@ export default function KonnectXKitss() {
         </div>
       </main>
     </div>
+    </>
   );
 }

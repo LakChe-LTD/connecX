@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { User, Mail, Loader2, CheckCircle, XCircle } from 'lucide-react';
 import ChangePassword from '@/components/ChangePassword';
 import { settingsService } from '@/api/services/settingsService';
+import { Helmet } from "react-helmet-async";
 import type { 
   UserProfile, 
   NotificationPreferences, 
@@ -220,6 +221,24 @@ export default function AccountSettings() {
   }
 
   return (
+    <>
+      <Helmet>
+        <title>Account Settings | KonnectX</title>
+        <meta
+          name="description"
+          content="Manage your KonnectX account settings. Update your profile, security preferences, and notification settings securely."
+        />
+        <meta
+          name="keywords"
+          content="KonnectX, account settings, profile, security, notifications, user preferences"
+        />
+        <meta property="og:title" content="Account Settings - KonnectX" />
+        <meta
+          property="og:description"
+          content="Manage your KonnectX account settings. Update your profile, security preferences, and notification settings securely."
+        />
+      </Helmet>
+
     <div className="min-h-screen bg-gray-50 dark:bg-black">
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-5 py-5">
@@ -477,5 +496,6 @@ export default function AccountSettings() {
         </div>
       </div>
     </div>
+    </>
   );
 }

@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useApp } from "@/contexts/AppContext";
 import { Mail, Phone, MapPin, Edit2 } from "lucide-react";
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 
 export default function DashboardProfile() {
   const { user, setUser } = useApp();
@@ -34,6 +35,24 @@ export default function DashboardProfile() {
   };
 
   return (
+    <>
+      <Helmet>
+        <title>User Profile | KonnectX</title>
+        <meta
+          name="description"
+          content="View and manage your KonnectX user profile. Update personal information, settings, and account preferences securely."
+        />
+        <meta
+          name="keywords"
+          content="KonnectX, user profile, account settings, dashboard, KXT token, decentralized network"
+        />
+        <meta property="og:title" content="User Profile - KonnectX" />
+        <meta
+          property="og:description"
+          content="View and manage your KonnectX user profile. Update personal information, settings, and account preferences securely."
+        />
+      </Helmet>
+
     <div className="space-y-6 max-w-4xl">
       {/* Profile Header */}
       <Card className="p-6">
@@ -205,5 +224,6 @@ export default function DashboardProfile() {
         </Button>
       </Card>
     </div>
+    </>
   );
 }

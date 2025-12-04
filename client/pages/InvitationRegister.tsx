@@ -5,6 +5,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useApp } from "@/contexts/AppContext";
 import { Eye, EyeOff, Moon, Sun, User, Lock, Loader2, CheckCircle, Mail, AlertCircle } from "lucide-react";
 import axios from "axios";
+import { Helmet } from "react-helmet-async";
 
 interface InvitationData {
   email: string;
@@ -154,6 +155,25 @@ export default function InvitationRegister() {
   // Error state - invalid token
   if (error && !invitation) {
     return (
+      <>
+      <Helmet>
+        <title>Invitation Register | KonnectX</title>
+        <meta
+          name="description"
+          content="Register on KonnectX via invitation and join the decentralized hotspots network with $KXT token."
+        />
+        <meta
+          name="keywords"
+          content="KonnectX, invitation register, KXT token, join network, hotspots"
+        />
+        <meta property="og:title" content="Invitation Register - KonnectX" />
+        <meta
+          property="og:description"
+          content="Register on KonnectX via invitation and join the decentralized hotspots network with $KXT token."
+        />
+      </Helmet>
+
+
       <div className="min-h-screen bg-gradient-to-br from-blue-500 via-purple-500 to-purple-600 flex items-center justify-center p-4">
         <button
           onClick={toggleTheme}
@@ -178,6 +198,7 @@ export default function InvitationRegister() {
           </div>
         </div>
       </div>
+      </>
     );
   }
 
@@ -214,7 +235,7 @@ export default function InvitationRegister() {
         <div className="bg-white dark:bg-black rounded-3xl shadow-2xl p-10">
           <div className="mb-6">
             <h2 className="text-3xl font-bold text-gray-800 dark:text-white">Complete Registration</h2>
-            <p className="text-gray-600 dark:text-gray-400 mt-2">You've been invited to join ConnectX</p>
+            <p className="text-gray-600 dark:text-gray-400 mt-2">You've been invited to join KonnectX</p>
           </div>
 
           {/* Invitation Info Card */}
@@ -399,5 +420,6 @@ export default function InvitationRegister() {
         </div>
       </div>
     </div>
+
   );
 }

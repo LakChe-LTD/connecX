@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { User, Heart, ShoppingCart } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useApp } from "@/contexts/AppContext";
+import { Helmet } from "react-helmet-async";
+
 
 
 export default function HotspotRegistration() {
@@ -29,6 +31,24 @@ export default function HotspotRegistration() {
   };
 
   return (
+     <>
+      <Helmet>
+        <title>Hotspot Registration | KonnectX</title>
+        <meta
+          name="description"
+          content="Start your KonnectX hotspot registration process. Begin setting up your device to join the decentralized network and earn $KXT tokens."
+        />
+        <meta
+          name="keywords"
+          content="KonnectX, hotspot registration, KXT token, decentralized network, device setup"
+        />
+        <meta property="og:title" content="Hotspot Registration - KonnectX" />
+        <meta
+          property="og:description"
+          content="Start your KonnectX hotspot registration process. Begin setting up your device to join the decentralized network and earn $KXT tokens."
+        />
+      </Helmet>
+
     <div className={`min-h-screen ${theme === 'dark' ? 'bg-black' : 'bg-gradient-to-br from-purple-50 via-white to-purple-50'}`}>
 
       {/* Main Content */}
@@ -142,5 +162,6 @@ export default function HotspotRegistration() {
         </div>
       </div>
     </div>
+    </>
   );
 }

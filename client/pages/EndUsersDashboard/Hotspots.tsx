@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { Wifi, MapPin, Zap, Signal, List } from 'lucide-react';
 import { useApp } from "@/contexts/AppContext";
+import { Helmet } from "react-helmet-async";
+
+
 
 export default function KonnectXHotspots() {
    const { theme } = useApp();
@@ -53,6 +56,24 @@ export default function KonnectXHotspots() {
   ];
 
   return (
+    <>
+      <Helmet>
+        <title>Hotspots | KonnectX</title>
+        <meta
+          name="description"
+          content="Explore and manage your hotspots within the KonnectX decentralized network. View active hotspots, performance, and coverage of your KXT token-enabled devices."
+        />
+        <meta
+          name="keywords"
+          content="KonnectX, hotspots, KXT token, decentralized network, hotspot management, coverage, performance"
+        />
+        <meta property="og:title" content="Hotspots - KonnectX" />
+        <meta
+          property="og:description"
+          content="Explore and manage your hotspots within the KonnectX decentralized network. View active hotspots, performance, and coverage of your KXT token-enabled devices."
+        />
+      </Helmet>
+
     <div className={`min-hrrcreen p-8 ${theme === 'dark' ? 'bg-black' : 'bg-gray-50'}`}>
       <div className="w-full max-w-full px-4">
         {/* Header */}
@@ -184,5 +205,6 @@ export default function KonnectXHotspots() {
         </div>
       </div>
     </div>
+    </>
   );
 }
