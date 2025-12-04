@@ -1,10 +1,10 @@
 // client/src/api/client.ts
 import axios, { AxiosInstance, AxiosError, InternalAxiosRequestConfig } from 'axios';
 
-// Create axios instance
+// Create axios instance with increased timeout
 export const apiClient: AxiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'https://connectxbackend-csf1.onrender.com/api',
-  timeout: 10000,
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+  timeout: 30000, // ✅ INCREASED TO 30 SECONDS
   headers: {
     'Content-Type': 'application/json',
   },
@@ -52,17 +52,16 @@ apiClient.interceptors.response.use(
 
         // Call refresh token endpoint
         const response = await axios.post(
-          `${import.meta.env.VITE_API_URL || 'http://localhost:5000/api'}/auth/refresh-token`,
-          { refreshToken }
+          `${import.meta.env.VITE_API_URL || 'https://connectxbackend-csf1.onrender.com/api'}/auth/refresh`,
+          { token: refreshToken }
         );
 
-        if (response.data.success && response.data.data) {
-          // Update tokens
-          localStorage.setItem('token', response.data.data.token);
-          localStorage.setItem('refreshToken', response.data.data.refreshToken);
+        if (response.data.success && response.data.token) {
+          // Update token
+          localStorage.setItem('token', response.data.token);
 
           // Update the original request with new token
-          originalRequest.headers.Authorization = `Bearer ${response.data.data.token}`;
+          originalRequest.headers.Authorization = `Bearer ${response.data.token}`;
 
           // Retry the original request
           return apiClient(originalRequest);

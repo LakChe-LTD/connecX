@@ -22,77 +22,111 @@ export default function SignIn() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
-  const handleSignIn = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setSuccess(false);
-    setLoading(true);
+const handleSignIn = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setError("");
+  setSuccess(false);
+  setLoading(true);
 
-    try {
-      const response = await login({ email, password, role: selectedRole });
+  try {
+    console.log("🔐 Attempting login for:", email);
+    const response = await login({ email, password, role: selectedRole });
+    
+    console.log("🔐 Login response:", response);
 
-      // Handle 2FA
-      if (response.requires2FA) {
-        localStorage.setItem('tempToken', response.tempToken!);
-        setLoading(false);
-        navigate("/verify-2fa");
-        return;
-      }
-
-      if (!response.success || !response.user) {
-        setError("Login failed. No user data received.");
-        setLoading(false);
-        return;
-      }
-
-      const user = response.user;
-
-      // ✅ Validate role matches
-      if (user.role !== selectedRole) {
-        const roleNames = {
-          'operator': 'Operator',
-          'end-user': 'User'
-        };
-        setError(
-          `These credentials belong to a ${roleNames[user.role as keyof typeof roleNames]} account. ` +
-          `Please select "${roleNames[user.role as keyof typeof roleNames]}" to continue.`
-        );
-        setLoading(false);
-        return;
-      }
-
+    // ✅ CHECK FOR VERIFICATION REQUIREMENT
+    if (response.needsVerification) {
       setLoading(false);
-      setSuccess(true);
-
-      // Set user in context
-      const userData = {
-        id: user.id,
-        name: user.firstName && user.lastName 
-          ? `${user.firstName} ${user.lastName}` 
-          : user.firstName || user.email.split('@')[0],
-        email: user.email,
-        role: user.role as "admin" | "organization" | "operator" | "end-user",
-        firstName: user.firstName,
-        lastName: user.lastName,
-        initials: user.firstName && user.lastName
-          ? `${user.firstName.charAt(0)}${user.lastName.charAt(0)}`.toUpperCase()
-          : user.firstName
-          ? user.firstName.substring(0, 2).toUpperCase()
-          : user.email.substring(0, 2).toUpperCase()
-      };
-
-      setUser(userData);
-
-      // ✅ Redirect based on backend response
+      setError("Please verify your email first. Check your inbox for the verification code.");
+      
+      // Optionally redirect to verification page
       setTimeout(() => {
-        navigate(response.redirectPath || "/dashboard", { replace: true });
-      }, 1500);
-
-    } catch (err: any) {
-      setError(err.message || "Login failed. Please check your credentials.");
-      setLoading(false);
+        navigate("/verify-email", {
+          state: { email: response.email || email }
+        });
+      }, 2000);
+      return;
     }
-  };
+
+    // Handle 2FA
+    if (response.requires2FA) {
+      localStorage.setItem('tempToken', response.tempToken!);
+      setLoading(false);
+      navigate("/verify-2fa");
+      return;
+    }
+
+    if (!response.success || !response.user) {
+      setError("Login failed. No user data received.");
+      setLoading(false);
+      return;
+    }
+
+    const user = response.user;
+
+    // ✅ Validate email is verified
+    if (user.emailVerified === false) {
+      setLoading(false);
+      setError("Please verify your email before logging in.");
+      setTimeout(() => {
+        navigate("/verify-email", {
+          state: { email: user.email }
+        });
+      }, 2000);
+      return;
+    }
+
+    // ✅ Validate role matches
+    if (user.role !== selectedRole) {
+      const roleNames = {
+        'operator': 'Operator',
+        'end-user': 'User',
+        'admin': 'Admin',
+        'organization': 'Organization'
+      };
+      setError(
+        `These credentials belong to a ${roleNames[user.role as keyof typeof roleNames]} account. ` +
+        `Please select "${roleNames[user.role as keyof typeof roleNames]}" to continue.`
+      );
+      setLoading(false);
+      return;
+    }
+
+    setLoading(false);
+    setSuccess(true);
+
+    // Set user in context
+    const userData = {
+      id: user.id,
+      name: user.firstName && user.lastName 
+        ? `${user.firstName} ${user.lastName}` 
+        : user.firstName || user.email.split('@')[0],
+      email: user.email,
+      role: user.role as "admin" | "organization" | "operator" | "end-user",
+      firstName: user.firstName,
+      lastName: user.lastName,
+      emailVerified: user.emailVerified, // ✅ ADD THIS
+      initials: user.firstName && user.lastName
+        ? `${user.firstName.charAt(0)}${user.lastName.charAt(0)}`.toUpperCase()
+        : user.firstName
+        ? user.firstName.substring(0, 2).toUpperCase()
+        : user.email.substring(0, 2).toUpperCase()
+    };
+
+    console.log("✅ Setting user in context:", userData);
+    setUser(userData);
+
+    // ✅ Redirect based on backend response
+    setTimeout(() => {
+      navigate(response.redirectPath || "/dashboard", { replace: true });
+    }, 1500);
+
+  } catch (err: any) {
+    console.error("❌ Login error:", err);
+    setError(err.message || "Login failed. Please check your credentials.");
+    setLoading(false);
+  }
+};
 
   return (
     <>

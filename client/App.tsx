@@ -28,8 +28,13 @@ import InvitationRegister from "./pages/InvitationRegister";
 import EndUserDashboardLayout from "./components/layouts/EndUsersDashboardlayout";
 import KonnectXEndusersDashboard from "./pages/EndUsersDashboard/Dashboardoverview";
 import KonnectXEndUsersHotspots from "./pages/EndUsersDashboard/Hotspots";
+import PricingPlans from "./pages/EndUsersDashboard/PricingPlan";
 import SubscriptionsPage from "./pages/EndUsersDashboard/Subscription";
 import WalletDashboard from "./pages/EndUsersDashboard/Wallet";
+import ProfileSettings from "./pages/EndUsersDashboard/Profile";
+import NotificationPanel from "./pages/EndUsersDashboard/Notification";
+
+
 
 
 
@@ -60,6 +65,7 @@ import AdminUsers from "./pages/admin/Users";
 import AdminRewards from "./pages/admin/Hotspots";
 import NotFound from "./pages/NotFound";
 import ChangePassword from "./components/ChangePassword";
+import VerifyEmail from "./pages/VerifyEmail";
 
 
 
