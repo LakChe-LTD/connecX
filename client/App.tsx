@@ -124,6 +124,8 @@ const App = () => (
                   <Route path="/Hotspots" element={<KonnectXEndUsersHotspots />} />
                   <Route path="/Subscription" element={<SubscriptionsPage />} />
                   <Route path="/Wallet" element={<WalletDashboard />} />
+                  <Route path="/PricingPlan" element={<PricingPlans />} />
+                  <Route path="/Notification" element={<NotificationPanel />} />
                 </Route>
 
                 {/* Operator Dashboard */}
