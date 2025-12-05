@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Wifi, ChevronDown, Lock, Eye, EyeOff, Shield, Check, Loader, MapPin, AlertCircle } from 'lucide-react';
+import { Helmet } from "react-helmet-async";
+
 
 export default function KonnectXSetupGuide() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -622,6 +624,24 @@ export default function KonnectXSetupGuide() {
   );
 
   return (
+     <>
+      <Helmet>
+        <title>Setup Guide | KonnectX</title>
+        <meta
+          name="description"
+          content="Follow the KonnectX Setup Guide to easily configure your hotspots and devices. Step-by-step instructions for operators and users."
+        />
+        <meta
+          name="keywords"
+          content="KonnectX, setup guide, hotspot configuration, KXT token, operator guide, user guide"
+        />
+        <meta property="og:title" content="Setup Guide - KonnectX" />
+        <meta
+          property="og:description"
+          content="Follow the KonnectX Setup Guide to easily configure your hotspots and devices. Step-by-step instructions for operators and users."
+        />
+      </Helmet>
+
     <div className="min-h-screen bg-white dark:bg-black flex flex-col">
       <div className="flex-1 flex">
         <div className="flex-1 bg-white p-8 dark:bg-black">
@@ -672,5 +692,6 @@ export default function KonnectXSetupGuide() {
         </button>
       </div>
     </div>
+    </>
   );
 }

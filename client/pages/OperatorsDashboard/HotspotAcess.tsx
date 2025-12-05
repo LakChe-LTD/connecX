@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Wifi, Heart, ShoppingBag, UserCircle, Search, ChevronLeft } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
 import { useApp } from "@/contexts/AppContext";
+import { Helmet } from "react-helmet-async";
 
 export default function MyHotSpots() {
   const navigate = useNavigate();
@@ -47,6 +48,25 @@ export default function MyHotSpots() {
   };
 
   return (
+
+     <>
+      <Helmet>
+        <title>My Hotspots | KonnectX</title>
+        <meta
+          name="description"
+          content="View and manage all your KonnectX hotspots. Monitor activity, status, and performance of your decentralized network devices."
+        />
+        <meta
+          name="keywords"
+          content="KonnectX, my hotspots, hotspot management, decentralized network, KXT token"
+        />
+        <meta property="og:title" content="My Hotspots - KonnectX" />
+        <meta
+          property="og:description"
+          content="View and manage all your KonnectX hotspots. Monitor activity, status, and performance of your decentralized network devices."
+        />
+      </Helmet>
+
     <div className={`min-h-screen ${
       theme === 'dark' 
         ? 'bg-black' 
@@ -294,5 +314,6 @@ export default function MyHotSpots() {
         </div>
       </main>
     </div>
+    </>
   );
 }

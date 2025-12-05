@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Heart, ShoppingCart, User, Wifi } from 'lucide-react';
 import { useApp } from "@/contexts/AppContext";
+import { Helmet } from "react-helmet-async";
+
+
+
 
 export default function WithdrawFunds() {
   const { theme } = useApp();
@@ -16,7 +20,26 @@ export default function WithdrawFunds() {
   };
 
   return (
+    <>
+      <Helmet>
+        <title>Withdraw Funds | KonnectX</title>
+        <meta
+          name="description"
+          content="Withdraw your earnings securely from your KonnectX wallet. Manage your $KXT token funds efficiently."
+        />
+        <meta
+          name="keywords"
+          content="KonnectX, withdraw funds, wallet, KXT token, earnings"
+        />
+        <meta property="og:title" content="Withdraw Funds - KonnectX" />
+        <meta
+          property="og:description"
+          content="Withdraw your earnings securely from your KonnectX wallet. Manage your $KXT token funds efficiently."
+        />
+      </Helmet>
     <div>
+
+
       {/* Main Content */}
       <div className={`max-w-6xl p-8  ml-6 ${
         theme === 'dark' ? 'bg-black' : 'border-gray-200'
@@ -216,5 +239,6 @@ export default function WithdrawFunds() {
         </div>
       </div>
     </div>
+    </>
   );
 }

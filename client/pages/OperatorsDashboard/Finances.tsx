@@ -2,6 +2,7 @@ import React from 'react';
 import { Heart, ShoppingBag, User } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
 import { useApp } from "@/contexts/AppContext";
+import { Helmet } from "react-helmet-async";
 
 const FinanceDashboard = () => {
   const navigate = useNavigate();
@@ -35,6 +36,25 @@ const FinanceDashboard = () => {
   };
   
   return (
+
+      <>
+      <Helmet>
+        <title>Finance Dashboard | KonnectX</title>
+        <meta
+          name="description"
+          content="Manage your finances within the KonnectX decentralized network. View transactions, earnings, and financial reports for your hotspots and operations."
+        />
+        <meta
+          name="keywords"
+          content="KonnectX, finance dashboard, KXT token, transactions, earnings, hotspot management, decentralized network"
+        />
+        <meta property="og:title" content="Finance Dashboard - KonnectX" />
+        <meta
+          property="og:description"
+          content="Manage your finances within the KonnectX decentralized network. View transactions, earnings, and financial reports for your hotspots and operations."
+        />
+      </Helmet>
+
     <div>
       <div className="max-w-4xl mx-auto">
         {/* Finances Title */}
@@ -195,6 +215,7 @@ const FinanceDashboard = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
