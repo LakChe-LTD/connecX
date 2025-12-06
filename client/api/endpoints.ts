@@ -7,9 +7,12 @@ export const ENDPOINTS = {
     LOGIN: `${API_BASE}/auth/login`,
     REGISTER: `${API_BASE}/auth/register`,
     LOGOUT: `${API_BASE}/auth/logout`,
-    ME: `${API_BASE}/auth/me`,
+    ME: `${API_BASE}/auth/me`, // ✅ Get current user profile
     
-    // ✅ ADD THESE TWO LINES
+    // ✅ OAuth endpoints (full URLs, not just paths)
+    GOOGLE_LOGIN: `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/auth/google`,
+    FACEBOOK_LOGIN: `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/auth/facebook`,
+    
     VERIFY_EMAIL: `${API_BASE}/auth/verify-email`,
     RESEND_VERIFICATION: `${API_BASE}/auth/resend-verification`,
     

@@ -8,7 +8,7 @@ import { login } from "@/api/auth";
 import { Helmet } from "react-helmet-async";
 
 // ✅ Get API URL from environment variable
-const API_URL = import.meta.env.VITE_API_URL|| 'http://localhost:5000';
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 export default function SignIn() {
   const navigate = useNavigate();
@@ -21,14 +21,27 @@ export default function SignIn() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [oauthLoading, setOauthLoading] = useState(false);
 
   // ✅ Handle OAuth callback - Extract token from URL
   useEffect(() => {
     const token = searchParams.get('token');
-    const errorMsg = searchParams.get('error');
+    const errorParam = searchParams.get('error');
 
-    if (errorMsg) {
-      setError(decodeURIComponent(errorMsg));
+    if (errorParam) {
+      // Map error codes to user-friendly messages
+      const errorMessages: Record<string, string> = {
+        'google_auth_failed': 'Google authentication failed. Please try again.',
+        'facebook_auth_failed': 'Facebook authentication failed. Please try again.',
+        'token_generation_failed': 'Authentication successful but token generation failed. Please try again.',
+        'auth_failed': 'Authentication failed. Please try again.'
+      };
+      
+      setError(errorMessages[errorParam] || 'Authentication failed. Please try again.');
+      setOauthLoading(false);
+      
+      // Clean URL
+      window.history.replaceState({}, '', '/signin');
       return;
     }
 
@@ -37,15 +50,30 @@ export default function SignIn() {
     }
   }, [searchParams]);
 
-  // ✅ Process OAuth token and fetch user data
+  // ✅ Process OAuth token and set user data
   const handleOAuthCallback = async (token: string) => {
     try {
       setLoading(true);
+      setOauthLoading(true);
+      console.log("🔐 OAuth token received, processing...");
       
       // Store token in localStorage
-      localStorage.setItem('authToken', token);
+      localStorage.setItem('token', token);
       
-      // Fetch user data from backend using the token
+      // Decode JWT to get user data (basic decode, no verification needed on client)
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split('')
+          .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+          .join('')
+      );
+      
+      const decoded = JSON.parse(jsonPayload);
+      console.log("📦 Decoded token:", decoded);
+
+      // Fetch full user data from backend
       const response = await fetch(`${API_URL}/api/auth/me`, {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -54,14 +82,15 @@ export default function SignIn() {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to fetch user data');
+        throw new Error('Failed to fetch user profile');
       }
 
       const userData = await response.json();
+      console.log("👤 User data fetched:", userData);
 
       // Set user in context
       const user = {
-        id: userData.id,
+        id: userData._id || userData.id,
         name: userData.firstName && userData.lastName 
           ? `${userData.firstName} ${userData.lastName}` 
           : userData.firstName || userData.email.split('@')[0],
@@ -69,7 +98,7 @@ export default function SignIn() {
         role: userData.role as "admin" | "organization" | "operator" | "end-user",
         firstName: userData.firstName,
         lastName: userData.lastName,
-        emailVerified: userData.emailVerified,
+        emailVerified: userData.isVerified || true, // OAuth users are auto-verified
         initials: userData.firstName && userData.lastName
           ? `${userData.firstName.charAt(0)}${userData.lastName.charAt(0)}`.toUpperCase()
           : userData.firstName
@@ -78,11 +107,14 @@ export default function SignIn() {
       };
 
       console.log("✅ OAuth login successful:", user);
+      
+      // Store user data
+      localStorage.setItem('user', JSON.stringify(user));
       setUser(user);
       setSuccess(true);
 
       // Clean URL (remove token from URL for security)
-      window.history.replaceState({}, '', '/login');
+      window.history.replaceState({}, '', '/signin');
       
       // Redirect to dashboard
       setTimeout(() => {
@@ -91,8 +123,10 @@ export default function SignIn() {
 
     } catch (err: any) {
       console.error("❌ OAuth callback error:", err);
-      setError("Authentication failed. Please try again.");
-      localStorage.removeItem('authToken');
+      setError(err.message || "Authentication failed. Please try again.");
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      setOauthLoading(false);
     } finally {
       setLoading(false);
     }
@@ -100,12 +134,18 @@ export default function SignIn() {
 
   // ✅ Handle Google OAuth - Redirect to backend
   const handleGoogleLogin = () => {
+    setOauthLoading(true);
+    setError("");
+    console.log("🔄 Redirecting to Google OAuth...");
     // Redirect to backend OAuth endpoint
-    window.location.href = `${API_URL}/auth/google`;
+    window.location.href = `${API_URL}/api/auth/google`;
   };
 
   // ✅ Handle Facebook OAuth - Redirect to backend  
   const handleFacebookLogin = () => {
+    setOauthLoading(true);
+    setError("");
+    console.log("🔄 Redirecting to Facebook OAuth...");
     // Redirect to backend OAuth endpoint
     window.location.href = `${API_URL}/api/auth/facebook`;
   };
@@ -225,12 +265,21 @@ export default function SignIn() {
     <div className="min-h-screen bg-gradient-to-br from-blue-500 via-purple-500 to-purple-600 flex items-center justify-center p-4">
       {success && (
         <div className="fixed top-6 right-6 z-50">
-          <div className="bg-green-500 text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3">
+          <div className="bg-green-500 text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 animate-in slide-in-from-right">
             <CheckCircle className="w-6 h-6" />
             <div>
               <p className="font-semibold">Login Successful!</p>
               <p className="text-sm text-green-100">Redirecting to dashboard...</p>
             </div>
+          </div>
+        </div>
+      )}
+
+      {oauthLoading && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
+          <div className="bg-white dark:bg-gray-800 px-8 py-6 rounded-2xl shadow-2xl flex flex-col items-center gap-4">
+            <Loader2 className="w-10 h-10 animate-spin text-purple-600" />
+            <p className="text-gray-700 dark:text-gray-300 font-medium">Authenticating...</p>
           </div>
         </div>
       )}
@@ -279,7 +328,7 @@ export default function SignIn() {
                 }}
                 className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-600 dark:text-gray-300 
                 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition cursor-pointer appearance-none pr-10"
-                disabled={loading || success}
+                disabled={loading || success || oauthLoading}
               >
                 <option value="end-user">Login as User</option>
                 <option value="operator">Login as Operator</option>
@@ -326,7 +375,7 @@ export default function SignIn() {
                   placeholder="Email Address"
                   className="w-full pl-12 pr-4 py-3.5 bg-gray-50 dark:bg-gray-800 border-none rounded-xl focus:ring-2 focus:ring-purple-500 outline-none transition text-gray-800 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500"
                   required
-                  disabled={loading || success}
+                  disabled={loading || success || oauthLoading}
                 />
               </div>
             </div>
@@ -343,13 +392,13 @@ export default function SignIn() {
                   placeholder="Password"
                   className="w-full pl-12 pr-12 py-3.5 bg-gray-50 dark:bg-gray-800 border-none rounded-xl focus:ring-2 focus:ring-purple-500 outline-none transition text-gray-800 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500"
                   required
-                  disabled={loading || success}
+                  disabled={loading || success || oauthLoading}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-400"
-                  disabled={loading || success}
+                  disabled={loading || success || oauthLoading}
                 >
                   {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
@@ -361,7 +410,7 @@ export default function SignIn() {
                 <input 
                   type="checkbox" 
                   className="w-4 h-4 rounded border-gray-300 accent-purple-600" 
-                  disabled={loading || success} 
+                  disabled={loading || success || oauthLoading} 
                 />
                 <span className="text-gray-500 dark:text-gray-400">Remember me</span>
               </label>
@@ -369,7 +418,7 @@ export default function SignIn() {
                 type="button"
                 onClick={() => navigate("/forgot-password")}
                 className="text-gray-800 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400 transition font-medium"
-                disabled={loading || success}
+                disabled={loading || success || oauthLoading}
               >
                 Forgot password?
               </button>
@@ -377,7 +426,7 @@ export default function SignIn() {
 
             <Button
               type="submit"
-              disabled={loading || success}
+              disabled={loading || success || oauthLoading}
               className="w-full bg-black hover:bg-gray-800 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-semibold py-3.5 rounded-xl transition h-auto text-base disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? (
@@ -407,7 +456,7 @@ export default function SignIn() {
             <button
               type="button"
               onClick={handleGoogleLogin}
-              disabled={loading || success}
+              disabled={loading || success || oauthLoading}
               className="flex-1 flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
@@ -422,7 +471,7 @@ export default function SignIn() {
             <button
               type="button"
               onClick={handleFacebookLogin}
-              disabled={loading || success}
+              disabled={loading || success || oauthLoading}
               className="flex-1 flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <svg className="w-5 h-5" fill="#1877F2" viewBox="0 0 24 24">
@@ -437,7 +486,7 @@ export default function SignIn() {
             <button
               onClick={() => navigate("/register")}
               className="text-blue-800 hover:text-blue-400 font-semibold transition"
-              disabled={loading || success}
+              disabled={loading || success || oauthLoading}
             >
               Sign up
             </button>
