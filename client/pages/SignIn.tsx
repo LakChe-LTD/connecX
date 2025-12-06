@@ -1,18 +1,18 @@
 // client/src/pages/SignIn.tsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useApp } from "@/contexts/AppContext";
 import { Eye, EyeOff, Mail, Lock, Moon, Sun, Loader2, CheckCircle, AlertCircle } from "lucide-react";
 import { login } from "@/api/auth";
 import { Helmet } from "react-helmet-async";
 
-
-
-
+// ✅ Get API URL from environment variable
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 export default function SignIn() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { theme, toggleTheme, setUser } = useApp();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,112 +21,239 @@ export default function SignIn() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [oauthLoading, setOauthLoading] = useState(false);
 
-const handleSignIn = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setError("");
-  setSuccess(false);
-  setLoading(true);
+  // ✅ Handle OAuth callback - Extract token from URL
+  useEffect(() => {
+    const token = searchParams.get('token');
+    const errorParam = searchParams.get('error');
 
-  try {
-    console.log("🔐 Attempting login for:", email);
-    const response = await login({ email, password, role: selectedRole });
-    
-    console.log("🔐 Login response:", response);
-
-    // ✅ CHECK FOR VERIFICATION REQUIREMENT
-    if (response.needsVerification) {
-      setLoading(false);
-      setError("Please verify your email first. Check your inbox for the verification code.");
-      
-      // Optionally redirect to verification page
-      setTimeout(() => {
-        navigate("/verify-email", {
-          state: { email: response.email || email }
-        });
-      }, 2000);
-      return;
-    }
-
-    // Handle 2FA
-    if (response.requires2FA) {
-      localStorage.setItem('tempToken', response.tempToken!);
-      setLoading(false);
-      navigate("/verify-2fa");
-      return;
-    }
-
-    if (!response.success || !response.user) {
-      setError("Login failed. No user data received.");
-      setLoading(false);
-      return;
-    }
-
-    const user = response.user;
-
-    // ✅ Validate email is verified
-    if (user.emailVerified === false) {
-      setLoading(false);
-      setError("Please verify your email before logging in.");
-      setTimeout(() => {
-        navigate("/verify-email", {
-          state: { email: user.email }
-        });
-      }, 2000);
-      return;
-    }
-
-    // ✅ Validate role matches
-    if (user.role !== selectedRole) {
-      const roleNames = {
-        'operator': 'Operator',
-        'end-user': 'User',
-        'admin': 'Admin',
-        'organization': 'Organization'
+    if (errorParam) {
+      // Map error codes to user-friendly messages
+      const errorMessages: Record<string, string> = {
+        'google_auth_failed': 'Google authentication failed. Please try again.',
+        'facebook_auth_failed': 'Facebook authentication failed. Please try again.',
+        'token_generation_failed': 'Authentication successful but token generation failed. Please try again.',
+        'auth_failed': 'Authentication failed. Please try again.'
       };
-      setError(
-        `These credentials belong to a ${roleNames[user.role as keyof typeof roleNames]} account. ` +
-        `Please select "${roleNames[user.role as keyof typeof roleNames]}" to continue.`
-      );
-      setLoading(false);
+      
+      setError(errorMessages[errorParam] || 'Authentication failed. Please try again.');
+      setOauthLoading(false);
+      
+      // Clean URL
+      window.history.replaceState({}, '', '/signin');
       return;
     }
 
-    setLoading(false);
-    setSuccess(true);
+    if (token) {
+      handleOAuthCallback(token);
+    }
+  }, [searchParams]);
 
-    // Set user in context
-    const userData = {
-      id: user.id,
-      name: user.firstName && user.lastName 
-        ? `${user.firstName} ${user.lastName}` 
-        : user.firstName || user.email.split('@')[0],
-      email: user.email,
-      role: user.role as "admin" | "organization" | "operator" | "end-user",
-      firstName: user.firstName,
-      lastName: user.lastName,
-      emailVerified: user.emailVerified, // ✅ ADD THIS
-      initials: user.firstName && user.lastName
-        ? `${user.firstName.charAt(0)}${user.lastName.charAt(0)}`.toUpperCase()
-        : user.firstName
-        ? user.firstName.substring(0, 2).toUpperCase()
-        : user.email.substring(0, 2).toUpperCase()
-    };
+  // ✅ Process OAuth token and set user data
+  const handleOAuthCallback = async (token: string) => {
+    try {
+      setLoading(true);
+      setOauthLoading(true);
+      console.log("🔐 OAuth token received, processing...");
+      
+      // Store token in localStorage
+      localStorage.setItem('token', token);
+      
+      // Decode JWT to get user data (basic decode, no verification needed on client)
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split('')
+          .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+          .join('')
+      );
+      
+      const decoded = JSON.parse(jsonPayload);
+      console.log("📦 Decoded token:", decoded);
 
-    console.log("✅ Setting user in context:", userData);
-    setUser(userData);
+      // Fetch full user data from backend
+      const response = await fetch(`${API_URL}/api/auth/me`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
 
-    // ✅ Redirect based on backend response
-    setTimeout(() => {
-      navigate(response.redirectPath || "/dashboard", { replace: true });
-    }, 1500);
+      if (!response.ok) {
+        throw new Error('Failed to fetch user profile');
+      }
 
-  } catch (err: any) {
-    console.error("❌ Login error:", err);
-    setError(err.message || "Login failed. Please check your credentials.");
-    setLoading(false);
-  }
-};
+      const userData = await response.json();
+      console.log("👤 User data fetched:", userData);
+
+      // Set user in context
+      const user = {
+        id: userData._id || userData.id,
+        name: userData.firstName && userData.lastName 
+          ? `${userData.firstName} ${userData.lastName}` 
+          : userData.firstName || userData.email.split('@')[0],
+        email: userData.email,
+        role: userData.role as "admin" | "organization" | "operator" | "end-user",
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        emailVerified: userData.isVerified || true, // OAuth users are auto-verified
+        initials: userData.firstName && userData.lastName
+          ? `${userData.firstName.charAt(0)}${userData.lastName.charAt(0)}`.toUpperCase()
+          : userData.firstName
+          ? userData.firstName.substring(0, 2).toUpperCase()
+          : userData.email.substring(0, 2).toUpperCase()
+      };
+
+      console.log("✅ OAuth login successful:", user);
+      
+      // Store user data
+      localStorage.setItem('user', JSON.stringify(user));
+      setUser(user);
+      setSuccess(true);
+
+      // Clean URL (remove token from URL for security)
+      window.history.replaceState({}, '', '/signin');
+      
+      // Redirect to dashboard
+      setTimeout(() => {
+        navigate("/dashboard", { replace: true });
+      }, 1500);
+
+    } catch (err: any) {
+      console.error("❌ OAuth callback error:", err);
+      setError(err.message || "Authentication failed. Please try again.");
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      setOauthLoading(false);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ✅ Handle Google OAuth - Redirect to backend
+  const handleGoogleLogin = () => {
+    setOauthLoading(true);
+    setError("");
+    console.log("🔄 Redirecting to Google OAuth...");
+    // Redirect to backend OAuth endpoint
+    window.location.href = `${API_URL}/api/auth/google`;
+  };
+
+  // ✅ Handle Facebook OAuth - Redirect to backend  
+  const handleFacebookLogin = () => {
+    setOauthLoading(true);
+    setError("");
+    console.log("🔄 Redirecting to Facebook OAuth...");
+    // Redirect to backend OAuth endpoint
+    window.location.href = `${API_URL}/api/auth/facebook`;
+  };
+
+  // ✅ Regular email/password login
+  const handleSignIn = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setSuccess(false);
+    setLoading(true);
+
+    try {
+      console.log("🔐 Attempting login for:", email);
+      const response = await login({ email, password, role: selectedRole });
+      
+      console.log("🔐 Login response:", response);
+
+      // CHECK FOR VERIFICATION REQUIREMENT
+      if (response.needsVerification) {
+        setLoading(false);
+        setError("Please verify your email first. Check your inbox for the verification code.");
+        
+        setTimeout(() => {
+          navigate("/verify-email", {
+            state: { email: response.email || email }
+          });
+        }, 2000);
+        return;
+      }
+
+      // Handle 2FA
+      if (response.requires2FA) {
+        localStorage.setItem('tempToken', response.tempToken!);
+        setLoading(false);
+        navigate("/verify-2fa");
+        return;
+      }
+
+      if (!response.success || !response.user) {
+        setError("Login failed. No user data received.");
+        setLoading(false);
+        return;
+      }
+
+      const user = response.user;
+
+      // Validate email is verified
+      if (user.emailVerified === false) {
+        setLoading(false);
+        setError("Please verify your email before logging in.");
+        setTimeout(() => {
+          navigate("/verify-email", {
+            state: { email: user.email }
+          });
+        }, 2000);
+        return;
+      }
+
+      // Validate role matches
+      if (user.role !== selectedRole) {
+        const roleNames = {
+          'operator': 'Operator',
+          'end-user': 'User',
+          'admin': 'Admin',
+          'organization': 'Organization'
+        };
+        setError(
+          `These credentials belong to a ${roleNames[user.role as keyof typeof roleNames]} account. ` +
+          `Please select "${roleNames[user.role as keyof typeof roleNames]}" to continue.`
+        );
+        setLoading(false);
+        return;
+      }
+
+      setLoading(false);
+      setSuccess(true);
+
+      // Set user in context
+      const userData = {
+        id: user.id,
+        name: user.firstName && user.lastName 
+          ? `${user.firstName} ${user.lastName}` 
+          : user.firstName || user.email.split('@')[0],
+        email: user.email,
+        role: user.role as "admin" | "organization" | "operator" | "end-user",
+        firstName: user.firstName,
+        lastName: user.lastName,
+        emailVerified: user.emailVerified,
+        initials: user.firstName && user.lastName
+          ? `${user.firstName.charAt(0)}${user.lastName.charAt(0)}`.toUpperCase()
+          : user.firstName
+          ? user.firstName.substring(0, 2).toUpperCase()
+          : user.email.substring(0, 2).toUpperCase()
+      };
+
+      console.log("✅ Setting user in context:", userData);
+      setUser(userData);
+
+      setTimeout(() => {
+        navigate(response.redirectPath || "/dashboard", { replace: true });
+      }, 1500);
+
+    } catch (err: any) {
+      console.error("❌ Login error:", err);
+      setError(err.message || "Login failed. Please check your credentials.");
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -138,12 +265,21 @@ const handleSignIn = async (e: React.FormEvent) => {
     <div className="min-h-screen bg-gradient-to-br from-blue-500 via-purple-500 to-purple-600 flex items-center justify-center p-4">
       {success && (
         <div className="fixed top-6 right-6 z-50">
-          <div className="bg-green-500 text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3">
+          <div className="bg-green-500 text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 animate-in slide-in-from-right">
             <CheckCircle className="w-6 h-6" />
             <div>
               <p className="font-semibold">Login Successful!</p>
               <p className="text-sm text-green-100">Redirecting to dashboard...</p>
             </div>
+          </div>
+        </div>
+      )}
+
+      {oauthLoading && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
+          <div className="bg-white dark:bg-gray-800 px-8 py-6 rounded-2xl shadow-2xl flex flex-col items-center gap-4">
+            <Loader2 className="w-10 h-10 animate-spin text-purple-600" />
+            <p className="text-gray-700 dark:text-gray-300 font-medium">Authenticating...</p>
           </div>
         </div>
       )}
@@ -182,17 +318,17 @@ const handleSignIn = async (e: React.FormEvent) => {
               <p className="text-gray-600 dark:text-gray-400 mt-2">Welcome back to KonnectX</p>
             </div>
             
-            {/* ✅ Role Selector */}
+            {/* Role Selector */}
             <div className="relative">
               <select
                 value={selectedRole}
                 onChange={(e) => {
                   setSelectedRole(e.target.value as "operator" | "end-user");
-                  setError(""); // Clear error when role changes
+                  setError("");
                 }}
                 className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-600 dark:text-gray-300 
                 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 transition cursor-pointer appearance-none pr-10"
-                disabled={loading || success}
+                disabled={loading || success || oauthLoading}
               >
                 <option value="end-user">Login as User</option>
                 <option value="operator">Login as Operator</option>
@@ -208,7 +344,7 @@ const handleSignIn = async (e: React.FormEvent) => {
             </div>
           </div>
 
-          {/* ✅ Role Badge */}
+          {/* Role Badge */}
           <div className="mb-6">
             <span className={`inline-block px-4 py-1.5 rounded-full text-sm font-medium ${
               selectedRole === 'operator'
@@ -239,7 +375,7 @@ const handleSignIn = async (e: React.FormEvent) => {
                   placeholder="Email Address"
                   className="w-full pl-12 pr-4 py-3.5 bg-gray-50 dark:bg-gray-800 border-none rounded-xl focus:ring-2 focus:ring-purple-500 outline-none transition text-gray-800 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500"
                   required
-                  disabled={loading || success}
+                  disabled={loading || success || oauthLoading}
                 />
               </div>
             </div>
@@ -256,13 +392,13 @@ const handleSignIn = async (e: React.FormEvent) => {
                   placeholder="Password"
                   className="w-full pl-12 pr-12 py-3.5 bg-gray-50 dark:bg-gray-800 border-none rounded-xl focus:ring-2 focus:ring-purple-500 outline-none transition text-gray-800 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-500"
                   required
-                  disabled={loading || success}
+                  disabled={loading || success || oauthLoading}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-400"
-                  disabled={loading || success}
+                  disabled={loading || success || oauthLoading}
                 >
                   {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
@@ -274,7 +410,7 @@ const handleSignIn = async (e: React.FormEvent) => {
                 <input 
                   type="checkbox" 
                   className="w-4 h-4 rounded border-gray-300 accent-purple-600" 
-                  disabled={loading || success} 
+                  disabled={loading || success || oauthLoading} 
                 />
                 <span className="text-gray-500 dark:text-gray-400">Remember me</span>
               </label>
@@ -282,7 +418,7 @@ const handleSignIn = async (e: React.FormEvent) => {
                 type="button"
                 onClick={() => navigate("/forgot-password")}
                 className="text-gray-800 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-400 transition font-medium"
-                disabled={loading || success}
+                disabled={loading || success || oauthLoading}
               >
                 Forgot password?
               </button>
@@ -290,7 +426,7 @@ const handleSignIn = async (e: React.FormEvent) => {
 
             <Button
               type="submit"
-              disabled={loading || success}
+              disabled={loading || success || oauthLoading}
               className="w-full bg-black hover:bg-gray-800 dark:bg-blue-600 dark:hover:bg-blue-700 text-white font-semibold py-3.5 rounded-xl transition h-auto text-base disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading ? (
@@ -315,11 +451,13 @@ const handleSignIn = async (e: React.FormEvent) => {
             <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700"></div>
           </div>
 
+          {/* ✅ OAuth Buttons - Simple redirect to backend */}
           <div className="flex gap-4">
             <button
               type="button"
-              disabled={loading || success}
-              className="flex-1 flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition disabled:opacity-50"
+              onClick={handleGoogleLogin}
+              disabled={loading || success || oauthLoading}
+              className="flex-1 flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -332,8 +470,9 @@ const handleSignIn = async (e: React.FormEvent) => {
 
             <button
               type="button"
-              disabled={loading || success}
-              className="flex-1 flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition disabled:opacity-50"
+              onClick={handleFacebookLogin}
+              disabled={loading || success || oauthLoading}
+              className="flex-1 flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-800 transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <svg className="w-5 h-5" fill="#1877F2" viewBox="0 0 24 24">
                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
@@ -347,7 +486,7 @@ const handleSignIn = async (e: React.FormEvent) => {
             <button
               onClick={() => navigate("/register")}
               className="text-blue-800 hover:text-blue-400 font-semibold transition"
-              disabled={loading || success}
+              disabled={loading || success || oauthLoading}
             >
               Sign up
             </button>

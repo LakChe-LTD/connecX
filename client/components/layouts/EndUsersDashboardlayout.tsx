@@ -169,7 +169,7 @@ const handleLogoutClick = () => {
             <div className={`flex items-center ${sidebarOpen || isMobile ? 'gap-3' : 'justify-center w-full'}`}>
               <img 
                 src="/KonnectXLogo.png" 
-                alt="KonnecX Logo"
+                alt="KonnecX Logos"
                 className={`${sidebarOpen || isMobile ? 'h-220 w-220' : 'h-220 w-220'} object-contain transition-all duration-300`}
               />
             </div>
