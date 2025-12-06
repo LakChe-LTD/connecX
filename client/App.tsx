@@ -24,6 +24,7 @@ import InvitationRegister from "./pages/InvitationRegister";
 
 
 
+
 // EndUsers Dashboard Imports
 import EndUserDashboardLayout from "./components/layouts/EndUsersDashboardlayout";
 import KonnectXEndusersDashboard from "./pages/EndUsersDashboard/Dashboardoverview";
@@ -110,6 +111,7 @@ const App = () => (
                 <Route path="/" element={<Landing />} />
                 <Route path="/signin" element={<SignIn />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/verify-email" element={<VerifyEmail />} />
 
                 {/* Password Reset */}
                 <Route path="/forgot-password" element={<ForgotPassword />} />

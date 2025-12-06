@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Wifi, ChevronDown, Lock, Eye, EyeOff, Shield, Check, Loader, MapPin, AlertCircle } from 'lucide-react';
 import { Helmet } from "react-helmet-async";
+import setupGuideService from '@/api/services/setupgudeService'; // ✅ Correct: "setupGuide"
 
 
 export default function KonnectXSetupGuide() {
@@ -33,16 +34,418 @@ export default function KonnectXSetupGuide() {
     dns2: ''
   });
 
-  const availableDevices = [
-    { id: 1, name: 'Hotspot_Device_323', signal: 'Excellent' },
-    { id: 2, name: 'Hotspot_Device_324', signal: 'Excellent' }
-  ];
+  // ADD these states instead:
+const [availableDevices, setAvailableDevices] = useState([]);
+const [isLoadingDevices, setIsLoadingDevices] = useState(false);
+const [deviceError, setDeviceError] = useState(null);
 
-  const availableNetworks = [
-    { ssid: 'Home_WiFi', secured: true, signal: 'strong' },
-    { ssid: 'Office_5G', secured: true, signal: 'medium' },
-    { ssid: 'Public_Network', secured: false, signal: 'weak' }
-  ];
+
+// Add these states after your existing states
+const [isConnecting, setIsConnecting] = useState(false);
+const [connectionError, setConnectionError] = useState(null);
+const [connectionSuccess, setConnectionSuccess] = useState(false);
+const [sessionId, setSessionId] = useState(null);
+const [connectedAt, setConnectedAt] = useState(null);
+
+
+
+  // Network scan states - ADD THESE
+const [availableNetworks, setAvailableNetworks] = useState([]);
+const [isScanning, setIsScanning] = useState(false);
+const [scanError, setScanError] = useState(null);
+const [scannedAt, setScannedAt] = useState(null);
+
+
+// Network configuration states - ADD THESE
+const [isConfiguringNetwork, setIsConfiguringNetwork] = useState(false);
+const [configureError, setConfigureError] = useState(null);
+const [configureSuccess, setConfigureSuccess] = useState(false);
+const [networkDetails, setNetworkDetails] = useState(null);
+
+
+
+
+
+
+const getUserEmail = () => {
+  const userStr = localStorage.getItem('user');
+  if (userStr) {
+    const user = JSON.parse(userStr);
+    return user.email;
+  }
+  
+  // Method 3: From auth token (decode JWT)
+  const token = localStorage.getItem('authToken');
+  if (token) {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.email;
+    } catch (e) {
+      console.error('Failed to decode token:', e);
+    }
+  }
+  
+  return null;
+};
+
+
+
+
+// ADD THIS FUNCTION
+const getUserId = () => {
+  // Method 1: From localStorage user object
+  const userStr = localStorage.getItem('user');
+  if (userStr) {
+    const user = JSON.parse(userStr);
+    return user.id || user.user_id;
+  }
+  
+  // Method 2: From auth token (decode JWT)
+  const token = localStorage.getItem('authToken');
+  if (token) {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.id || payload.user_id || payload.sub;
+    } catch (e) {
+      console.error('Failed to decode token:', e);
+    }
+  }
+  
+  return null;
+};
+
+
+
+
+// In setupguide.tsx
+const fetchAvailableDevices = async () => {
+  setIsLoadingDevices(true);
+  setDeviceError(null);
+  
+  try {
+    // 1️⃣ GET USER EMAIL FIRST
+    const email = getUserEmail();
+    
+    // 2️⃣ CHECK IF EMAIL EXISTS
+    if (!email) {
+      setDeviceError('Unable to get user email. Please log in again.');
+      setIsLoadingDevices(false);
+      return;
+    }
+    
+    console.log('🔍 Fetching devices for email:', email);
+    
+    // 3️⃣ PASS EMAIL TO SERVICE - THIS WAS MISSING!
+    const devices = await setupGuideService.getAvailableDevices(email); // ✅ Add email parameter
+    console.log('✅ Devices received:', devices);
+    
+    // Map API response to component format
+    const formattedDevices = devices.map(device => ({
+      id: device.id,
+      name: device.name,
+      signal: capitalizeSignal(device.signal_strength),
+      macAddress: device.mac_address,
+      status: device.status,
+      firmwareVersion: device.firmware_version,
+    }));
+    
+    console.log('📦 Formatted devices:', formattedDevices);
+    setAvailableDevices(formattedDevices);
+    
+  } catch (error) {
+    console.error('❌ Error fetching devices:', error);
+    console.error('❌ Error response:', error.response);
+    console.error('❌ Error status:', error.response?.status);
+    
+    let errorMessage = 'Failed to load devices. Please try again.';
+    
+    if (error.response?.status === 401) {
+      errorMessage = 'Unauthorized. Please log in again.';
+      setTimeout(() => {
+        window.location.href = '/signin';
+      }, 2000);
+    } else if (error.response?.status === 404) {
+      errorMessage = 'No devices found for your account.';
+    } else if (error.response?.status === 400) {
+      errorMessage = error.response?.data?.message || 'Invalid request.';
+    } else if (error.code === 'ERR_NETWORK') {
+      errorMessage = 'Cannot connect to server. Is it running?';
+    } else if (error.message?.includes('<!doctype')) {
+      errorMessage = 'Backend endpoint not configured. Please contact support.';
+    }
+    
+    setDeviceError(errorMessage);
+  } finally {
+    setIsLoadingDevices(false);
+  }
+};
+
+// Helper function to capitalize signal strength
+const capitalizeSignal = (signal: string): string => {
+  return signal.charAt(0).toUpperCase() + signal.slice(1).toLowerCase();
+};
+
+
+
+
+// Add this function after fetchAvailableDevices
+const handleConnectDevice = async () => {
+  if (!selectedDevice) {
+    setConnectionError('Please select a device first');
+    return;
+  }
+
+  setIsConnecting(true);
+  setConnectionError(null);
+  setConnectionSuccess(false);
+
+  try {
+    const userId = getUserId();
+    
+    if (!userId) {
+      throw new Error('Unable to get user ID. Please log in again.');
+    }
+
+    console.log('🔌 Connecting to device:', selectedDevice, 'for user:', userId);
+    
+    const response = await setupGuideService.connectDevice(selectedDevice, userId);
+    
+    console.log('✅ Connection response:', response);
+    
+    if (response.success) {
+      setConnectionSuccess(true);
+      setSessionId(response.data.session_id);
+      setConnectedAt(response.data.connected_at);
+      
+      // Show success message briefly then move to next step
+      setTimeout(() => {
+        setCurrentStep(2);
+      }, 1500);
+    } else {
+      throw new Error(response.error?.message || 'Connection failed');
+    }
+    
+  } catch (error) {
+    console.error('❌ Connection error:', error);
+    
+    let errorMessage = 'Failed to connect to device. Please try again.';
+    
+    if (error.response?.status === 400) {
+      const errorCode = error.response?.data?.error?.code;
+      if (errorCode === 'DEVICE_UNAVAILABLE') {
+        errorMessage = 'This device is no longer available. Please select another device.';
+        // Refresh device list
+        fetchAvailableDevices();
+      } else {
+        errorMessage = error.response?.data?.error?.message || 'Invalid request.';
+      }
+    } else if (error.response?.status === 401) {
+      errorMessage = 'Your session has expired. Please log in again.';
+      setTimeout(() => {
+        window.location.href = '/signin';
+      }, 2000);
+    } else if (error.response?.status === 404) {
+      errorMessage = 'Device not found. Please refresh and try again.';
+      fetchAvailableDevices();
+    } else if (error.message) {
+      errorMessage = error.message;
+    }
+    
+    setConnectionError(errorMessage);
+  } finally {
+    setIsConnecting(false);
+  }
+};
+
+
+
+
+// Network scan handler
+const handleScanNetworks = async () => {
+  if (!selectedDevice || !sessionId) {
+    setScanError('Missing device or session information. Please reconnect.');
+    return;
+  }
+
+  setIsScanning(true);
+  setScanError(null);
+
+  try {
+    console.log('📡 Scanning networks for device:', selectedDevice, 'session:', sessionId);
+    
+    const response = await setupGuideService.scanNetworks(selectedDevice, sessionId);
+    
+    console.log('✅ Scan response:', response);
+    
+    if (response.success && response.data.networks) {
+      const formattedNetworks = response.data.networks.map(network => ({
+        ssid: network.ssid,
+        bssid: network.bssid,
+        secured: network.secured,
+        securityType: network.security_type,
+        signal: network.signal_strength,
+        frequency: network.frequency,
+        channel: network.channel
+      }));
+      
+      setAvailableNetworks(formattedNetworks);
+      setScannedAt(response.data.scanned_at);
+      console.log('📶 Networks found:', formattedNetworks.length);
+    } else {
+      throw new Error('No networks found in response');
+    }
+    
+  } catch (error) {
+    console.error('❌ Network scan error:', error);
+    
+    let errorMessage = 'Failed to scan networks. Please try again.';
+    
+    if (error.response?.status === 400) {
+      errorMessage = error.response?.data?.error?.message || 'Invalid device or session.';
+    } else if (error.response?.status === 401) {
+      errorMessage = 'Session expired. Please reconnect your device.';
+      setTimeout(() => {
+        setCurrentStep(1);
+      }, 2000);
+    } else if (error.response?.status === 404) {
+      errorMessage = 'Device not found. Please reconnect.';
+      setTimeout(() => {
+        setCurrentStep(1);
+      }, 2000);
+    } else if (error.message) {
+      errorMessage = error.message;
+    }
+    
+    setScanError(errorMessage);
+  } finally {
+    setIsScanning(false);
+  }
+};
+
+
+
+
+
+// Network configuration handler
+const handleConfigureNetwork = async () => {
+  if (!selectedDevice || !sessionId) {
+    setConfigureError('Missing device or session information. Please reconnect.');
+    return;
+  }
+
+  if (!selectedNetwork) {
+    setConfigureError('Please select a network first.');
+    return;
+  }
+
+  if (selectedNetwork.secured && !networkPassword) {
+    setConfigureError('Please enter the network password.');
+    return;
+  }
+
+  // Validate static IP fields if static is selected
+  if (useStatic) {
+    if (!staticIP.ip || !staticIP.subnet || !staticIP.gateway || !staticIP.dns1) {
+      setConfigureError('Please fill in all required static IP fields.');
+      return;
+    }
+  }
+
+  setIsConfiguringNetwork(true);
+  setConfigureError(null);
+  setConfigureSuccess(false);
+
+  try {
+    console.log('🔧 Configuring network:', selectedNetwork.ssid);
+    
+    const networkConfig: any = {
+  ssid: selectedNetwork.ssid,
+  password: networkPassword,
+  connectionType: useStatic ? 'static' : 'dhcp'
+};
+
+// Add static config if needed
+if (useStatic) {
+  networkConfig.staticConfig = {
+    ip: staticIP.ip,
+    subnet: staticIP.subnet,
+    gateway: staticIP.gateway,
+    dns1: staticIP.dns1,
+    dns2: staticIP.dns2 || ''
+  };
+}
+
+    const response = await setupGuideService.configureNetwork(
+      selectedDevice, 
+      sessionId, 
+      networkConfig
+    );
+    
+    console.log('✅ Configure response:', response);
+    
+    if (response.success) {
+      setConfigureSuccess(true);
+      setNetworkDetails(response.data);
+      
+      // Show success message briefly then move to next step
+      setTimeout(() => {
+        setCurrentStep(3);
+      }, 2000);
+    } else {
+      throw new Error(response.error?.message || 'Network configuration failed');
+    }
+    
+  } catch (error) {
+    console.error('❌ Network configuration error:', error);
+    
+    let errorMessage = 'Failed to configure network. Please try again.';
+    
+    if (error.response?.status === 401) {
+      const errorCode = error.response?.data?.error?.code;
+      if (errorCode === 'INVALID_PASSWORD') {
+        errorMessage = 'Incorrect network password. Please try again.';
+      } else {
+        errorMessage = 'Session expired. Please reconnect your device.';
+        setTimeout(() => {
+          setCurrentStep(1);
+        }, 2000);
+      }
+    } else if (error.response?.status === 400) {
+      errorMessage = error.response?.data?.error?.message || 'Invalid network configuration.';
+    } else if (error.response?.status === 404) {
+      errorMessage = 'Network not found. Please rescan.';
+    } else if (error.response?.status === 408) {
+      errorMessage = 'Connection timeout. The network may be out of range.';
+    } else if (error.message) {
+      errorMessage = error.message;
+    }
+    
+    setConfigureError(errorMessage);
+  } finally {
+    setIsConfiguringNetwork(false);
+  }
+};
+
+
+// Auto-scan networks when entering Step 2
+useEffect(() => {
+  if (currentStep === 2 && selectedDevice && sessionId && availableNetworks.length === 0) {
+    handleScanNetworks();
+  }
+}, [currentStep, selectedDevice, sessionId]);
+
+
+useEffect(() => {
+  if (currentStep === 4 && !isAuthenticated) {
+    // ... authentication logic
+  }
+}, [currentStep, isAuthenticated]);
+
+
+
+useEffect(() => {
+  fetchAvailableDevices();
+}, []);
 
   const faqs = [
     {
@@ -125,32 +528,96 @@ export default function KonnectXSetupGuide() {
           </div>
 
           <div>
-            <h4 className="text-sm font-bold text-gray-700 mb-3 dark:text-white">Available Devices</h4>
-            <div className="space-y-2">
-              {availableDevices.map((device) => (
-                <div
-                  key={device.id}
-                  onClick={() => setSelectedDevice(device.id)}
-                  className={`border rounded-lg p-3 hover:border-blue-400 transition-colors cursor-pointer ${
-                    selectedDevice === device.id ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20' : 'border-gray-200 dark:border-gray-600'
-                  }`}
-                >
-                  <div className="font-medium text-gray-800 text-sm dark:text-gray-200">{device.name}</div>
-                  <div className="text-xs text-gray-500 dark:text-gray-400">Signal Strength: {device.signal}</div>
-                </div>
-              ))}
-            </div>
-          </div>
+  <h4 className="text-sm font-bold text-gray-700 mb-3 dark:text-white">Available Devices</h4>
+  
+  {isLoadingDevices && (
+    <div className="flex items-center justify-center py-8">
+      <Loader className="w-6 h-6 animate-spin text-blue-600" />
+      <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">Loading devices...</span>
+    </div>
+  )}
+  
+  {deviceError && (
+    <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+      <p className="text-sm text-red-600 dark:text-red-400">{deviceError}</p>
+      <button
+        onClick={fetchAvailableDevices}
+        className="mt-2 text-sm text-red-700 dark:text-red-300 underline"
+      >
+        Try again
+      </button>
+    </div>
+  )}
+  
+  {!isLoadingDevices && !deviceError && availableDevices.length === 0 && (
+    <p className="text-sm text-gray-500 dark:text-gray-400 py-4">No devices found</p>
+  )}
+  
+        {!isLoadingDevices && !deviceError && availableDevices.length > 0 && (
+                 <div className="space-y-2">
+               {availableDevices.map((device) => (
+           <div
+          key={device.id}
+          onClick={() => setSelectedDevice(device.id)}
+          className={`border rounded-lg p-3 hover:border-blue-400 transition-colors cursor-pointer ${
+            selectedDevice === device.id ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20' : 'border-gray-200 dark:border-gray-600'
+          }`}
+        >
+          <div className="font-medium text-gray-800 text-sm dark:text-gray-200">{device.name}</div>
+          <div className="text-xs text-gray-500 dark:text-gray-400">Signal Strength: {device.signal}</div>
+        </div>
+      ))}
+    </div>
+  )}
+</div>
         </div>
 
-        <button
-          onClick={() => selectedDevice && setCurrentStep(2)}
-          disabled={!selectedDevice}
-          className="bg-black text-gray-200 px-6 py-2.5 rounded text-sm font-medium dark:bg-blue-600 dark:text-white hover:bg-gray-800 dark:hover:bg-blue-700 transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          Continue to Network Setup
-          <span>→</span>
-        </button>
+{connectionError && (
+  <div className="mb-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+    <div className="flex items-start gap-2">
+      <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+      <div>
+        <p className="text-sm text-red-600 dark:text-red-400 font-medium">Connection Failed</p>
+        <p className="text-sm text-red-600 dark:text-red-400 mt-1">{connectionError}</p>
+      </div>
+    </div>
+  </div>
+)}
+
+{connectionSuccess && (
+  <div className="mb-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
+    <div className="flex items-start gap-2">
+      <Check className="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
+      <div>
+        <p className="text-sm text-green-600 dark:text-green-400 font-medium">Successfully Connected!</p>
+        <p className="text-sm text-green-600 dark:text-green-400 mt-1">Proceeding to network setup...</p>
+      </div>
+    </div>
+  </div>
+)}
+
+<button
+  onClick={handleConnectDevice}
+  disabled={!selectedDevice || isConnecting || connectionSuccess}
+  className="bg-black text-gray-200 px-6 py-2.5 rounded text-sm font-medium dark:bg-blue-600 dark:text-white hover:bg-gray-800 dark:hover:bg-blue-700 transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+>
+  {isConnecting ? (
+    <>
+      <Loader className="w-4 h-4 animate-spin" />
+      Connecting...
+    </>
+  ) : connectionSuccess ? (
+    <>
+      <Check className="w-4 h-4" />
+      Connected
+    </>
+  ) : (
+    <>
+      Continue to Network Setup
+      <span>→</span>
+    </>
+  )}
+</button>
       </div>
     </>
   );
@@ -176,10 +643,64 @@ export default function KonnectXSetupGuide() {
             </div>
           </div>
 
-          <div className="mb-6">
-            <h4 className="text-sm font-bold text-gray-700 mb-3 dark:text-white">Available Networks</h4>
-            <div className="space-y-2">
-              {availableNetworks.map((network, idx) => (
+         <div className="mb-6">
+  <div className="flex items-center justify-between mb-3">
+    <h4 className="text-sm font-bold text-gray-700 dark:text-white">Available Networks</h4>
+    <button
+      onClick={handleScanNetworks}
+      disabled={isScanning}
+      className="text-xs text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
+    >
+      {isScanning ? (
+        <>
+          <Loader className="w-3 h-3 animate-spin" />
+          Scanning...
+        </>
+      ) : (
+        <>
+          <Wifi className="w-3 h-3" />
+          Refresh
+        </>
+      )}
+    </button>
+  </div>
+
+  {isScanning && availableNetworks.length === 0 && (
+    <div className="flex items-center justify-center py-8 border border-gray-200 dark:border-gray-600 rounded-lg">
+      <Loader className="w-6 h-6 animate-spin text-blue-600" />
+      <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">Scanning for networks...</span>
+    </div>
+  )}
+
+  {scanError && (
+    <div className="mb-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+      <div className="flex items-start gap-2">
+        <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+        <div>
+          <p className="text-sm text-red-600 dark:text-red-400 font-medium">Scan Failed</p>
+          <p className="text-sm text-red-600 dark:text-red-400 mt-1">{scanError}</p>
+        </div>
+      </div>
+    </div>
+  )}
+
+  {!isScanning && !scanError && availableNetworks.length === 0 && (
+    <div className="text-center py-8 border border-gray-200 dark:border-gray-600 rounded-lg">
+      <Wifi className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+      <p className="text-sm text-gray-500 dark:text-gray-400">No networks found</p>
+      <button
+        onClick={handleScanNetworks}
+        className="mt-2 text-sm text-blue-600 dark:text-blue-400 hover:underline"
+      >
+        Scan again
+      </button>
+    </div>
+  )}
+
+  {!isScanning && availableNetworks.length > 0 && (
+    <>
+      <div className="space-y-2">
+        {availableNetworks.map((network, idx) => (
                 <div key={idx} className="border border-gray-200 dark:border-gray-600 rounded-lg overflow-hidden">
                   <div
                     onClick={() => setSelectedNetwork(network)}
@@ -222,8 +743,50 @@ export default function KonnectXSetupGuide() {
                   )}
                 </div>
               ))}
+          </div>
+          
+          {scannedAt && (
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+              Last scanned: {new Date(scannedAt).toLocaleTimeString()}
+            </p>
+          )}
+        </>
+      )}
+    </div>
+
+    {/* 🟢 INSERT STATUS MESSAGES HERE */}
+        {configureError && (
+          <div className="mb-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+            <div className="flex items-start gap-2">
+              <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="text-sm text-red-600 dark:text-red-400 font-medium">Configuration Failed</p>
+                <p className="text-sm text-red-600 dark:text-red-400 mt-1">{configureError}</p>
+              </div>
             </div>
           </div>
+        )}
+
+        {configureSuccess && (
+          <div className="mb-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
+            <div className="flex items-start gap-2">
+              <Check className="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="text-sm text-green-600 dark:text-green-400 font-medium">Network Connected!</p>
+                <p className="text-sm text-green-600 dark:text-green-400 mt-1">
+                  Connected to {selectedNetwork?.ssid}
+                </p>
+                {networkDetails && (
+                  <div className="mt-2 text-xs text-green-600 dark:text-green-400">
+                    <p>IP Address: {networkDetails.ip_address}</p>
+                    <p>Gateway: {networkDetails.gateway}</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
 
           <div className="border border-gray-200 dark:border-gray-600 rounded-lg mb-6">
             <button
@@ -293,17 +856,32 @@ export default function KonnectXSetupGuide() {
         <div className="flex gap-3">
           <button
             onClick={() => setCurrentStep(1)}
-            className="px-6 py-2.5 rounded text-sm font-medium border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+            disabled={isConfiguringNetwork}
+            className="px-6 py-2.5 rounded text-sm font-medium border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             ← Back
           </button>
           <button
-            onClick={() => canContinueStep2() && setCurrentStep(3)}
-            disabled={!canContinueStep2()}
+            onClick={handleConfigureNetwork}
+            disabled={!canContinueStep2() || isConfiguringNetwork || configureSuccess}
             className="bg-black text-gray-200 px-6 py-2.5 rounded text-sm font-medium dark:bg-blue-600 dark:text-white hover:bg-gray-800 dark:hover:bg-blue-700 transition-colors flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Continue to Security Setup
-            <span>→</span>
+            {isConfiguringNetwork ? (
+              <>
+                <Loader className="w-4 h-4 animate-spin" />
+                Connecting to Network...
+              </>
+            ) : configureSuccess ? (
+              <>
+                <Check className="w-4 h-4" />
+                Connected
+              </>
+            ) : (
+              <>
+                Continue to Security Setup
+                <span>→</span>
+              </>
+            )}
           </button>
         </div>
       </div>

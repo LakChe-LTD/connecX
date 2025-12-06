@@ -1,5 +1,5 @@
 // client/src/api/endpoints.ts
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/';
 
 export const ENDPOINTS = {
   // Auth endpoints
@@ -66,6 +66,22 @@ export const ENDPOINTS = {
     UPDATE: (id: string) => `${API_BASE}/hotspots/${id}`,
     DELETE: (id: string) => `${API_BASE}/hotspots/${id}`,
   },
+
+
+
+  // Device/Setup Guard endpoints
+DEVICES: {
+  AVAILABLE: `${API_BASE}/devices/available`,
+   CONNECT: `${API_BASE}/devices/connect`,
+},
+
+NETWORKS: {
+  SCAN: `${API_BASE}/networks/scan`,
+  CONFIGURE: `${API_BASE}/networks/configure`,
+  TEST: `${API_BASE}/networks/test`,
+},
+
+
 
   // Admin endpoints
   ADMIN: {
